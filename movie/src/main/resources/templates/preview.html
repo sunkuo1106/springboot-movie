@@ -76,7 +76,7 @@
                             <a th:href="@{/login}">登录</a>
                         </span>
                         <span th:if="${session.users!=null}">
-                            <a href="/user_order_layui.html" th:text="${session.users.uname}"></a>
+                            <a href="/user_order_layui.html" class="name" th:text="${session.users.uname}"></a>
                             <a href="/zhuxiao">注销</a>
                         </span>
                     </li>
@@ -117,6 +117,32 @@
 <div class="main">
     <div class="wrap">
         <div class="section group">
+            <div th:if="${session.info!=null}">
+                <div class="cont-desc span_1_of_2">
+                    <div class="product-details" th:object="${session.info}">
+                        <div class="grid images_3_of_2" >
+                            <img th:src="*{poster}" th:alt="*{title}"/>
+                        </div>
+                        <div class="desc span_3_of_2">
+                            <h2 th:text="*{title}"></h2>
+                            <span th:if="*{rating!=-1}"><span style="color:red;position: absolute;top: 230px;left: 630px;" th:text="*{rating}"></span></span>
+                            <span th:if="*{rating==-1}"><span style="color:red;position: absolute;top: 230px;left: 630px;">未评分</span></span>
+                            <div class="available"></div>
+                            <p th:text="|导演:*{directors}|"></p>
+                            <p th:text="|主演:*{actors}|"></p>
+                            <p th:text="|类型:*{genres}|"></p>
+                            <p>语言：<span class="language"  th:text="*{language}"></span></p>
+                            <p th:text="|拍摄时间:*{year}年|"></p >
+                            <p th:text="|制片国家/地区:*{country}|"></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="product_desc">
+                        <h2>剧情介绍：</h2>
+                        <p th:text="*{plot_simple}"></p>
+                    </div>
+                </div>
+            </div>
             <div class="rightsidebar span_3_of_1 sidebar">
                 <h2>热门电影</h2>
                 <div class="special_movies">
@@ -148,15 +174,15 @@
                 <span class="sqinput">选择影城</span><span class="csinput"></span></div>
 
             <div class="citylist2">
-                <%--                <div class="xzk">--%>
-                <%--                    <div class="leibie">商圈</div>--%>
-                <%--                    <ul class="shangquan">--%>
-                    <%--                        <li>菜单一</li>--%>
-                    <%--                        <li>菜单二</li>--%>
-                    <%--                        <li>菜单三</li>--%>
-                    <%--                        <li>菜单四</li>--%>
-                    <%--                    </ul>--%>
-                <%--                </div>--%>
+                <!--<%&#45;&#45;                <div class="xzk">&#45;&#45;%>-->
+                <!--<%&#45;&#45;                    <div class="leibie">商圈</div>&#45;&#45;%>-->
+                <!--<%&#45;&#45;                    <ul class="shangquan">&#45;&#45;%>-->
+                    <!--<%&#45;&#45;                        <li>菜单一</li>&#45;&#45;%>-->
+                    <!--<%&#45;&#45;                        <li>菜单二</li>&#45;&#45;%>-->
+                    <!--<%&#45;&#45;                        <li>菜单三</li>&#45;&#45;%>-->
+                    <!--<%&#45;&#45;                        <li>菜单四</li>&#45;&#45;%>-->
+                    <!--<%&#45;&#45;                    </ul>&#45;&#45;%>-->
+                <!--<%&#45;&#45;                </div>&#45;&#45;%>-->
                 <div class="xzk">
                     <div class="leibie">影城</div>
                     <ul class="chengshi xhyc">
@@ -165,14 +191,14 @@
                 </div>
             </div>
         </div>
-        <%--        <div class="selemediv"> <div class="selemenu">请选择金额类型</div>--%>
-        <%--            <DIV class="citylist">--%>
-            <%--                <span>菜单一</span>--%>
-            <%--                <span>菜单二</span>--%>
-            <%--                <span>菜单三</span>--%>
-            <%--                <span>菜单四</span>--%>
-            <%--            </div>--%>
-        <%--        </div>--%>
+        <!--<%&#45;&#45;        <div class="selemediv"> <div class="selemenu">请选择金额类型</div>&#45;&#45;%>-->
+        <!--<%&#45;&#45;            <DIV class="citylist">&#45;&#45;%>-->
+            <!--<%&#45;&#45;                <span>菜单一</span>&#45;&#45;%>-->
+            <!--<%&#45;&#45;                <span>菜单二</span>&#45;&#45;%>-->
+            <!--<%&#45;&#45;                <span>菜单三</span>&#45;&#45;%>-->
+            <!--<%&#45;&#45;                <span>菜单四</span>&#45;&#45;%>-->
+            <!--<%&#45;&#45;            </div>&#45;&#45;%>-->
+        <!--<%&#45;&#45;        </div>&#45;&#45;%>-->
         <div class="selemediv">
             <div class="bar7">
                 <input class="bar7_text" id="lin" type="text" placeholder="请输入您要搜索的内容...">
@@ -255,36 +281,10 @@
 <script src="/asserts/js/dtssscript.js" type="text/javascript"></script>
 <script type="text/javascript" src="/asserts/js/lin_search.js"></script>
 <script type="text/javascript" src="/asserts/js/easing.js"></script>
-
+<!--//          -->
 <script type="text/javascript">
     $(document).ready(function () {
-        $.post("/preview","",function (result) {
-            if(result.info!=null){
-                $(".group").append("<div class=\"cont-desc span_1_of_2\">\n" +
-                    "                    <div class=\"product-details\">\n" +
-                    "                        <div class=\"grid images_3_of_2\">\n" +
-                    "                            <img src="+result.poster+" alt="+result.title+"/>\n" +
-                    "                        </div>\n" +
-                    "                        <div class=\"desc span_3_of_2\">\n" +
-                    // "                            <h2>"+result.title+"</h2><c:if test=\"${info.rating!=-1}\"><span style=\"color:red;position: absolute;top: 230px;left: 630px;\">${info.rating}</span></c:if>\n" +
-                    // "                            <c:if test=\"${info.rating==-1}\"><span style=\"color:red;position: absolute;top: 230px;left: 630px;\">未评分</span></c:if>\n" +
-                    "                            <div class=\"available\"></div>\n" +
-                    "                            <p>导演："+result.directors+"</p>\n" +
-                    "                            <p>主演："+result.actors+"</p>\n" +
-                    "                            <p>类型："+result.genres+"</p>\n" +
-                    "                            <p>语言：<span class=\"language\">"+result.language+"</span></p>\n" +
-                    "                            <p>拍摄时间："+result.year+"年</p >\n" +
-                    "                            <p>制片国家/地区："+result.country+"</p>\n" +
-                    "                        </div>\n" +
-                    "                        <div class=\"clear\"></div>\n" +
-                    "                    </div>\n" +
-                    "                    <div class=\"product_desc\">\n" +
-                    "                        <h2>剧情介绍：</h2>\n" +
-                    "                        <p>"+result.plot_simple+"</p>\n" +
-                    "                    </div>\n" +
-                    "                </div>")
-            }
-        },"json")
+
         $().UItoTop({easingType: 'easeOutQuart'});
         var dd = new DropDown($('#dd'));
         $.post("/previewyc","",function (result) {
@@ -328,16 +328,18 @@
                         }
                     })
                 })
+                $(".table-cc").css("color","black")
                 $(".trys:odd").css("background-color","#F6F6F6");
                 $(".table-1").click(function () {
-                    if(${users==null}){
+                    var name=$(".name").text();
+                    if(name==""){
                         layer.msg('请您先进行登录!', function(){
                             //关闭后的操作
                             location.href="/login";
                         });
                     }else{
                         // alert("目前是登录状态");
-                        var movieName="${info.title}";
+                        var movieName="信条";
                         var movieDate=$(this).parent().prev().prev().prev().prev().text();
                         var movieRoom=$(this).parent().prev().prev().text();
                         var moviePrice=$(this).parent().prev().text();
@@ -371,6 +373,7 @@
                                 }else{
                                     yuyan=b.language;
                                 }
+                                alert(b.time)
                                 $(".table-cc").append("<tr style='line-height:60px;' class='trys'>\n" +
                                     "                    <td>"+b.time+"</td>\n" +
                                     "                    <td>"+yuyan+"</td>\n" +
@@ -385,14 +388,15 @@
                     })
                     $(".trys:odd").css("background-color","#F6F6F6");
                     $(".table-1").click(function () {
-                        if(${users==null}){
+                        var name=$(".name").text();
+                        if(name==""){
                             layer.msg('请您先进行登录!', function(){
                                 //关闭后的操作
                                 location.href="/login";
                             });
                         }else{//进行购票的操作
                             // alert("目前是登录状态");
-                            var movieName=${info.title};
+                            var movieName="信条";
                             var movieDate=$(this).parent().prev().prev().prev().prev().text();
                             var movieRoom=$(this).parent().prev().prev().text();
                             var moviePrice=$(this).parent().prev().text();
