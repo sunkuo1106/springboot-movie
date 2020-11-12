@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>星空影城</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="/asserts/css/slider.css" rel="stylesheet" type="text/css" media="all"/>
+
+    <link href="/asserts/css/jquery.searchableSelect.css" rel="stylesheet" type="text/css">
+    <script src="/asserts/js/jquery-1.11.1.min.js"></script>
+    <script src="/asserts/js/jquery.searchableSelect.js"></script>
+
+    <link rel="stylesheet" href="/asserts/css/yemiandibustyle.css">
+
+    <link rel="stylesheet" href="/asserts/css/tab.css">
+
+    <link rel="stylesheet" href="/asserts/css/autocomplete.css">
+
+    <script type="text/javascript" src="/asserts/js/move-top.js"></script>
+    <script type="text/javascript" src="/asserts/js/easing.js"></script>
+    <script type="text/javascript" src="/asserts/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript">
+        $(window).load(function() {
+            $('#slider').nivoSlider();
+        });
+
+    </script>
+    <script>
+        $(function(){
+            $('select').searchableSelect();
+        });
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <!--						<li><a href="/asserts/contact.html">联系</a></li>-->
+                    <li>
+                        <select name="city" id="select" style="z-index: 100;">
+                            <option value="1">上海</option>
+                            <option value="2" selected>北京</option>
+                            <option value="105">保定</option>
+                            <option value="3">深圳</option>
+                            <option value="4">重庆</option>
+                            <option value="5">广州</option>
+                            <option value="6">成都</option>
+                            <option value="7">武汉</option>
+                            <option value="8">东莞</option>
+                            <option value="9">天津</option>
+                            <option value="10">杭州</option>
+                            <option value="11">沈阳</option>
+                            <option value="12">佛山</option>
+                            <option value="13">合肥</option>
+                            <option value="14">南京</option>
+                            <option value="15">长沙</option>
+                            <option value="16">西安</option>
+                            <option value="17">郑州</option>
+                            <option value="18">宁波</option>
+                            <option value="19">大连</option>
+                            <option value="20">青岛</option>
+                        </select>
+                    </li>
+                    <li><a href="javascript:void(0)" onclick="selectCityMovie()">选择城市</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="/asserts/jsp/index_cinema.jsp">影城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/user_order_layui.html" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="header_top">
+            <div class="logo">
+                <a href="index.html"><img src="/asserts/images/logo.png" alt="" /></a>
+            </div>
+            <div class="header_top_right">
+                <div class="cart">
+                    <p><span>购物车</span><div id="dd" class="wrapper-dropdown-2"> (空)
+                    <ul class="dropdown">
+                        <li>您的购物车中没有商品</li>
+                    </ul></div></p>
+                </div>
+                <div class="search_box">
+                    <div class="search-form"><input type="text" autocomplete="off" name="query" class="a"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <script type="text/javascript">
+                function DropDown(el) {
+                    this.dd = el;
+                    this.initEvents();
+                }
+                DropDown.prototype = {
+                    initEvents : function() {
+                        var obj = this;
+
+                        obj.dd.on('click', function(event){
+                            $(this).toggleClass('active');
+                            event.stopPropagation();
+                        });
+                    }
+                }
+
+                $(function() {
+
+                    var dd = new DropDown( $('#dd') );
+
+                    $(document).click(function() {
+                        // all dropdowns
+                        $('.wrapper-dropdown-2').removeClass('active');
+                    });
+
+                });
+            </script>
+            <div class="clear"></div>
+        </div>
+        <div class="header_bottom">
+            <div class="header_bottom_left">
+                <div class="categories">
+                    <ul>
+                        <h3>分类目录</h3>
+                        <li><a href="#">所有</a></li>
+                        <li><a href="#">北印度语类</a></li>
+                        <li><a href="#">泰卢固语类</a></li>
+                        <li><a href="#">英语类</a></li>
+                        <li><a href="#">泰米尔语类</a></li>
+                        <li><a href="#">马拉雅拉姆语类</a></li>
+                        <li><a href="#">埃纳德语类</a></li>
+                        <li><a href="#">孟加拉语类</a></li>
+                        <li><a href="#">阿萨姆邦语类</a></li>
+                        <li><a href="#">儿童类</a></li>
+                        <li><a href="#">动画类</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header_bottom_right" style="z-index: -1;">
+                <!------ Slider ------------>
+                <div class="slider">
+                    <div class="slider-wrapper theme-default">
+                        <div id="slider" class="nivoSlider">
+                            <img src="/asserts/images/1.jpg" data-thumb="./images/1.jpg" alt="" />
+                            <img src="/asserts/images/2.jpg" data-thumb="./images/2.jpg" alt="" />
+                            <img src="/asserts/images/3.jpg" data-thumb="./images/3.jpg" alt="" />
+                            <img src="/asserts/images/4.jpg" data-thumb="./images/4.jpg" alt="" />
+                            <img src="/asserts/images/5.jpg" data-thumb="./images/5.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <!------End Slider ------------>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<!------------End Header ------------>
+<div id="text"></div>
+<div class="main">
+    <div class="wrap">
+        <div class="content zhuijia">
+            <div class="content_top">
+                <div class="heading">
+                    <h3>今日上映</h3>
+                </div>
+            </div>
+            <!--追加-->
+            <div  class="section group meihang">
+                <!--			  <div class="grid_1_of_5 images_1_of_5">-->
+                <!--				  <a href="/asserts/preview.html"><img src="" alt="" /></a>-->
+                <!--				  <h2><a href="/asserts/preview.html">结束游戏</a></h2>-->
+                <!--				  <div class="price-details">-->
+                <!--					  <div class="price-number">-->
+                <!--						  <p><span class="rupees">$620.87</span></p>-->
+                <!--					  </div>-->
+                <!--					  <div class="add-cart">-->
+                <!--						  <h4><a href="/asserts/preview.html">添加到购物车</a></h4>-->
+                <!--					  </div>-->
+                <!--					  <div class="clear"></div>-->
+                <!--				  </div>-->
+                <!--			  </div>-->
+            </div>
+            <!--			<div class="content_bottom">-->
+            <!--    		<div class="heading">-->
+            <!--    		<h3>特色产品</h3>-->
+            <!--    		</div>-->
+            <!--			</div>-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/asserts/js/autocomplete.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $().UItoTop({ easingType: 'easeOutQuart' });
+        selectCityMovie();
+        var proposals=new Array();
+        var city=$("[name='city']").val();
+        var json={
+            cityIdStr:city
+        }
+        $.ajax({
+            url:"/xiaLa",
+            data:json,
+            type:"POST",
+            dataType:"json",
+            async:false,
+            success:function (result) {
+                //  console.log(result.o)
+                $.each(result.a, function (i, v) {
+                    proposals.push(v.movieName);
+                })
+            }
+        },"json")
+        console.log(proposals)
+        //   proposals.push('百度1', '百度2', '百度3', '百度4', '百度5', '百度6', '百度7','呵呵呵呵呵呵呵','百度','新浪','a1','a2','a3','a4','b1','b2','b3','b4');
+        //$('select').searchableSelect();
+        $('.search-form').autocomplete({
+            hints: proposals,
+            width: 300,
+            height: 42,
+            onSubmit: function(text){
+                selectCityMovie();
+            }
+        });
+    });
+
+    //根据城市查询当天上映所有电影
+    function selectCityMovie() {
+        var souSuo=$(".a").val();
+        var city=$("[name='city']").val();
+        var json={
+            cityIdStr:city
+        }
+        $.post("/selectCityMovie",json,function (result) {
+            console.log(result.o);
+            var count=0;
+            $(".meihang div").remove();
+            $.each(result.o,function (i,v) {
+                if(souSuo==""||souSuo==null) {
+                    if (v.movieName.length < 11) {
+                       // alert(v.movieId);
+                        var number = 0;
+                        $.post("/selecltBySize", {movieid: v.movieId}, function (result) {
+                            number = result.size;
+                            $(".meihang").append(
+                                "<div class=\"grid_1_of_5 images_1_of_5\">\n" +
+                                "<input id='cityId' value='" + city + "' type='hidden'>\n" +
+                                "\t\t\t\t  <a href=\"/toPreview/" + v.movieId + "/" + city + "\"><img src=\"" + v.pic_url + "\" alt=\"\" /></a>\n" +
+                                "\t\t\t\t  <h2><a href=\"/toPreview/" + v.movieId + "/" + city + "\">" + v.movieName + "</a></h2>\n" +
+                                "\t\t\t\t  <div class=\"price-details\">\n" +
+                                "\t\t\t\t\t  <div class=\"price-number\">\n" +
+                                "\t\t\t\t\t  <a href='/comment_index?movieid=" + v.movieId + "' class=\"aui-comment comment\">" + number + "</a>\n" +
+                                "\t\t\t\t\t  <input id='movieid' value='" + v.movieId + "' type='hidden'>\n" +
+                                "\t\t\t\t\t  </div>\n" +
+                                "\t\t\t\t\t  <div class=\"add-cart\">\n" +
+                                "\t\t\t\t\t\t  <h4><a href=\"/toPreview/" + v.movieId + "/" + city + "\">选座购票</a></h4>\n" +
+                                "\t\t\t\t\t  </div>\n" +
+                                "\t\t\t\t\t  <div class=\"clear\"></div>\n" +
+                                "\t\t\t\t  </div>\n" +
+                                "\t\t\t  </div>\n");
+                        }, "json")
+                    }
+                    // if(i>=24){
+                    //     alert(i);
+                    //     return;
+                    // }
+                    // alert(i);
+                    // if(i%5==0){
+                    // 	$(".zhuijia").append("<div  class=\"section group meihang\"></div>");
+                    // }
+                }else{
+                    if (v.movieName.length < 11&&v.movieName.indexOf(souSuo)!=-1) {
+                        var number = 0;
+                        $.post("/selecltBySize", {movieid: v.movieId}, function (result) {
+                            number = result.size;
+                            $(".meihang").append(
+                                "<div class=\"grid_1_of_5 images_1_of_5\">\n" +
+                                "<input id='cityId' value='" + city + "' type='hidden'>\n" +
+                                "\t\t\t\t  <a href=\"/toPreview/" + v.movieId + "/" + city + "\"><img src=\"" + v.pic_url + "\" alt=\"\" /></a>\n" +
+                                "\t\t\t\t  <h2><a href=\"/toPreview/" + v.movieId + "/" + city + "\">" + v.movieName + "</a></h2>\n" +
+                                "\t\t\t\t  <div class=\"price-details\">\n" +
+                                "\t\t\t\t\t  <div class=\"price-number\">\n" +
+                                "\t\t\t\t\t  <a href='/comment_index?movieid=" + v.movieId + "' class=\"aui-comment comment\">" + number + "</a>\n" +
+                                "\t\t\t\t\t  <input id='movieid' value='" + v.movieId + "' type='hidden'>\n" +
+                                "\t\t\t\t\t  </div>\n" +
+                                "\t\t\t\t\t  <div class=\"add-cart\">\n" +
+                                "\t\t\t\t\t\t  <h4><a href=\"/toPreview/" + v.movieId + "/" + city + "\">选座购票</a></h4>\n" +
+                                "\t\t\t\t\t  </div>\n" +
+                                "\t\t\t\t\t  <div class=\"clear\"></div>\n" +
+                                "\t\t\t\t  </div>\n" +
+                                "\t\t\t  </div>\n");
+                        }, "json")
+                    }
+                }
+            })
+        },"json")
+    }
+
+</script>
+<a href="#" id="toTop"><span id="toTopHover"> </span></a>
+
+</body>
+</html>

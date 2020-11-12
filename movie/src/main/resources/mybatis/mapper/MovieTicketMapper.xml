@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kgc.movie.dao.MovieTicketMapper" >
+  <resultMap id="BaseResultMap" type="com.kgc.movie.pojo.MovieTicket" >
+    <id column="movie_id" property="movieId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="movie_yingchengid" property="movieYingchengid" jdbcType="INTEGER" />
+    <result column="movie_name" property="movieName" jdbcType="VARCHAR" />
+    <result column="movie_date" property="movieDate" jdbcType="TIMESTAMP" />
+    <result column="movie_room" property="movieRoom" jdbcType="VARCHAR" />
+    <result column="movie_price" property="moviePrice" jdbcType="REAL" />
+    <result column="movie_seat" property="movieSeat" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    movie_id, user_name, movie_yingchengid, movie_name, movie_date, movie_room, movie_price, 
+    movie_seat
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kgc.movie.pojo.MovieTicketExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from movie_ticket
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from movie_ticket
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from movie_ticket
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kgc.movie.pojo.MovieTicketExample" >
+    delete from movie_ticket
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kgc.movie.pojo.MovieTicket" >
+    insert into movie_ticket (movie_id, user_name, movie_yingchengid, 
+      movie_name, movie_date, movie_room, 
+      movie_price, movie_seat)
+    values (#{movieId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{movieYingchengid,jdbcType=INTEGER}, 
+      #{movieName,jdbcType=VARCHAR}, #{movieDate,jdbcType=TIMESTAMP}, #{movieRoom,jdbcType=VARCHAR}, 
+      #{moviePrice,jdbcType=REAL}, #{movieSeat,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kgc.movie.pojo.MovieTicket" >
+    insert into movie_ticket
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="movieId != null" >
+        movie_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="movieYingchengid != null" >
+        movie_yingchengid,
+      </if>
+      <if test="movieName != null" >
+        movie_name,
+      </if>
+      <if test="movieDate != null" >
+        movie_date,
+      </if>
+      <if test="movieRoom != null" >
+        movie_room,
+      </if>
+      <if test="moviePrice != null" >
+        movie_price,
+      </if>
+      <if test="movieSeat != null" >
+        movie_seat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="movieId != null" >
+        #{movieId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieYingchengid != null" >
+        #{movieYingchengid,jdbcType=INTEGER},
+      </if>
+      <if test="movieName != null" >
+        #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDate != null" >
+        #{movieDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="movieRoom != null" >
+        #{movieRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="moviePrice != null" >
+        #{moviePrice,jdbcType=REAL},
+      </if>
+      <if test="movieSeat != null" >
+        #{movieSeat,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kgc.movie.pojo.MovieTicketExample" resultType="java.lang.Integer" >
+    select count(*) from movie_ticket
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update movie_ticket
+    <set >
+      <if test="record.movieId != null" >
+        movie_id = #{record.movieId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieYingchengid != null" >
+        movie_yingchengid = #{record.movieYingchengid,jdbcType=INTEGER},
+      </if>
+      <if test="record.movieName != null" >
+        movie_name = #{record.movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieDate != null" >
+        movie_date = #{record.movieDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.movieRoom != null" >
+        movie_room = #{record.movieRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moviePrice != null" >
+        movie_price = #{record.moviePrice,jdbcType=REAL},
+      </if>
+      <if test="record.movieSeat != null" >
+        movie_seat = #{record.movieSeat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update movie_ticket
+    set movie_id = #{record.movieId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      movie_yingchengid = #{record.movieYingchengid,jdbcType=INTEGER},
+      movie_name = #{record.movieName,jdbcType=VARCHAR},
+      movie_date = #{record.movieDate,jdbcType=TIMESTAMP},
+      movie_room = #{record.movieRoom,jdbcType=VARCHAR},
+      movie_price = #{record.moviePrice,jdbcType=REAL},
+      movie_seat = #{record.movieSeat,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kgc.movie.pojo.MovieTicket" >
+    update movie_ticket
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieYingchengid != null" >
+        movie_yingchengid = #{movieYingchengid,jdbcType=INTEGER},
+      </if>
+      <if test="movieName != null" >
+        movie_name = #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDate != null" >
+        movie_date = #{movieDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="movieRoom != null" >
+        movie_room = #{movieRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="moviePrice != null" >
+        movie_price = #{moviePrice,jdbcType=REAL},
+      </if>
+      <if test="movieSeat != null" >
+        movie_seat = #{movieSeat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kgc.movie.pojo.MovieTicket" >
+    update movie_ticket
+    set user_name = #{userName,jdbcType=VARCHAR},
+      movie_yingchengid = #{movieYingchengid,jdbcType=INTEGER},
+      movie_name = #{movieName,jdbcType=VARCHAR},
+      movie_date = #{movieDate,jdbcType=TIMESTAMP},
+      movie_room = #{movieRoom,jdbcType=VARCHAR},
+      movie_price = #{moviePrice,jdbcType=REAL},
+      movie_seat = #{movieSeat,jdbcType=VARCHAR}
+    where movie_id = #{movieId,jdbcType=INTEGER}
+  </update>
+</mapper>

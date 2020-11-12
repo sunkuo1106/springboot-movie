@@ -1,0 +1,78 @@
+.dongtai{
+    position: relative;
+    left: 170px;
+    width: 1175px;
+    height: 1000px;
+    border: 1px solid yellow;
+}
+.xuanpiaogouzuo{
+    font-size: 22px;
+}
+.available{
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*搜索框*/
+.bar7 form {
+    /*position: absolute;*/
+    /*width: 300px;*/
+    /*top: 80px;*/
+    /*right: 390px;*/
+}
+.bar7 input,
+button {
+    border: none;
+    outline: none;
+}
+.bar7 input {
+    width: 100%;
+    height: 37px;
+    padding-left: 25px;
+    position: relative;
+    left: 500px;
+}
+.bar7 button {
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+    position: absolute;
+}
+.bar7 input {
+    width: 250px;
+    border-radius: 42px;
+    border: 1px solid #EDEDED;
+    background: #FCFCFC;
+    transition: .3s linear;
+    float: right;
+}
+.bar7 input:hover{
+    border: 1px solid orangered;
+}
+.bar7 input:focus {
+    width: 485px;
+}
+.bar7 button {
+    background: none;
+    top: -4px;
+    left:640px;
+}
+.bar7 button:before {
+    content: "\f002";
+    font-family: FontAwesome;
+    color: #FF4500;
+}
+/**/

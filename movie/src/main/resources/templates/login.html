@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>星空影城注册登录</title>
+    <link rel="stylesheet" href="/asserts/css/loginstyle.css">
+    <script type="text/javascript" src="/asserts/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/asserts/js/userlogin.js"></script>
+</head>
+
+<body>
+<div class="content">
+    <div class="form sign-in">
+        <label>
+            <span class="sp3" style="color: red"></span>
+        </label>
+        <h2>欢迎回来</h2>
+        <label>
+            <span>账号</span>
+            <input type="text" name="uname" class="uName"/>
+            <span class="sp1" style="color: red"></span>
+        </label>
+        <label>
+            <span>密码</span>
+            <input type="password" class="uPassword" />
+            <span class="sp2" style="color: red"></span>
+        </label>
+        <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
+        <button type="button" class="submit btn-login">登 录</button>
+        <!--            <button type="button" class="fb-btn">使用 <span>facebook</span> 帐号登录</button>-->
+    </div>
+    <div class="sub-cont">
+        <div class="img">
+            <div class="img__text m--up">
+                <h2>还未注册？</h2>
+                <p>立即注册，发现大量机会！</p>
+            </div>
+            <div class="img__text m--in">
+                <h2>已有帐号？</h2>
+                <p>有帐号就登录吧，好久不见了！</p>
+            </div>
+            <div class="img__btn">
+                <span class="m--up">注 册</span>
+                <span class="m--in">登 录</span>
+            </div>
+        </div>
+        <div class="form sign-up">
+            <label>
+                <span class="sp7" style="color: red"></span>
+            </label>
+            <h2>立即注册</h2>
+            <label>
+                <span>用户名</span>
+                <input type="text" class="userName"/>
+                <span class="sp4" style="color: red"></span>
+            </label>
+            <label>
+                <span>密码</span>
+                <input type="password" class="userPwd"/>
+                <span class="sp5" style="color: red"></span>
+            </label>
+            <label>
+                <span>手机号</span>
+                <input type="uphone" class="userPhone"/><button class="btn" style="background-color: #D4AF7A;width: 80px;position: absolute;top: 290px;left: 470px;display:none;">发送</button>
+                <span class="sp6" style="color: red"></span>
+            </label>
+            <label>
+                <span hidden class="sp8"></span>
+                <span>验证码</span>
+                <input type="pcode" class="yan"/>
+                <span class="sp9" style="color: red"></span>
+            </label>
+            <button type="button" class="submit btn-add">注 册</button>
+            <!--                <button type="button" class="fb-btn">使用 <span>facebook</span> 帐号注册</button>-->
+        </div>
+    </div>
+</div>
+<script src="/asserts/js/script.js"></script>
+</body>
+</html>
