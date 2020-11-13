@@ -140,8 +140,8 @@ Author: Lorenzo Cioni - https://github.com/lorecioni
 					.addClass('autocomplete-button')
 					.html(params.buttonText)
 					.css({
-						'height': params.height -17,
-						'line-height': params.height -16 + 'px'
+						'height': params.height +2,
+						'line-height': params.height +2 + 'px'
 					})
 					.click(function(){
 						proposalList.empty();
