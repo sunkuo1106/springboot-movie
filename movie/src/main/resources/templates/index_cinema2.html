@@ -103,8 +103,8 @@
                     <li>
                         <select name="city" id="select" style="z-index: 100;">
                             <option value="1">上海</option>
-                            <option value="2" >北京</option>
-                            <option value="105" selected>保定</option>
+                            <option value="2" selected>北京</option>
+                            <option value="105">保定</option>
                             <option value="3">深圳</option>
                             <option value="4">重庆</option>
                             <option value="5">广州</option>
@@ -137,7 +137,7 @@
                             <a th:href="@{/login}">登录</a>
                         </span>
                         <span th:if="${session.users!=null}">
-                            <a href="/touserOderSelect" th:text="${session.users.uname}"></a>
+                            <a href="/touserOderSelect" class="name" th:text="${session.users.uname}"></a>
                             <a href="/zhuxiao">注销</a>
                         </span>
                     </li>
@@ -201,31 +201,31 @@
 
 
 <div style="border: pink 1px solid;width: 1215px;margin-top: 100px;margin-left: 165px;">
-<!--    <%&#45;&#45;    <div class="bar7">&#45;&#45;%>-->
-<!--    <%&#45;&#45;        <form action="#">&#45;&#45;%>-->
-<!--        <%&#45;&#45;            <input class="bar7_text" type="text" placeholder="请搜索影院名称/关键字">&#45;&#45;%>-->
-<!--        <%&#45;&#45;            <button type="submit"></button>&#45;&#45;%>-->
-<!--        <%&#45;&#45;        </form>&#45;&#45;%>-->
-<!--    <%&#45;&#45;    </div>&#45;&#45;%>-->
-<!--    <%&#45;&#45;    <div class="dyItem">&#45;&#45;%>-->
-<!--    <%&#45;&#45;        <p>电影名称</p>&#45;&#45;%>-->
-<!--    <%&#45;&#45;        <p>地址：朝阳区东大桥路9号芳草地大厦LG2-26</p>&#45;&#45;%>-->
-<!--    <%&#45;&#45;        <p>电话：010-56907679,0</p>&#45;&#45;%>-->
-<!--    <%&#45;&#45;        <p>更多：<a>影院服务</a><a>交通信息</a></p>&#45;&#45;%>-->
-<!--    <%&#45;&#45;    </div>&#45;&#45;%>-->
+    <!--<%&#45;&#45;    <div class="bar7">&#45;&#45;%>-->
+    <!--<%&#45;&#45;        <form action="#">&#45;&#45;%>-->
+        <!--<%&#45;&#45;            <input class="bar7_text" type="text" placeholder="请搜索影院名称/关键字">&#45;&#45;%>-->
+        <!--<%&#45;&#45;            <button type="submit"></button>&#45;&#45;%>-->
+        <!--<%&#45;&#45;        </form>&#45;&#45;%>-->
+    <!--<%&#45;&#45;    </div>&#45;&#45;%>-->
+    <!--<%&#45;&#45;    <div class="dyItem">&#45;&#45;%>-->
+    <!--<%&#45;&#45;        <p>电影名称</p>&#45;&#45;%>-->
+    <!--<%&#45;&#45;        <p>地址：朝阳区东大桥路9号芳草地大厦LG2-26</p>&#45;&#45;%>-->
+    <!--<%&#45;&#45;        <p>电话：010-56907679,0</p>&#45;&#45;%>-->
+    <!--<%&#45;&#45;        <p>更多：<a>影院服务</a><a>交通信息</a></p>&#45;&#45;%>-->
+    <!--<%&#45;&#45;    </div>&#45;&#45;%>-->
 
     <div class="aui-nav-content-box">
         <div class="aui-nav-list-tab">
             <div class="aui-nav-list-item divxun" style="display:block">
-<!--                <%&#45;&#45;循环开始&#45;&#45;%>-->
+                <!--<%&#45;&#45;循环开始&#45;&#45;%>-->
             </div>
         </div>
     </div>
 
 </div>
 
-
-
+<span hidden th:text="${lat}" class="lat"></span>
+<span hidden th:text="${lng}" class="lng"></span>
 <script type="text/javascript">
     $(document).ready(function() {
         $().UItoTop({ easingType: 'easeOutQuart' });
@@ -234,15 +234,16 @@
 
     //根据城市查询当天上映所有电影
     function selectCityCinema() {
-        var city=$("[name='city']").val();
+        var lat=$(".lat").text();
+        var lng=$(".lng").text();
         var json={
-            cityId:city
+            lat:lat,
+            lng:lng
         }
-        $.post("/selectCityCinema",json,function (result) {
-            console.log(result.CinemaList);
+        $.post("/baiduCha",json,function (result) {
+            console.log(result.cc);
             $(".divxun div").remove();
-            $.each(result.CinemaList.data,function (i,v) {
-
+            $.each(result.cc,function (i,v) {
                 $(".divxun").append("<div class=\"aui-page-list\">\n" +
                     "                    <div class=\"aui-page-img\">\n" +
                     "                        <a href=\"javascript:;\">\n" +
@@ -277,7 +278,11 @@
             })
         },"json")
     }
+
+
+
 </script>
 <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+
 </body>
 </html>
