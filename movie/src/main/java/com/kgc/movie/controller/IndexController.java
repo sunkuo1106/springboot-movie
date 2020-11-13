@@ -34,4 +34,10 @@ public class IndexController {
         map.put("o",o);
         return map;
     }
+
+    @RequestMapping("/toZfsuccess")
+    public String toZfsuccess(){
+        return "zf-success";
+    }
+
 }
