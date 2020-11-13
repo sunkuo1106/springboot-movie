@@ -34,27 +34,18 @@ public class PreviewController {
     String movieId;
     String cityId;
 
-    @RequestMapping("/toPreview/{movieId}/{city}")
-    public String toPreview(@PathVariable("movieId") String movieId, @PathVariable("city") String cityId, HttpSession session){
+    //按影片ID检索影片信息
+    @RequestMapping("/preview/{movieId}/{city}")
+    public String selectByMovieId(@PathVariable("movieId") String movieId, @PathVariable("city") String cityId,HttpSession session){
         this.movieId=movieId;
         this.cityId=cityId;
-        session.setAttribute("movieId",movieId);
-        session.setAttribute("cityId",cityId);
-        return "preview";
-    }
-    //按影片ID检索影片信息
-    @RequestMapping("/preview")
-    @ResponseBody
-    public Map<String,Object> selectByMovieId(HttpSession session){
-        Map<String,Object> map=new HashMap<>();
         System.out.println("影片id为:"+movieId);
-        String movieId=(String) session.getAttribute("movieId");
         Object request8 = JuheDemo.getRequest8(Integer.parseInt(movieId));
         System.out.println(request8);
         request8 =request8.toString().replaceAll("\\null","");
         net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(request8);
-        map.put("info",object);
-        return map;
+        session.setAttribute("info",object);
+        return "preview";
     }
 
     //影片上映影院查询
