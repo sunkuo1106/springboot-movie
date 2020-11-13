@@ -53,14 +53,14 @@ public class CinemaController {
         return map;
     }
     @RequestMapping("/toPreviewycCinema")
-    public String toPreviewycCinema(int cinemaId, int movieId, Model model){
+    public String toPreviewycCinema(Integer cinemaId, Integer movieId, Model model){
         model.addAttribute("cinemaId",cinemaId);
         model.addAttribute("movieId",movieId);
         System.out.println(movieId);
         Object request8 = JuheDemo.getRequest8(movieId);
         request8 =request8.toString().replaceAll("null","123");
         JSONObject object = JSONObject.fromObject(request8);
-        System.out.println("wWadasdawidhiuwhduyq2gyu812yh3u12ghued"+object);
+        System.out.println(object);
         model.addAttribute("info",object);
         return "preview_cinema";
     }
@@ -92,5 +92,14 @@ public class CinemaController {
         map.put("cc",request2);
         map.put("status","true");
         return map;
+    }
+
+    @RequestMapping("/toindex_cinema")
+    public String toindex_cinema(){
+        return "index_cinema";
+    }
+    @RequestMapping("/toCinema")
+    public String toCinema(){
+        return "Cinema";
     }
 }
