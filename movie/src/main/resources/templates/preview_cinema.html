@@ -124,7 +124,7 @@
                             <img th:src="*{poster}" th:alt="*{title}"/>
                         </div>
                         <div class="desc span_3_of_2">
-                            <h2 th:text="*{title}"></h2>
+                            <h2 th:text="*{title}" class="title"></h2>
                             <span th:if="*{rating!=-1}"><span style="color:red;position: absolute;top: 230px;left: 630px;" th:text="*{rating}"></span></span>
                             <span th:if="*{rating==-1}"><span style="color:red;position: absolute;top: 230px;left: 630px;">未评分</span></span>
                             <div class="available"></div>
@@ -303,7 +303,7 @@
                     });
                 }else{
                     // alert("目前是登录状态");
-                    var movieName="${info.title}";
+                    var movieName=$(".title").text();
                     var movieDate=$(this).parent().prev().prev().prev().prev().text();
                     var movieRoom=$(this).parent().prev().prev().text();
                     var moviePrice=$(this).parent().prev().text();
