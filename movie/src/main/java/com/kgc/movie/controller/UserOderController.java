@@ -17,6 +17,10 @@ import java.util.Map;
 public class UserOderController {
     @Resource
     UserOderService userOderService;
+    @RequestMapping("/touserOderSelect")
+    public String touserOderSelect(){
+        return "user_order_layui";
+    }
     @RequestMapping("/userOderSelect")
     @ResponseBody
     public Map<String,Object>userOderSelect(HttpSession session){
