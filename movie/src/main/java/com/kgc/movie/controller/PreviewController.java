@@ -160,6 +160,8 @@ public class PreviewController {
         // just replace key here
         String yingchengName=(String) session.getAttribute("yingchengName");
         String seat=(String) session.getAttribute("seat");
+        int suiJi = (int) ((Math.random() * 9 + 1) * 100000);
+        String suiJi2=String.valueOf(suiJi);
         String movieDate=(String) session.getAttribute("movieDate");
         String[] str=seat.split("座");
         String newSeat="";
@@ -179,7 +181,8 @@ public class PreviewController {
                 "http://sms-api.luosimao.com/v1/send.json");
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
         formData.add("mobile", phone);
-        formData.add("message", "您于"+time+"在星空APP购买了"+yingchengName+movieRoom+"的《"+movieName+"》电影的"+str.length+"张电影票，座位是"+newSeat+"电影开始时间为今天"+movieDate+",电影开始30分钟后禁止入内,请提前到场等候【铁壳测试】");
+        formData.add("message", "您于"+time+"在星空APP购买了"+yingchengName+movieRoom+"的《"+movieName+"》电影的"+str.length+"张电影票，座位是"+newSeat+"电影开始时间为今天"+movieDate+",电影开始前15分钟开始检票进场，" +
+                "进场时凭"+suiJi2+"此码检票进场，请勿随意告诉他人，电影开始30分钟后禁止入内,请提前到场等候【铁壳测试】");
         ClientResponse response =  webResource.type( javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED ).
                 post(ClientResponse.class, formData);
         String textEntity = response.getEntity(String.class);
