@@ -48,7 +48,23 @@
         #seats_chose {max-height: 150px;overflow-y: auto;width: 200px;}
 
         #seats_chose li{float:left; width:72px; height:26px; line-height:26px; border:1px solid #d3d3d3; background:#f7f7f7; margin:6px; font-size:14px; font-weight:bold; text-align:center}
-
+        table,thead{width: 100%;}
+        tr th{width:25%;height:30px;background-color: #23B7E5;font-size: 16px;padding: 2px 0px;color:#fff;}
+        tr td{text-align: center;padding: 5px 0px;background-color: #fff;font-size: 14px;}
+        tr td a{padding: 2px 5px;border:1px solid #ddd;cursor: pointer;}
+        ul li{list-style-type: none;overflow: hidden;}
+        #div1{width:600px;border:1px solid #ddd;right:0px;top:0px;margin-top: 30px;
+            background-color: #F5F5F5;
+        }
+        #div1 ul li p{50%;text-align: right;flex: 1;}
+        #div2 ul{overflow: hidden;}
+        #div2 ul li{float: left;width:150px;height:120px;border:1px solid #ddd;margin-right: 10px;}
+        #div2 ul li img{width: 100%;height: 100%;}
+        .div_panel{min-height: 200px;}
+        .span1{margin-left: 35px}
+        .span2{margin-left: 60px}
+        .span3{margin-left: 90px}
+        .span4{margin-left: 50px}
     </style>
 </head>
 <body>
@@ -119,7 +135,7 @@
         <!---右边选座信息----->
         <div class="booking_area">
             <p>电影：<span th:text="${movieName}"></span></p>
-            <p>时间：<span th:text="${time}"></span></p>
+            <p>时间：<span th:text="${time}" class="s1"></span></p>
             <p>放映厅：<span th:text="${session.movieRoom}"></span></p>
             <p>座位：</p>
             <ul id="seats_chose"></ul>
@@ -127,15 +143,75 @@
             <p>总价：<b>￥<span id="total_price">0</span></b></p>
             <input type="button" class="btn buy" value="确定购买"/>
             <div id="legend"></div>
-            <input type="hidden" class="movieDate" value="${sessionScope.movieTicket.movieDate}">
-            <input type="hidden" class="movieName" value="${sessionScope.movieTicket.movieName}">
-            <input type="hidden" class="movieRoom" value="${sessionScope.movieTicket.movieRoom}">
-            <input type="hidden" class="moviePrice" value="${sessionScope.movieTicket.moviePrice}">
-            <input type="hidden" class="movieYingchengid" value="${sessionScope.movieTicket.movieYingchengid}">
+            <input type="hidden" class="movieDate" th:value="${session.movieTicket.movieDate}">
+            <input type="hidden" class="movieName" th:value="${session.movieTicket.movieName}">
+            <input type="hidden" class="movieRoom" th:value="${session.movieTicket.movieRoom}">
+            <input type="hidden" class="moviePrice" th:value="${session.movieTicket.moviePrice}">
+            <input type="hidden" class="movieYingchengid" th:value="${session.movieTicket.movieYingchengid}">
         </div>
     </div>
-</div>
 
+</div>
+<div style="margin-top: 50px;margin-left: 185px">
+    <span>如需订购食品请将你需要订购的食品图片拖到下面表格中</span>
+    <div id="div2" style="margin-top: 10px">
+        <ul>
+            <li>
+                <img id="img1" src="/asserts/img/爆米花（大）.jpg" draggable="true" ondragstart="drag(this)" /><br>
+                <input type="hidden" id="inp_money" value="29.9"/>
+                <input type="hidden" id="inp_name" value="爆米花（大）" />
+            </li>
+            <li>
+                <img id="img1" src="/asserts/img/爆米花（小）.jpg" draggable="true" ondragstart="drag(this)" class="bmhx"/>
+                <input type="hidden" id="inp_money" value="16.5"/>
+                <input type="hidden" id="inp_name" value="爆米花（小）" />
+            </li>
+            <li>
+                <img id="img1" src="/asserts/img/可乐.jpg" draggable="true" ondragstart="drag(this)" />
+                <input type="hidden" id="inp_money" value="10"/>
+                <input type="hidden" id="inp_name" value="可乐" />
+            </li>
+            <li>
+                <img id="img1" src="/asserts/img/套餐.jpg" draggable="true" ondragstart="drag(this)" />
+                <input type="hidden" id="inp_money" value="44.9"/>
+                <input type="hidden" id="inp_name" value="爆米花（大）+两杯可乐" />
+            </li>
+        </ul>
+        <div>
+            <span class="span1">爆米花（大）</span>
+            <span class="span2">爆米花（小）</span>
+            <span class="span3">可乐</span>
+            <span class="span4">爆米花（大）+两杯可乐</span>
+        </div>
+        <div id="div1" ondrop="drop()" ondragover="allowDrop(event)">
+            <div class="div_panel">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>价格</th>
+                    </tr>
+                    </thead>
+                    <tbody id="ul_panel"></tbody>
+                </table>
+
+            </div>
+
+        </div>
+        <div class="allMoney">总价:<span id="totalMoney" class="totalPrice">0</span></div>
+        <div style="border: 1px solid black;width: 600px;margin-top: 20px;background-color: #f7f7f7">
+             <span>特别提示：<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;1、下单前请仔细核对影片、影院、场次、手机号等信息。<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;2、每笔订单最多可以选择6个座位。<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;3、电影票售出后暂不支持退换 。<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;4、订购的食品不支持外送，请到店后出示进场码领取。
+        </span>
+        </div>
+    </div>
+
+</div>
 <div class="footer">
     <div class="wrap">
         <div class="section group">
@@ -196,12 +272,69 @@
 <script type="text/javascript" src="/asserts/js/jquery.seat-charts.min.js"></script>
 <script src="/asserts/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" >
+    var money=0;
+    var name="";
+    var data=[];
+    function allowDrop(e){
+        e.preventDefault();
+    }
+    function drag(t){
+        money=$(t).siblings("#inp_money").val();
+        name=$(t).siblings("#inp_name").val();
+        /*var num=1;
+        add(name,money,num);*/
+    }
+    function addJson(name,money){
+        for(var j=0;j<data.length;j++){
+            if(data[j].name==name){
+                data[j].num++;
+                return;
+            }
+        }
+        data.push({
+            money:money,
+            name:name,
+            num:1
+        });
+    }
+
+    function addHtml(){
+        var text_html='';
+        var totalMoney=0;
+        $("#ul_panel").html("");
+        for(var i=0;i<data.length;i++){
+            text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a> '+data[i].num+' ';
+            text_html+='<a onclick="addNum(\'\'+'+i+',this)">+</a></td><td>￥'+(data[i].money*data[i].num)+'</td></tr>';
+            totalMoney+=data[i].money*data[i].num;
+            $("#totalMoney").text(totalMoney);
+        }
+        $("#ul_panel").append(text_html);
+    }
+    function drop(){
+        addJson(name,money);
+        addHtml();
+    }
+    function reduce(a,t){
+        data[a].num--;
+        if(data[a].num==0){
+            data.splice(a,1);
+        }
+        if(data.length==0){
+            $("#totalMoney").text(0);
+        }
+        addHtml();
+    }
+    function addNum(a,t){
+        data[a].num++;
+        addHtml();
+    }
     var price2 = $(".price").text(); //电影票价
     var price=parseInt(price2);
     var ting = $(".ting").text(); //电影票价
     var list1=new Array();
     var jie="";
     $(document).ready(function() {
+        addHtml();
 
         var $cart = $('#seats_chose'), //座位区
             $tickects_num = $('#tickects_num'), //票数
@@ -382,6 +515,7 @@
             }
         });
         }else if(ting==4){
+
             var sc = $('#seat_area').seatCharts({
                 map: [//座位结构图 a 代表座位; 下划线 "_" 代表过道
 
@@ -595,14 +729,20 @@
                 });
             }else{
                 var movieYingchengid=$(".movieYingchengid").val();
-                var movieDate=$(".movieDate").val();
+                var movieDate=$(".s1").text();
+                alert(movieDate);
                 var movieName=$(".movieName").val();
                 var movieRoom=$(".movieRoom").val();
-                var moviePrice=$("#total_price").text();
+                var total_price=$("#total_price").text();
+                var totalMoney=$("#totalMoney").text();
+                var moviePrice=parseFloat(total_price)+parseFloat(totalMoney);
                 var seat=$(".li").text();
                 console.log($(".li").text());
-                //location.href="/buyMovie?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
-                location.href="/zhifuyemian?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
+                var bo=confirm("您本次购买共计"+moviePrice+"元，确定支付吗？");
+                if(bo==true) {
+                    //location.href="/buyMovie?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
+                    location.href = "/zhifuyemian?seat=" + seat + "&movieName=" + movieName + "&movieDate=" + movieDate + "&movieRoom=" + movieRoom + "&moviePrice=" + moviePrice + "&yingchengid=" + movieYingchengid + "";
+                 }
             }
         })
     });

@@ -1,8 +1,13 @@
 package com.kgc.movie.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.MovieTicket;
 import com.kgc.movie.pojo.User;
 import com.kgc.movie.service.MovieTicketService;
+import com.kgc.movie.tools.AliPayConfig;
 import com.kgc.movie.tools.JuheDemo;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -13,12 +18,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -219,13 +227,44 @@ public class PreviewController {
         return map;
     }
 
+    @GetMapping("/pay/aliPay/{orderId}/{amount}/{product}/{body}")
+    @ResponseBody
+    public String aliPay(@PathVariable String orderId,
+                         @PathVariable String amount,
+                         @PathVariable String product,
+                         @PathVariable String body) throws AlipayApiException {
 
+//获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig.gatewayUrl,
+                AliPayConfig.app_id,
+                AliPayConfig.merchant_private_key,
+                "json",
+                AliPayConfig.charset,
+                AliPayConfig.alipay_public_key,
+                AliPayConfig.sign_type);
+//        page
+        AlipayTradePagePayRequest alipayPageRequest = new AlipayTradePagePayRequest();
+        alipayPageRequest.setReturnUrl(AliPayConfig.return_url);
+        alipayPageRequest.setNotifyUrl(AliPayConfig.notify_url);
+
+
+        //拼接参数
+        alipayPageRequest.setBizContent("{\"out_trade_no\":\"" + orderId + "\","
+                + "\"total_amount\":\"" + amount + "\","
+                + "\"subject\":\"" + product + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        //请求
+        return alipayClient.pageExecute(alipayPageRequest).getBody();
+    }
 
     @RequestMapping("/zhifuyemian")
-    public String zhifuyemian(HttpSession session, String seat, String movieName, Date movieDate, String movieRoom, String moviePrice, Integer yingchengid){
+    public String zhifuyemian(HttpSession session, String seat, String movieName, Date movieDate, String movieRoom, String moviePrice, Integer yingchengid) throws UnsupportedEncodingException {
         User user=(User) session.getAttribute("users");
         session.setAttribute("seat",seat);
         session.setAttribute("movieName",movieName);
+        int i = movieTicketService.movieById();
+        System.out.println("265==========================="+i);
         //截取座位
         String searStr = seat.replaceAll("\\排", "_").replaceAll("\\座", ",");
         MovieTicket movieTicket=new MovieTicket();
@@ -240,7 +279,10 @@ public class PreviewController {
         //跳转支付宝
         session.setAttribute("money",moviePrice);
         session.setAttribute("movieName",movieName);
-        return "zfb";
+        String product="电影票";
+
+
+        return "redirect:/pay/aliPay/"+i+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
     }
 
     @RequestMapping("/selectSeat")

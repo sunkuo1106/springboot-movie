@@ -8,4 +8,5 @@ import java.util.List;
 public interface MovieTicketService {
     void addMovieTicket(MovieTicket movieTicket);
     List<MovieTicket> ceshiList(String yingpianname, Integer yingyuanid, Date datetime);
+    int movieById();
 }
