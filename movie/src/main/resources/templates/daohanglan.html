@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>懒人原生jQuery模拟淘宝ued官网左侧动画导航</title>
+<style>
+	*{ margin:0; padding:0; list-style:none;}
+	body{ font-size:12px; text-align:left; background:#F8F8F8;}
+	.lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
+	.lanrenzhijia li{ z-index:2; position:relative;}
+	.lanrenzhijia li a{ color:#666;height:40px; line-height:40px; border-bottom:1px solid #F8F8F8; display:block; margin:0px 15px; text-align:center; text-decoration:none;}
+	.lanrenzhijia li:hover a{ color:#FF5F3E; text-decoration:none;}
+	.lanrenzhijia li.on a{color:#FF5F3E;}
+	.lanrenzhijia .hover{ width:220px; height:40px; position:absolute; left:-5px; top:50px; background:#F8F8F8; border-left:5px solid #FF5F3E; z-index:1;}
+	.bingpai{display: inline-block}
+	.container{margin-left: 35px;}
+	.lanrenzhijia{margin-left: 140px;top: -75px;}
+</style>
+</head>
+<body>
+<!-- 代码begin -->
+<div class="lanrenzhijia bingpai" th:fragment="daohang">
+	<ul>
+		<li class="on"><a href='http://www.lanrenzhijia.com/'>首页</a></li>
+		<li><a href='http://www.lanrenzhijia.com/nav/'>菜单导航</a></li>
+		<li><a href='http://www.lanrenzhijia.com/time/'>时间日期</a></li>
+		<li><a href='http://www.lanrenzhijia.com/banner/'>焦点图</a></li>
+		<li><a href='http://www.lanrenzhijia.com/tab/'>tab标签</a></li>
+		<li><a href='http://www.lanrenzhijia.com/jquery/'>jquery特效</a></li>
+		<li><a href='http://www.lanrenzhijia.com/service/'>在线客服</a></li>
+		<li><a href='http://www.lanrenzhijia.com/ads/'>广告代码</a></li>
+		<li><a href='http://www.lanrenzhijia.com/album/'>相册代码</a></li>
+		<li><a href='http://www.lanrenzhijia.com/pic/'>图片特效</a></li>
+	</ul>
+	<div class="hover"></div>
+</div>
+<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+<script>
+$(function(){
+	var Height = 40; //li的高度
+	var pTop = 50; // .lanrenzhijia 的paddding-top的值
+	$('.lanrenzhijia li').mouseover(function(){
+		$(this).addClass('on').siblings().removeClass('on');
+		var index = $(this).index();
+		var distance = index*(Height+1)+pTop+'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
+		$('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
+	});
+});
+</script>
+<!-- 代码end -->
+
+</body>
+</html>
