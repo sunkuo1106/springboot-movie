@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>星空影城</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="/asserts/css/slider.css" rel="stylesheet" type="text/css" media="all"/>
+
+    <link href="/asserts/css/jquery.searchableSelect.css" rel="stylesheet" type="text/css">
+    <script src="/asserts/js/jquery-1.11.1.min.js"></script>
+    <script src="/asserts/js/jquery.searchableSelect.js"></script>
+
+    <link rel="stylesheet" href="/asserts/css/yemiandibustyle.css">
+
+    <link rel="stylesheet" href="/asserts/css/tab.css">
+
+    <link rel="stylesheet" href="/asserts/css/autocomplete.css">
+    <style>
+        .pop{width: 150px}
+        .name{margin-left: 30px}
+        .price{margin-left: 12px}
+        .price1{margin-left: 90px;margin-top: -40px}
+    </style>
+    <script type="text/javascript" src="/asserts/js/move-top.js"></script>
+    <script type="text/javascript" src="/asserts/js/easing.js"></script>
+    <script type="text/javascript" src="/asserts/js/jquery.nivo.slider.js"></script>
+    <link rel="stylesheet" href="/asserts/css/zzsc.css" type="text/css"/>
+    <script type="text/javascript" src="/asserts/js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="/asserts/js/jquery.easing.js"></script>
+    <script type="text/javascript" src="/asserts/js/zzsc.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var $window = $(window),
+                window_width = $window.width();
+            $('#js_banner, #js_banner_img li').width(window_width);
+
+            var urlParam = G.util.parse.url(),
+                startFrame = 0;
+            if (urlParam.search && ('banner' in urlParam.search)) {
+                startFrame = (parseInt(urlParam.search['banner'])-1) || 0;
+            }
+
+            new $.Tab({/*添加圆点按钮*/
+                target: $('#js_banner_img li'),
+                effect: 'slide3d',
+                animateTime: 1000,
+                stay: 4000,
+                playTo: startFrame,
+                autoPlay: true,
+                merge: true,
+                prevBtn: $('#js_banner_pre'),
+                nextBtn: $('#js_banner_next')
+            });
+            $('#js_banner_img').css('left','-' + (window_width * startFrame) + 'px');
+        })
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <!--						<li><a href="/asserts/contact.html">联系</a></li>-->
+                    <li>
+                        <select name="city" id="select" style="z-index: 100;">
+                            <option value="1">上海</option>
+                            <option value="2" selected>北京</option>
+                            <option value="105">保定</option>
+                            <option value="3">深圳</option>
+                            <option value="4">重庆</option>
+                            <option value="5">广州</option>
+                            <option value="6">成都</option>
+                            <option value="7">武汉</option>
+                            <option value="8">东莞</option>
+                            <option value="9">天津</option>
+                            <option value="10">杭州</option>
+                            <option value="11">沈阳</option>
+                            <option value="12">佛山</option>
+                            <option value="13">合肥</option>
+                            <option value="14">南京</option>
+                            <option value="15">长沙</option>
+                            <option value="16">西安</option>
+                            <option value="17">郑州</option>
+                            <option value="18">宁波</option>
+                            <option value="19">大连</option>
+                            <option value="20">青岛</option>
+                        </select>
+                    </li>
+                    <li><a href="javascript:void(0)" onclick="selectCityMovie()">选择城市</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="/toindex_cinema">影城</a></li>
+                    <li><a href="/toshopping">商城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/touserOderSelect" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div id="js_banner" class="banner">
+    <ul id="js_banner_img" class="banner_img clear">
+        <li class="bgli01">
+            <div class="banner_inner">
+                <div class="child child1" data-z="2"><img src="/asserts/images/1-1.png" /></div><!-- data-z="2"与data-z="3"表示两个图层进退场的顺序有区别 -->
+                <div class="child child2" data-z="3"><a href="#" target="_blank"><img src="/asserts/images/1-2.png" /></a></div>
+            </div>
+        </li>
+        <li class="bgli02">
+            <div class="banner_inner">
+                <div class="child child1" data-z="2"><img src="/asserts/images/2-1.png" /></div>
+                <div class="child child2" data-z="3"><a href="#" target="_blank"><img src="/asserts/images/2-2.png" /></a></div>
+            </div>
+        </li>
+        <li class="bgli03">
+            <div class="banner_inner">
+                <div class="child child1" data-z="2"><img src="/asserts/images/3-1.png" /></div>
+                <div class="child child2" data-z="3"><a href="#" target="_blank"><img src="/asserts/images/3-2.png" /></a></div>
+            </div>
+        </li>
+        <li class="bgli04">
+            <div class="banner_inner">
+                <div class="child child1" data-z="2"><img src="/asserts/images/4-1.png" /></div>
+                <div class="child child2" data-z="3"><a href="#" target="_blank"><img src="/asserts/images/4-2.png" /></a></div>
+            </div>
+        </li>
+    </ul>
+    <div class="banner_common">
+        <a id="js_banner_pre" href="javascript:;" class="banner_pre"></a>
+        <a id="js_banner_next" href="javascript:;" class="banner_next"></a>
+    </div>
+</div>
+<!-- 代码结束 -->
+<div>
+    <div th:each="commoditys:${commodities}">
+        <div><a href="/todetails"><img th:src="${commoditys.picture}" class="pop"></a></div>
+        <div th:text="${commoditys.name}" class="name"></div>
+        <div class="price">
+            市场价格<div th:text="${commoditys.marketValue}" ></div>
+        </div>
+        <div class="price1">
+            会员价格<div th:text="${commoditys.membershipPrice}" ></div>
+        </div>
+
+</div>
+</div>
+<div class="footer">
+    <div class="wrap">
+        <div class="section group">
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>信息</h4>
+                <ul>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">客户服务</a></li>
+                    <li><a href="#">高级搜索</a></li>
+                    <li><a href="#">订单</a></li>
+                    <li><a href="contact.html">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>Why buy from us</h4>
+                <ul>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">客户服务</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="contact.html">网站地图</a></li>
+                    <li><a href="#">搜索词</a></li>
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>我的账户</h4>
+                <ul>
+                    <li><a href="contact.html">登录跟踪</a></li>
+                    <li><a href="index.html">查看购物车</a></li>
+                    <li><a href="#">愿望列表</a></li>
+                    <li><a href="#">订单</a></li>
+                    <li><a href="contact.html">帮助</a></li>
+                </ul>
+            </div>
+            <div class="col_1_of_4 span_1_of_4">
+                <h4>联系</h4>
+                <ul>
+                    <li><span>+91-123-456789</span></li>
+                    <li><span>+00-123-000000</span></li>
+                </ul>
+                <div class="social-icons">
+                    <h4>跟踪我们</h4>
+                    <ul>
+                        <li><a href="#" target="_blank"><img src="/asserts/images/facebook.png" alt=""/></a></li>
+                        <li><a href="#" target="_blank"><img src="/asserts/images/twitter.png" alt=""/></a></li>
+                        <li><a href="#" target="_blank"><img src="/asserts/images/skype.png" alt=""/> </a></li>
+                        <li><a href="#" target="_blank"> <img src="/asserts/images/linkedin.png" alt=""/></a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
