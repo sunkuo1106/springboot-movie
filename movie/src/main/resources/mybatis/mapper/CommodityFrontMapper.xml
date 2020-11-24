@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kgc.movie.dao.CommodityFrontMapper" >
+  <resultMap id="BaseResultMap" type="com.kgc.movie.pojo.CommodityFront" >
+    <id column="enter_Id" property="enterId" jdbcType="INTEGER" />
+    <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="commodity_date" property="commodityDate" jdbcType="DATE" />
+    <result column="commodity_totalPrice" property="commodityTotalprice" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    enter_Id, commodity_name, commodity_date, commodity_totalPrice
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kgc.movie.pojo.CommodityFrontExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commodity_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_front
+    where enter_Id = #{enterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commodity_front
+    where enter_Id = #{enterId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kgc.movie.pojo.CommodityFrontExample" >
+    delete from commodity_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kgc.movie.pojo.CommodityFront" >
+    insert into commodity_front (enter_Id, commodity_name, commodity_date, 
+      commodity_totalPrice)
+    values (#{enterId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{commodityDate,jdbcType=DATE}, 
+      #{commodityTotalprice,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kgc.movie.pojo.CommodityFront" >
+    insert into commodity_front
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="enterId != null" >
+        enter_Id,
+      </if>
+      <if test="commodityName != null" >
+        commodity_name,
+      </if>
+      <if test="commodityDate != null" >
+        commodity_date,
+      </if>
+      <if test="commodityTotalprice != null" >
+        commodity_totalPrice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="enterId != null" >
+        #{enterId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityName != null" >
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityDate != null" >
+        #{commodityDate,jdbcType=DATE},
+      </if>
+      <if test="commodityTotalprice != null" >
+        #{commodityTotalprice,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kgc.movie.pojo.CommodityFrontExample" resultType="java.lang.Integer" >
+    select count(*) from commodity_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update commodity_front
+    <set >
+      <if test="record.enterId != null" >
+        enter_Id = #{record.enterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityName != null" >
+        commodity_name = #{record.commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commodityDate != null" >
+        commodity_date = #{record.commodityDate,jdbcType=DATE},
+      </if>
+      <if test="record.commodityTotalprice != null" >
+        commodity_totalPrice = #{record.commodityTotalprice,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update commodity_front
+    set enter_Id = #{record.enterId,jdbcType=INTEGER},
+      commodity_name = #{record.commodityName,jdbcType=VARCHAR},
+      commodity_date = #{record.commodityDate,jdbcType=DATE},
+      commodity_totalPrice = #{record.commodityTotalprice,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kgc.movie.pojo.CommodityFront" >
+    update commodity_front
+    <set >
+      <if test="commodityName != null" >
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityDate != null" >
+        commodity_date = #{commodityDate,jdbcType=DATE},
+      </if>
+      <if test="commodityTotalprice != null" >
+        commodity_totalPrice = #{commodityTotalprice,jdbcType=REAL},
+      </if>
+    </set>
+    where enter_Id = #{enterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kgc.movie.pojo.CommodityFront" >
+    update commodity_front
+    set commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_date = #{commodityDate,jdbcType=DATE},
+      commodity_totalPrice = #{commodityTotalprice,jdbcType=REAL}
+    where enter_Id = #{enterId,jdbcType=INTEGER}
+  </update>
+</mapper>

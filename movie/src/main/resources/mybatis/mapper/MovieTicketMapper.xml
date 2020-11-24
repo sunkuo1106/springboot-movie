@@ -9,7 +9,9 @@
     <result column="movie_date" property="movieDate" jdbcType="TIMESTAMP" />
     <result column="movie_room" property="movieRoom" jdbcType="VARCHAR" />
     <result column="movie_price" property="moviePrice" jdbcType="REAL" />
+    <result column="movie_whether" property="movieWhether" jdbcType="VARCHAR" />
     <result column="movie_seat" property="movieSeat" jdbcType="VARCHAR" />
+    <result column="enter_id" property="enterId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     movie_id, user_name, movie_yingchengid, movie_name, movie_date, movie_room, movie_price, 
-    movie_seat
+    movie_whether, movie_seat, enter_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kgc.movie.pojo.MovieTicketExample" >
     select
@@ -106,10 +108,12 @@
   <insert id="insert" parameterType="com.kgc.movie.pojo.MovieTicket" >
     insert into movie_ticket (movie_id, user_name, movie_yingchengid, 
       movie_name, movie_date, movie_room, 
-      movie_price, movie_seat)
+      movie_price, movie_whether, movie_seat, 
+      enter_id)
     values (#{movieId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{movieYingchengid,jdbcType=INTEGER}, 
       #{movieName,jdbcType=VARCHAR}, #{movieDate,jdbcType=TIMESTAMP}, #{movieRoom,jdbcType=VARCHAR}, 
-      #{moviePrice,jdbcType=REAL}, #{movieSeat,jdbcType=VARCHAR})
+      #{moviePrice,jdbcType=REAL}, #{movieWhether,jdbcType=VARCHAR}, #{movieSeat,jdbcType=VARCHAR}, 
+      #{enterId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kgc.movie.pojo.MovieTicket" >
     insert into movie_ticket
@@ -135,8 +139,14 @@
       <if test="moviePrice != null" >
         movie_price,
       </if>
+      <if test="movieWhether != null" >
+        movie_whether,
+      </if>
       <if test="movieSeat != null" >
         movie_seat,
+      </if>
+      <if test="enterId != null" >
+        enter_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -161,8 +171,14 @@
       <if test="moviePrice != null" >
         #{moviePrice,jdbcType=REAL},
       </if>
+      <if test="movieWhether != null" >
+        #{movieWhether,jdbcType=VARCHAR},
+      </if>
       <if test="movieSeat != null" >
         #{movieSeat,jdbcType=VARCHAR},
+      </if>
+      <if test="enterId != null" >
+        #{enterId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -196,8 +212,14 @@
       <if test="record.moviePrice != null" >
         movie_price = #{record.moviePrice,jdbcType=REAL},
       </if>
+      <if test="record.movieWhether != null" >
+        movie_whether = #{record.movieWhether,jdbcType=VARCHAR},
+      </if>
       <if test="record.movieSeat != null" >
         movie_seat = #{record.movieSeat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterId != null" >
+        enter_id = #{record.enterId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -213,7 +235,9 @@
       movie_date = #{record.movieDate,jdbcType=TIMESTAMP},
       movie_room = #{record.movieRoom,jdbcType=VARCHAR},
       movie_price = #{record.moviePrice,jdbcType=REAL},
-      movie_seat = #{record.movieSeat,jdbcType=VARCHAR}
+      movie_whether = #{record.movieWhether,jdbcType=VARCHAR},
+      movie_seat = #{record.movieSeat,jdbcType=VARCHAR},
+      enter_id = #{record.enterId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -239,8 +263,14 @@
       <if test="moviePrice != null" >
         movie_price = #{moviePrice,jdbcType=REAL},
       </if>
+      <if test="movieWhether != null" >
+        movie_whether = #{movieWhether,jdbcType=VARCHAR},
+      </if>
       <if test="movieSeat != null" >
         movie_seat = #{movieSeat,jdbcType=VARCHAR},
+      </if>
+      <if test="enterId != null" >
+        enter_id = #{enterId,jdbcType=INTEGER},
       </if>
     </set>
     where movie_id = #{movieId,jdbcType=INTEGER}
@@ -253,7 +283,9 @@
       movie_date = #{movieDate,jdbcType=TIMESTAMP},
       movie_room = #{movieRoom,jdbcType=VARCHAR},
       movie_price = #{moviePrice,jdbcType=REAL},
-      movie_seat = #{movieSeat,jdbcType=VARCHAR}
+      movie_whether = #{movieWhether,jdbcType=VARCHAR},
+      movie_seat = #{movieSeat,jdbcType=VARCHAR},
+      enter_id = #{enterId,jdbcType=INTEGER}
     where movie_id = #{movieId,jdbcType=INTEGER}
   </update>
 </mapper>

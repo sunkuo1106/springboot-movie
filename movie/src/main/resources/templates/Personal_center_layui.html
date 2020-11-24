@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星空影城个人中心</title>
+    <link rel="shortcut icon" href="/asserts/images/logo.png" />
+    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/asserts/css/SkWeatherStyle.css">
+    <link href="/asserts/css/personalstyle.css" rel="stylesheet" type="text/css" />
+
+</head>
+<style>
+    /*导航栏*/
+    *{ margin:0; padding:0; list-style:none;}
+    body{ font-size:12px; text-align:left; background:#F8F8F8;}
+    .lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
+    .lanrenzhijia li{ z-index:2; position:relative;}
+    .lanrenzhijia li a{ color:#666;height:40px; line-height:40px; border-bottom:1px solid #F8F8F8; display:block; margin:0px 15px; text-align:center; text-decoration:none;}
+    .lanrenzhijia li:hover a{ color:#FF5F3E; text-decoration:none;}
+    .lanrenzhijia li.on a{color:#FF5F3E;}
+    .lanrenzhijia .hover{ width:220px; height:40px; position:absolute; left:-5px; top:50px; background:#F8F8F8; border-left:5px solid #FF5F3E; z-index:1;}
+    .bingpai{display: inline-block}
+    .container{margin-left: 390px;}
+    .lanrenzhijia{margin-left: 140px;position: absolute;top: 200px;}
+    /*修改头部底部字体大小*/
+    .nav_list li a {font-size: 1.1em;}
+    .account_desc li a {font-size: 1em;}
+    .span_1_of_4 li a{font-size: 1em;}
+</style>
+<body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="javascript:void(0)">影城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/touserOderSelect" class="name" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="header_top">
+            <div class="logo">
+                <a href="index.html"><img src="/asserts/images/logo.png" alt=""/></a>
+            </div>
+            <div class="header_top_right">
+                <div class="cart">
+                    <p><span>购物车</span>
+                    <div id="dd" class="wrapper-dropdown-2"> (空)
+                        <ul class="dropdown">
+                            <li>您的购物车中没有商品</li>
+                        </ul>
+                    </div>
+                    </p>
+                </div>
+                <div class="search_box">
+                    <form>
+                        <input type="text" value="搜索" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = '搜索';}"><input type="submit" value="">
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="daohanglan :: daohang"></div>
+
+<div class="container bingpai">
+    <h2 class="title"><a href="" style="color:#007BC4;">星空影城个人中心</a></h2>
+    <!--欢迎用户-->
+    <dl class="formbox">
+        <dt>欢迎sunkuo 会员用户登录</dt>
+        <dd><span style="font-size:16px;color:#999999;">手机号:</span><input type="text" class="text" /></dd>
+        <dd><span style="font-size:16px;color:#999999;">邮&nbsp;&nbsp;&nbsp;箱:</span><input type="text" class="text" /></dd>
+        <dd><span style="font-size:16px;color:#999999;">观影场次:</span><span style="font-size:16px;">1次</span></dd>
+        <dd><span style="font-size:16px;color:#999999;">发表评论:</span><span style="font-size:16px;">2次</span></dd>
+        <dd><span style="font-size:16px;color:#999999;">总消费金额:</span><span style="font-size:16px;">200元</span></dd>
+        <dd><span style="font-size:16px;color:#999999;">会员等级:</span><a style="font-size:16px;" title="充值会员请点击超链接">普通会员</a></dd>
+    </dl>
+    <!--天气-->
+    <div class="background">
+        <div class="container1">
+            <svg id="back" style="height: 500px;">
+                <radialGradient id="SVGID_1_" cx="0" cy="0" r="320.8304" gradientUnits="userSpaceOnUse">
+                    <stop  offset="0" style="stop-color:#FFDE17;stop-opacity:0.7"/>
+                    <stop  offset="1" style="stop-color:#FFF200;stop-opacity:0"/>
+                </radialGradient>
+                <path id="sunburst" style="fill:url(#SVGID_1_);" d="M0,319.7c-18.6,0-37.3-1.6-55.5-4.8L-7.8,41.4c5.1,0.9,10.6,0.9,15.7,0L56,314.8C37.6,318,18.8,319.7,0,319.7z
+		 M-160.8,276.6c-32.5-18.8-61.3-42.9-85.5-71.6L-34,26.2c3.4,4.1,7.4,7.4,12,10.1L-160.8,276.6z M161.3,276.4L22.1,36.2
+		c4.5-2.6,8.6-6,12-10.1l212.6,178.5C222.5,233.4,193.8,257.6,161.3,276.4z M-302.5,108.3C-315.4,73-321.9,36-322-1.8l277.6-0.5
+		c0,5.3,0.9,10.4,2.7,15.2L-302.5,108.3z M302.6,107.8L41.8,12.8c1.7-4.7,2.6-9.7,2.6-14.9c0-0.3,0-0.6,0-1H322l0-1.3l0,1.9
+		C322,35.4,315.5,72.5,302.6,107.8z M-41.8-17.5l-261-94.5c12.8-35.4,31.6-68,55.8-96.9L-34.1-30.8C-37.5-26.8-40.1-22.3-41.8-17.5z
+		 M41.7-17.7c-1.8-4.8-4.4-9.3-7.8-13.3l212-179.2c24.3,28.8,43.3,61.3,56.3,96.6L41.7-17.7z M-22.2-40.8l-139.6-240
+		c32.7-19,68.1-32,105.2-38.6L-8-46.1C-13-45.2-17.8-43.4-22.2-40.8z M22-40.9c-4.4-2.6-9.2-4.3-14.2-5.1l47.1-273.6
+		c37.2,6.4,72.7,19.2,105.4,38L22-40.9z"/>
+            </svg>
+            <nav>
+                <!--            <%&#45;&#45;            <ul>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;                <li><a id="button-snow" class="active"><i class="wi wi-snow"></i></a></li>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;                <li><a id="button-wind"><i class="wi wi-strong-wind"></i></a></li>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;                <li><a id="button-rain"><i class="wi wi-rain"></i></a></li>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;                <li><a id="button-thunder"><i class="wi wi-lightning"></i></a></li>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;                <li><a id="button-sun"><i class="wi wi-day-sunny"></i></a></li>&#45;&#45;%>-->
+                <!--            <%&#45;&#45;            </ul>&#45;&#45;%>-->
+            </nav>
+            <div id="card" class="weather">
+                <svg id="inner">
+                    <defs>
+                        <path id="leaf" d="M41.9,56.3l0.1-2.5c0,0,4.6-1.2,5.6-2.2c1-1,3.6-13,12-15.6c9.7-3.1,19.9-2,26.1-2.1c2.7,0-10,23.9-20.5,25 c-7.5,0.8-17.2-5.1-17.2-5.1L41.9,56.3z"/>
+                    </defs>
+                    <circle id="sun" style="fill: #F7ED47" cx="0" cy="0" r="50"/>
+                    <g id="layer3"></g>
+                    <g id="cloud3" class="cloud"></g>
+                    <g id="layer2"></g>
+                    <g id="cloud2" class="cloud"></g>
+                    <g id="layer1"></g>
+                    <g id="cloud1" class="cloud"></g>
+                </svg>
+                <div class="details">
+                    <div class="temp">20<span>℃</span></div>
+                    <div class="right">
+                        <div id="date">Monday 22 August</div>
+                        <div id="windDirection">windDirection</div>
+                        <div id="todayTemperature">todayTemperature</div>
+                        <div id="summary"></div>
+                    </div>
+                </div>
+            </div>
+            <svg id="outer"></svg>
+        </div>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+</div>
+<input type="hidden" class="abc">
+<script type="text/javascript" src="/asserts/js/jquery.min.js"></script>
+<script>
+    $(function(){
+        var Height = 40; //li的高度
+        var pTop = 50; // .lanrenzhijia 的paddding-top的值
+        $('.lanrenzhijia li').mouseover(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var index = $(this).index();
+            var distance = index*(Height+1)+pTop+'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
+            $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
+        });
+    });
+</script>
+
+
+<script src='/asserts/js/TweenMax.min.js'></script>
+<script src='/asserts/js/snap.svg-min.js'></script>
+<script src="/asserts/js/main.js"></script>
+</body>
+</html>
