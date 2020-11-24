@@ -555,6 +555,76 @@ public class MovieTicketExample {
             return (Criteria) this;
         }
 
+        public Criteria andMovieWhetherIsNull() {
+            addCriterion("movie_whether is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherIsNotNull() {
+            addCriterion("movie_whether is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherEqualTo(String value) {
+            addCriterion("movie_whether =", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherNotEqualTo(String value) {
+            addCriterion("movie_whether <>", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherGreaterThan(String value) {
+            addCriterion("movie_whether >", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherGreaterThanOrEqualTo(String value) {
+            addCriterion("movie_whether >=", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherLessThan(String value) {
+            addCriterion("movie_whether <", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherLessThanOrEqualTo(String value) {
+            addCriterion("movie_whether <=", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherLike(String value) {
+            addCriterion("movie_whether like", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherNotLike(String value) {
+            addCriterion("movie_whether not like", value, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherIn(List<String> values) {
+            addCriterion("movie_whether in", values, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherNotIn(List<String> values) {
+            addCriterion("movie_whether not in", values, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherBetween(String value1, String value2) {
+            addCriterion("movie_whether between", value1, value2, "movieWhether");
+            return (Criteria) this;
+        }
+
+        public Criteria andMovieWhetherNotBetween(String value1, String value2) {
+            addCriterion("movie_whether not between", value1, value2, "movieWhether");
+            return (Criteria) this;
+        }
+
         public Criteria andMovieSeatIsNull() {
             addCriterion("movie_seat is null");
             return (Criteria) this;
@@ -622,6 +692,66 @@ public class MovieTicketExample {
 
         public Criteria andMovieSeatNotBetween(String value1, String value2) {
             addCriterion("movie_seat not between", value1, value2, "movieSeat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdIsNull() {
+            addCriterion("enter_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdIsNotNull() {
+            addCriterion("enter_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdEqualTo(Integer value) {
+            addCriterion("enter_id =", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdNotEqualTo(Integer value) {
+            addCriterion("enter_id <>", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdGreaterThan(Integer value) {
+            addCriterion("enter_id >", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("enter_id >=", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdLessThan(Integer value) {
+            addCriterion("enter_id <", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdLessThanOrEqualTo(Integer value) {
+            addCriterion("enter_id <=", value, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdIn(List<Integer> values) {
+            addCriterion("enter_id in", values, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdNotIn(List<Integer> values) {
+            addCriterion("enter_id not in", values, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdBetween(Integer value1, Integer value2) {
+            addCriterion("enter_id between", value1, value2, "enterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("enter_id not between", value1, value2, "enterId");
             return (Criteria) this;
         }
     }

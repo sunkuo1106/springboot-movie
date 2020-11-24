@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>星空影城个人订单</title>
+    <title>星空影城个人中心</title>
     <link rel="shortcut icon" href="/asserts/images/logo.png" />
     <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
     <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
 </head>
 <style>
+    /*导航栏*/
     *{ margin:0; padding:0; list-style:none;}
     body{ font-size:12px; text-align:left; background:#F8F8F8;}
     .lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
@@ -20,7 +21,7 @@
     .bingpai{display: inline-block}
     .container{margin-left: 390px;}
     .lanrenzhijia{margin-left: 140px;position: absolute;top: 200px;}
-    /**/
+    /*修改头部底部字体大小*/
     .nav_list li a {font-size: 1.1em;}
     .account_desc li a {font-size: 1em;}
     .span_1_of_4 li a{font-size: 1em;}
@@ -85,17 +86,13 @@
 <div th:replace="daohanglan :: daohang"></div>
 
 <div class="container bingpai">
-    <h2 class="title"><a href="" style="color:#007BC4;">星空影城查看个人订单</a></h2>
-    <div class="demo clearfix">
-        <table id="demo" style="margin-left: 100px;margin-top: -40px;" lay-filter="test"></table>
-    </div>
+    <h2 class="title"><a href="" style="color:#007BC4;">星空影城个人中心</a></h2>
+
 </div>
 
 <div th:replace="footer :: footer"></div>
 </div>
-
-<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
-<script src="/asserts/layui/layui.js"></script>
+<script type="text/javascript" src="/asserts/js/jquery.min.js"></script>
 <script>
     $(function(){
         var Height = 40; //li的高度
@@ -107,76 +104,6 @@
             $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
         });
     });
-
-    layui.use('table', function(){
-        var table = layui.table;
-
-        //第一个实例
-        table.render({
-            elem: '#demo'
-            ,width: 980
-            ,url: '/userOderSelect' //数据接口
-            ,id: 'listReload'
-            ,page: true //开启分页
-            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
-                var result;
-                console.log(this);
-                console.log(JSON.stringify(res));
-                if (this.page.curr) {
-                    result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                }
-                else {
-                    result = res.data.slice(0, this.limit);
-                }
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.count, //解析数据长度
-                    "data": result //解析数据列表
-                };
-            }
-            ,cols: [
-                [ //表头
-                {field: 'movieId', title: 'ID',  sort: true, fixed: 'left'}
-                ,{field: 'movieName', title: '电影名称'}
-                ,{field: 'movieRoom', title: '放映厅'}
-                ,{field: 'movieDate', title: '电影放映日期',  sort: true}
-                ,{field: 'moviePrice', title: '价格', sort: true}
-                ,{field: 'movieWhether', title: '是否购买商品', toolbar: '.barDemo'}
-                ,{field: 'movieSeat', title: '座位'}
-                ,{field: 'enterId', title: '订单号',hide:true}
-                ]
-            ]
-            });
-            table.on('tool(test)',function (obj) {
-                var data=obj.data;
-                var enterId=data.enterId;
-                var json={
-                    enterId:enterId
-                }
-                layer.tab({
-                    area: ['600px', '300px'],
-                    tab: [{
-                        title: 'TAB1',
-                        content: '内容1'
-                    }, {
-                        title: 'TAB2',
-                        content: '内容2'
-                    }, {
-                        title: 'TAB3',
-                        content: '内容3'
-                    }]
-                });
-                // $("",json,function (result) {
-                //
-                // },"json")
-            })
-    });
 </script>
-<script type="text/html" class="barDemo">
-    <a class="layui-btn layui-btn-xs mydate" lay-event="bor">无</a>
-
-</script>
-
 </body>
 </html>

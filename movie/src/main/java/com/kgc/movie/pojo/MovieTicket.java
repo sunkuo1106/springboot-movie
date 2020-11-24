@@ -17,7 +17,11 @@ public class MovieTicket {
 
     private Float moviePrice;
 
+    private String movieWhether;
+
     private String movieSeat;
+
+    private Integer enterId;
 
     public Integer getMovieId() {
         return movieId;
@@ -75,11 +79,27 @@ public class MovieTicket {
         this.moviePrice = moviePrice;
     }
 
+    public String getMovieWhether() {
+        return movieWhether;
+    }
+
+    public void setMovieWhether(String movieWhether) {
+        this.movieWhether = movieWhether == null ? null : movieWhether.trim();
+    }
+
     public String getMovieSeat() {
         return movieSeat;
     }
 
     public void setMovieSeat(String movieSeat) {
         this.movieSeat = movieSeat == null ? null : movieSeat.trim();
+    }
+
+    public Integer getEnterId() {
+        return enterId;
+    }
+
+    public void setEnterId(Integer enterId) {
+        this.enterId = enterId;
     }
 }

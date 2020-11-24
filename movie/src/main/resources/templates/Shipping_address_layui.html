@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>星空影城收货地址</title>
+    <link rel="shortcut icon" href="/asserts/images/logo.png" />
+    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
+</head>
+<style>
+    /*导航栏*/
+    *{ margin:0; padding:0; list-style:none;}
+    body{ font-size:12px; text-align:left; background:#F8F8F8;}
+    .lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
+    .lanrenzhijia li{ z-index:2; position:relative;}
+    .lanrenzhijia li a{ color:#666;height:40px; line-height:40px; border-bottom:1px solid #F8F8F8; display:block; margin:0px 15px; text-align:center; text-decoration:none;}
+    .lanrenzhijia li:hover a{ color:#FF5F3E; text-decoration:none;}
+    .lanrenzhijia li.on a{color:#FF5F3E;}
+    .lanrenzhijia .hover{ width:220px; height:40px; position:absolute; left:-5px; top:50px; background:#F8F8F8; border-left:5px solid #FF5F3E; z-index:1;}
+    .bingpai{display: inline-block}
+    .container{margin-left: 390px;}
+    .lanrenzhijia{margin-left: 140px;position: absolute;top: 200px;}
+    /*修改头部底部字体大小*/
+    .nav_list li a {font-size: 1.1em;}
+    .account_desc li a {font-size: 1em;}
+    .span_1_of_4 li a{font-size: 1em;}
+    /*table表格*/
+    .table{font-family:Arial; font-size:14px;line-height:180%;padding-top: 20px;} /*总控制，可忽略此行*/
+    .table table tr:first-child{background:gray; color:#fff;font-weight:bold;} /*第一行标题蓝色背景*/
+    .table table{border-top:1pt solid #C1DAD7;border-left:1pt solid #C1DAD7;margin: 0 auto;}
+    .table td{ padding:5px 10px; text-align:center;border-right:1pt solid #C1DAD7;border-bottom:1pt solid #C1DAD7;}
+    .table tr:nth-of-type(odd){ background:gainsboro} /* odd 标识奇数行，even标识偶数行 */
+    .table tr:hover{ background: lightgrey} /*鼠标悬停后表格背景颜色*/
+    /*百度地图*/
+    h1{font-size: 26px;}
+    p{font-size: 14px; margin-top: 10px;}
+    pre{background:#eee;border:1px solid #ddd;border-left:4px solid #f60;padding:15px;margin-top: 15px;}
+    h2{font-size: 20px;margin-top: 20px;}
+    .case{margin-top: 15px;width:400px;}
+    .bMap{position: relative;}
+    .bMap .map-warp{position: absolute;left:0;width:100%;height:400px;top:34px;display: none;}
+    .bMap input{width:100%;height:30px;line-height: 30px;border:1px solid #d7d7d7;}
+    .tangram-suggestion-main{z-index: 9999}
+</style>
+<body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="javascript:void(0)">影城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/touserOderSelect" class="name" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="header_top">
+            <div class="logo">
+                <a href="index.html"><img src="/asserts/images/logo.png" alt=""/></a>
+            </div>
+            <div class="header_top_right">
+                <div class="cart">
+                    <p><span>购物车</span>
+                    <div id="dd" class="wrapper-dropdown-2"> (空)
+                        <ul class="dropdown">
+                            <li>您的购物车中没有商品</li>
+                        </ul>
+                    </div>
+                    </p>
+                </div>
+                <div class="search_box">
+                    <form>
+                        <input type="text" value="搜索" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = '搜索';}"><input type="submit" value="">
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="daohanglan :: daohang"></div>
+
+<div class="container bingpai">
+    <h2 class="title"><a href="" style="color:#007BC4;">星空影城收获地址</a></h2>
+    <div class="user_main">
+        <div class="content-one content-hei">
+            <div class="user_title" style="font-size: 16px;font-weight: bolder">收货地址</div>
+            <div class="receiving_address">
+                <dl>
+                    <div class="table" style=" overflow:hidden; ">
+                        <table width='900' border='0' cellspacing='0' cellpadding='0' align='center'>
+                            <tr>
+                                <td>收货人</td>
+                                <td>性别</td>
+                                <td>详细地址</td>
+                                <td>邮政编码</td>
+                                <td>手机号</td>
+                                <td>操作</td>
+                            </tr>
+                            <tr th:each="item : ${harvestAddresses}">
+                                <td th:text="${item.getAddName()}">孙阔</td>
+                                <td th:text="${item.getAddGender()}">男</td>
+                                <td th:text="${item.getAddAddress()}">北京市北京市大兴区课工场产教融合创新基地</td>
+                                <td th:text="${item.getAddPostcode()}">000000</td>
+                                <td th:text="${item.getAddPhone()}">17600135867</td>
+                                <td><a th:href="@{/delShippingAddress(addId=${item.getAddId()})}">删除</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </dl>
+            </div>
+            <div class="order_conhead" style=" line-height:40px; padding:0 5px; margin-top:50px; margin-bottom:20px; background:#fff;"><span style="font-size: 16px;font-weight: bolder">新增收货地址</span><span style="font-size: 13px;color: red">（邮政编码选填，其余均为必填）</span></div>
+            <form th:action="@{/doShippingAddress}"  method="post" id="jvForm">
+                <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                    <tr>
+                        <td height="40" width="70" align="right" style="color:#333;" >收货人：</td>
+                        <td width="648"><input name="addName" type="text" maxlength="20" class="ss_input required"></td>
+                    </tr>
+                    <tr>
+                        <td height="40" align="right" style="color:#333;" >性别：</td>
+                        <td width="648"><input type="radio" name="addGender" value="男" checked="">男
+                            <input type="radio" name="addGender" value="女">女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="40" align="right" style="color:#333;">详细地址：</td>
+                        <td width="648">
+                            <div class="case">
+                                <div class="bMap" id='case3'></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="40" align="right" style="color:#333;">邮政编码：</td>
+                        <td width="648"><input name="addPostcode" type="text" maxlength="6" class="ss_input required number_input"></td>
+                    </tr>
+                    <tr>
+                        <td height="40" align="right" style="color:#333;" >手机：</td>
+                        <td width="648"> <input type="text" id="tel" name="addPhone" maxlength="11" class="ss_input digits" ></td>
+                    </tr>
+                    <tr>
+                        <td height="60" align="right">&nbsp;</td>
+                        <td width="648"><input type="submit" value="保&nbsp;&nbsp;存 " class="ss_button">&nbsp;&nbsp;
+                            <input type="reset" value="重&nbsp;&nbsp;置" class="no_button"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EZPCgQ6zGu6hZSmXlRrUMTpr"></script>
+<script type="text/javascript" src="/asserts/js/jquery.min.js"></script>
+<script type="text/javascript" src="/asserts/js/map.jquery.min.js"></script>
+<script>
+    $(function(){
+        var Height = 40; //li的高度
+        var pTop = 50; // .lanrenzhijia 的paddding-top的值
+        $('.lanrenzhijia li').mouseover(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var index = $(this).index();
+            var distance = index*(Height+1)+pTop+'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
+            $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
+        });
+        $(".bMap").bMap({
+            address:"北京市",  //默认地址，如果为空则通过解析默认坐标获取
+            location:[116.403962,39.915171],  //默认坐标，如果为空则通过解析默认地址获取
+            name:"map", //提交表单的NAME,默认为map
+            callback:function(address,point) //回调函数，返回地址数组与坐标
+            {
+                console.log(address);
+                console.log(point)
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $("form").submit(function(){
+        var name=$("[name='addName']").val();
+        if(name==""){
+            alert("请填写收货人姓名");
+            return false;
+        }
+        var addAddress=$(".bMap [name='map']").val();
+        if(addAddress==""||addAddress.length<=3){
+            alert("请规范填写收货地址");
+            return false;
+        }
+        var reg=/^1\d{10}$/;
+        var addPhone=$("[name='addPhone']").val();
+        if(reg.test(addPhone)==false){
+            alert("请填写正确的手机号");
+            return false;
+        }
+        return  true;
+    })
+
+
+</script>
+</body>
+</html>
