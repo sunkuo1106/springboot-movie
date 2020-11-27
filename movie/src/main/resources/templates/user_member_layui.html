@@ -100,7 +100,7 @@
                 <p class="p2"> <span class="amount">85</span> <span>%</span> </p>
                 <p class="p3">将持续提供各式优质权益</p>
                 <p class="p4">每月仅需45.0元</p>
-                <a class="btn" href="#"> 立即开通 </a> </div>
+                <a class="btn" th:href="@{/toPayMember(type='钻石会员')}"> 立即开通 </a> </div>
             <div class="right">
                 <div class="Scroll-left">
                     <div class="bd">
@@ -111,14 +111,14 @@
                                 <p class="p2"> <span class="amount">90</span> <span>%</span> </p>
                                 <p class="p3">将持续提供各式优质权益</p>
                                 <p class="p4">每月仅需25.0元</p>
-                                <a class="btn" href="#"> 立即开通 </a> </li>
+                                <a class="btn" th:href="@{/toPayMember(type='铂金会员')}"> 立即开通 </a> </li>
                             <li>
                                 <h3> <a href="#">星空影城黄金会员(30天)</a> </h3>
                                 <p class="p1">每月仅需15.0元</p>
                                 <p class="p2"> <span class="amount">95</span> <span>%</span> </p>
                                 <p class="p3">将持续提供各式优质权益</p>
                                 <p class="p4">每月仅需15.0元</p>
-                                <a class="btn" href="#"> 立即开通 </a> </li>
+                                <a class="btn"th:href="@{/toPayMember(type='黄金会员')}"> 立即开通 </a> </li>
                         </ul>
                     </div>
                 </div>
@@ -130,6 +130,7 @@
 <div th:replace="footer :: footer"></div>
 </div>
 <script type="text/javascript" src="/asserts/js/jquery.min.js"></script>
+<script src="/asserts/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 <script>
     $(function(){
         var Height = 40; //li的高度
@@ -141,6 +142,22 @@
             $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
         });
     });
+
+
+    // $(".zuanshi").click(function () {
+    //     layer.prompt({
+    //         formType: 0,
+    //         value: '1',
+    //         title: '请输入月份',
+    //     }, function(value, index, elem){
+    //         alert(value); //得到value
+    //         layer.close(index);
+    //     });
+    // })
+
+
+
+
 </script>
 </body>
 </html>

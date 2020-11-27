@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/asserts/css/SkWeatherStyle.css">
     <link href="/asserts/css/personalstyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
 
 </head>
 <style>
@@ -94,13 +95,13 @@
     <h2 class="title"><a href="" style="color:#007BC4;">星空影城个人中心</a></h2>
     <!--欢迎用户-->
     <dl class="formbox">
-        <dt>欢迎sunkuo 会员用户登录</dt>
-        <dd><span style="font-size:16px;color:#999999;">手机号:</span><input type="text" class="text" /></dd>
-        <dd><span style="font-size:16px;color:#999999;">邮&nbsp;&nbsp;&nbsp;箱:</span><input type="text" class="text" /></dd>
-        <dd><span style="font-size:16px;color:#999999;">观影场次:</span><span style="font-size:16px;">1次</span></dd>
-        <dd><span style="font-size:16px;color:#999999;">发表评论:</span><span style="font-size:16px;">2次</span></dd>
+        <dt th:text="|欢迎${user.uname} 会员用户登录|">欢迎sk 会员用户登录</dt>
+        <dd><span style="font-size:16px;color:#999999;">手机号:</span><input type="text" class="text" readonly th:value="${user.uphone}" /></dd>
+<!--        <dd><span style="font-size:16px;color:#999999;">邮&nbsp;&nbsp;&nbsp;箱:</span><input type="text" class="text" readonly  /></dd>-->
+        <dd><span style="font-size:16px;color:#999999;">观影场次:</span><span style="font-size:16px;" th:text="|${movieTicketSize}次|">1次</span></dd>
+        <dd><span style="font-size:16px;color:#999999;">发表评论:</span><span style="font-size:16px;" th:text="|${movieCommentSize}次|">2次</span></dd>
         <dd><span style="font-size:16px;color:#999999;">总消费金额:</span><span style="font-size:16px;">200元</span></dd>
-        <dd><span style="font-size:16px;color:#999999;">会员等级:</span><a style="font-size:16px;" title="充值会员请点击超链接">普通会员</a></dd>
+        <dd><span style="font-size:16px;color:#999999;">会员等级:</span><a style="font-size:16px;" title="充值会员请点击超链接" th:href="@{/toUserMember}">普通会员</a></dd>
     </dl>
     <!--天气-->
     <div class="background">

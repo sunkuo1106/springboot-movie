@@ -12,4 +12,5 @@ public interface UserLoginService {
     User selectLogin(String uName, String uPhone);
     int addUser(User user);
     List<User> selectAll();
+    User selectById(Integer id);
 }

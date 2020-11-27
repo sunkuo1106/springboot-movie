@@ -45,4 +45,9 @@ public class UserLoginServiceImpl implements UserLoginService {
         List<User> userList = userMapper.selectByExample(null);
         return userList;
     }
+
+    @Override
+    public User selectById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
 }

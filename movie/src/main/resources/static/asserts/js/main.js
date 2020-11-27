@@ -124,7 +124,7 @@ function initindex() {
 			$("#windDirection").text(data.o.windDirection);
 			$("#todayTemperature").text(data.o.todayTemperature);
 			$("#summary").html(data.o.conditions);
-			if(data.o.conditions=="晴"||data.o.conditions=="多云"){
+			if(data.o.conditions=="晴"||data.o.conditions=="多云"||data.o.conditions=="阴转晴"){
 				d=4;
 			}else if(data.o.conditions=="阴"||data.o.conditions=="阵雨"||data.o.conditions=="雷阵雨伴有冰雹"||data.o.conditions=="雨夹雪"||data.o.conditions=="小雨"||data.o.conditions=="中雨"||data.o.conditions=="大雨"||data.o.conditions=="冻雨"||data.o.conditions=="小雨-中雨"||data.o.conditions=="中雨-大雨"){
 				d=2;
