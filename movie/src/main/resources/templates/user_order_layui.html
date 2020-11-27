@@ -142,39 +142,42 @@
                 ,{field: 'movieRoom', title: '放映厅'}
                 ,{field: 'movieDate', title: '电影放映日期',  sort: true}
                 ,{field: 'moviePrice', title: '价格', sort: true}
-                ,{field: 'movieWhether', title: '是否购买商品', toolbar: '.barDemo'}
+                ,{field: 'movieWhether', title: '是否购买商品'}
                 ,{field: 'movieSeat', title: '座位'}
                 ,{field: 'enterId', title: '订单号',hide:true}
+                ,{field: 'enterId', title: '查询食品', toolbar: '.barDemo'}
                 ]
             ]
             });
             table.on('tool(test)',function (obj) {
                 var data=obj.data;
                 var enterId=data.enterId;
-                var json={
-                    enterId:enterId
+                var movieWhether=data.movieWhether;
+                if(movieWhether=="有") {
+                    var json = {
+                        enterId: enterId
+                    }
+                    $.post("/frontById", json, function (result) {
+                        layer.tab({
+                            area: ['600px', '300px'],
+                            tab: [{
+                                title: '食品',
+                                content: result.CommodityName
+                            }]
+                        });
+                    }, "json")
+                }else{
+                    layer.open({
+                        title: '温馨提示'
+                        ,content: '该订单没订购食品'
+                    });
                 }
-                layer.tab({
-                    area: ['600px', '300px'],
-                    tab: [{
-                        title: 'TAB1',
-                        content: '内容1'
-                    }, {
-                        title: 'TAB2',
-                        content: '内容2'
-                    }, {
-                        title: 'TAB3',
-                        content: '内容3'
-                    }]
-                });
-                // $("",json,function (result) {
-                //
-                // },"json")
+
             })
     });
 </script>
 <script type="text/html" class="barDemo">
-    <a class="layui-btn layui-btn-xs mydate" lay-event="bor">无</a>
+    <a class="layui-btn layui-btn-xs mydate" lay-event="bor">查询</a>
 
 </script>
 

@@ -1,4 +1,4 @@
-package com.kgc.movie.controller;
+package com.kgc.movie.dao;
 
 import com.kgc.movie.pojo.CommodityFront;
 import com.kgc.movie.pojo.CommodityFrontExample;

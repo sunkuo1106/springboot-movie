@@ -303,7 +303,7 @@
         var totalMoney=0;
         $("#ul_panel").html("");
         for(var i=0;i<data.length;i++){
-            text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a> '+data[i].num+' ';
+            text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a><span> '+data[i].num+'</span> ';
             text_html+='<a onclick="addNum(\'\'+'+i+',this)">+</a></td><td>￥'+(data[i].money*data[i].num)+'</td></tr>';
             totalMoney+=data[i].money*data[i].num;
             $("#totalMoney").text(totalMoney);
@@ -730,19 +730,32 @@
             }else{
                 var movieYingchengid=$(".movieYingchengid").val();
                 var movieDate=$(".s1").text();
-                alert(movieDate);
+                var d=$("#ul_panel tr").length;
+                var commodityName="";
+                for (var i=0;i<d;i++) {
+                    commodityName += $("#ul_panel tr").eq(i).find("td:first").text() + "*" + $("#ul_panel tr").eq(i).find("td:eq(2)").find("span:first").text() + ",";
+                }
                 var movieName=$(".movieName").val();
                 var movieRoom=$(".movieRoom").val();
-                var total_price=$("#total_price").text();
-                var totalMoney=$("#totalMoney").text();
-                var moviePrice=parseFloat(total_price)+parseFloat(totalMoney);
+                var total_price2=$("#total_price").text();
+                var total_price=parseFloat(total_price2)
+                var totalMoney2=$("#totalMoney").text();
+                var totalMoney=parseFloat(totalMoney2);
+                var moviePrice=total_price+totalMoney;
                 var seat=$(".li").text();
                 console.log($(".li").text());
-                var bo=confirm("您本次购买共计"+moviePrice+"元，确定支付吗？");
-                if(bo==true) {
-                    //location.href="/buyMovie?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
-                    location.href = "/zhifuyemian?seat=" + seat + "&movieName=" + movieName + "&movieDate=" + movieDate + "&movieRoom=" + movieRoom + "&moviePrice=" + moviePrice + "&yingchengid=" + movieYingchengid + "";
-                 }
+                if(total_price!=0) {
+                    var bo = confirm("您本次购买共计" + moviePrice + "元，确定支付吗？");
+                    if (bo == true) {
+                        //location.href="/buyMovie?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
+                        location.href = "/zhifuyemian?seat=" + seat + "&movieName=" + movieName + "&movieDate=" + movieDate + "&movieRoom=" + movieRoom + "&moviePrice=" + moviePrice + "&yingchengid=" + movieYingchengid + "&totalMoney=" + totalMoney + "&commodityName=" + commodityName + "";
+                    }
+                }else {
+                    layer.open({
+                        title: '温馨提示'
+                        ,content: '请选择电影票,不支持单独购买食品'
+                    });
+                }
             }
         })
     });

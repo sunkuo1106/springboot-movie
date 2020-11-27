@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.kgc.movie.pojo.CommodityFront;
 import com.kgc.movie.pojo.MovieTicket;
 import com.kgc.movie.pojo.User;
 import com.kgc.movie.service.MovieTicketService;
@@ -168,7 +169,7 @@ public class PreviewController {
         // just replace key here
         String yingchengName=(String) session.getAttribute("yingchengName");
         String seat=(String) session.getAttribute("seat");
-        int suiJi = (int) ((Math.random() * 9 + 1) * 100000);
+          Integer suiJi=(Integer) session.getAttribute("suiJi2");
         String suiJi2=String.valueOf(suiJi);
         String movieDate=(String) session.getAttribute("movieDate");
         String[] str=seat.split("座");
@@ -259,8 +260,11 @@ public class PreviewController {
     }
 
     @RequestMapping("/zhifuyemian")
-    public String zhifuyemian(HttpSession session, String seat, String movieName, Date movieDate, String movieRoom, String moviePrice, Integer yingchengid) throws UnsupportedEncodingException {
+    public String zhifuyemian(HttpSession session,Float totalMoney, String seat, String movieName, Date movieDate, String movieRoom, String moviePrice, Integer yingchengid,String commodityName) throws UnsupportedEncodingException {
         User user=(User) session.getAttribute("users");
+
+        Integer suiJi = (int) ((Math.random() * 9 + 1) * 100000);
+        session.setAttribute("suiJi2",suiJi);
         session.setAttribute("seat",seat);
         session.setAttribute("movieName",movieName);
         int i = movieTicketService.movieById();
@@ -268,13 +272,25 @@ public class PreviewController {
         //截取座位
         String searStr = seat.replaceAll("\\排", "_").replaceAll("\\座", ",");
         MovieTicket movieTicket=new MovieTicket();
+        CommodityFront commodityFront=new CommodityFront();
         movieTicket.setMovieName(movieName);
         movieTicket.setMovieDate(movieDate);
         movieTicket.setMovieRoom(movieRoom);
+        if(totalMoney!=0&&totalMoney.equals("0")==false){
+            movieTicket.setMovieWhether("有");
+            commodityFront.setEnterId(suiJi);
+            commodityFront.setCommodityName(commodityName);
+            commodityFront.setCommodityDate(new Date());
+            commodityFront.setCommodityTotalprice(totalMoney);
+        }else{
+            movieTicket.setMovieWhether("无");
+        }
+        movieTicket.setEnterId(suiJi);
         movieTicket.setMovieYingchengid(yingchengid);
         movieTicket.setMoviePrice(Float.parseFloat(moviePrice));
         movieTicket.setUserName(user.getUname());
         movieTicket.setMovieSeat(searStr);
+        session.setAttribute("commodityFront",commodityFront);
         session.setAttribute("movieTicket",movieTicket);
         //跳转支付宝
         session.setAttribute("money",moviePrice);
