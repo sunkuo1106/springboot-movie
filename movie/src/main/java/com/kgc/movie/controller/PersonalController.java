@@ -1,20 +1,24 @@
 package com.kgc.movie.controller;
 
-import com.kgc.movie.pojo.HarvestAddress;
-import com.kgc.movie.pojo.MovieTicket;
-import com.kgc.movie.pojo.User;
-import com.kgc.movie.service.HarvestAddressService;
-import com.kgc.movie.service.UserOderService;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.kgc.movie.pojo.*;
+import com.kgc.movie.service.*;
+import com.kgc.movie.tools.AliPayConfig_member;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.*;
 
 @Controller
 public class PersonalController {
@@ -23,6 +27,15 @@ public class PersonalController {
 
     @Resource
     HarvestAddressService harvestAddressService;
+
+    @Resource
+    UserLoginService userLoginService;
+
+    @Resource
+    PersonalCenterService personalCenterService;
+
+    @Resource
+    UserMemberService userMemberService;
 
     //跳转个人电影订单页面
     @RequestMapping("/touserOderSelect")
@@ -97,12 +110,105 @@ public class PersonalController {
     //跳转个人中心页面
     @RequestMapping("/toPersonalCenter")
     public String toPersonalCenter(Model model,HttpSession session){
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        //查询个人信息
+        User user1 = userLoginService.selectById(12);
+        model.addAttribute("user",user1);
+        //查询出该用户观影场次
+        List<MovieTicket> movieTicketSize = personalCenterService.selectAllTicket("sunkuo");
+        model.addAttribute("movieTicketSize",movieTicketSize.size());
+        //查询出所发表的评论次数
+        List<MovieComment> movieCommentSize = personalCenterService.selectAllComment("sunkuo");
+        model.addAttribute("movieCommentSize",movieCommentSize.size());
+        //查询总消费金额   (电影票价格+食品价格+商城价格+会员充值价格)
+        //查询会员等级  没有就是普通会员
+        //如果是会员查询该会员的到期时间
+
         return "Personal_center_layui";
     }
 
-    @RequestMapping("/toTest")
-    public String toTest(Model model,HttpSession session){
+    @RequestMapping("/toUserMember")
+    public String toUserMember(Model model,HttpSession session){
         return "user_member_layui";
+    }
+
+    @GetMapping("/pay/aliPay/member/{orderId}/{amount}/{product}/{body}")
+    @ResponseBody
+    public String aliPay(@PathVariable String orderId,
+                         @PathVariable String amount,
+                         @PathVariable String product,
+                         @PathVariable String body) throws AlipayApiException {
+
+    //获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig_member.gatewayUrl,
+                AliPayConfig_member.app_id,
+                AliPayConfig_member.merchant_private_key,
+                "json",
+                AliPayConfig_member.charset,
+                AliPayConfig_member.alipay_public_key,
+                AliPayConfig_member.sign_type);
+//        page
+        AlipayTradePagePayRequest alipayPageRequest = new AlipayTradePagePayRequest();
+        alipayPageRequest.setReturnUrl(AliPayConfig_member.return_url);
+        alipayPageRequest.setNotifyUrl(AliPayConfig_member.notify_url);
+
+
+        //拼接参数
+        alipayPageRequest.setBizContent("{\"out_trade_no\":\"" + orderId + "\","
+                + "\"total_amount\":\"" + amount + "\","
+                + "\"subject\":\"" + product + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        //请求
+        return alipayClient.pageExecute(alipayPageRequest).getBody();
+    }
+
+    @RequestMapping("/toPayMember")
+    public String toPayMember(String type,HttpSession session) throws UnsupportedEncodingException {
+        System.out.println(type);
+        if(type.equals("钻石会员")){
+            session.setAttribute("typeMember","钻石会员");
+            session.setAttribute("memberMoney",45);
+        }else if(type.equals("铂金会员")){
+            session.setAttribute("typeMember","铂金会员");
+            session.setAttribute("memberMoney",25);
+        }else if(type.equals("黄金会员")){
+            session.setAttribute("typeMember","黄金会员");
+            session.setAttribute("memberMoney",15);
+        }
+        //查询id
+        List<UserMember> userMembers = userMemberService.selectAllMember();
+        int id=userMembers.get(userMembers.size()-1).getMemberId()+1;
+        Integer amount=(Integer) session.getAttribute("memberMoney");
+        String body=(String)session.getAttribute("typeMember");
+        String product="星空影城会员";
+        return "redirect:/pay/aliPay/member/"+id+"/"+amount+"/"+URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(body,"UTF-8")+"";
+    }
+
+    @RequestMapping("/doUserMember")
+    public String doUserMember(Model model,HttpSession session){
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        //当前时间
+        Date date = new Date();
+        //添加月份
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(new Date());
+        rightNow.add(Calendar.MONTH, 1);
+        Date endTime = rightNow.getTime();
+        //价格
+        Integer amount=(Integer)session.getAttribute("memberMoney");
+        //type
+        String body=(String)session.getAttribute("typeMember");
+        UserMember userMember=new UserMember();
+        userMember.setUserName(user.getUname());
+        userMember.setType(body);
+        userMember.setStartingTime(date);
+        userMember.setEndTime(endTime);
+        userMember.setMemberMoney(Float.valueOf(amount));
+        userMemberService.addMember(userMember);
+        return "redirect:/toPersonalCenter";
     }
 
 
