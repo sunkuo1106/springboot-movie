@@ -25,15 +25,26 @@ class MovieApplicationTests {
 //        for (MovieComment movieComment : movieComments) {
 //            System.out.println(movieComment);
 //        }
+
+        String movieSeats = "2_2,2_2,3_3,4_4,";
+        int count = 0;
+        int index = 0;
+        String key=",";
+        while ((index = movieSeats.indexOf(key, index)) != -1) {
+            index = index + key.length();
+
+            count++;
+        }
+        System.out.println(count);
     }
 
-    @Test
-    void subMonth() {
-        Calendar rightNow = Calendar.getInstance();
-        rightNow.setTime(new Date());
-        rightNow.add(Calendar.MONTH, 1);
-        Date endTime = rightNow.getTime();
-        System.out.println(endTime);
-    }
+//    @Test
+//    void subMonth() {
+//        Calendar rightNow = Calendar.getInstance();
+//        rightNow.setTime(new Date());
+//        rightNow.add(Calendar.MONTH, 1);
+//        Date endTime = rightNow.getTime();
+//        System.out.println(endTime);
+//    }
 
 }
