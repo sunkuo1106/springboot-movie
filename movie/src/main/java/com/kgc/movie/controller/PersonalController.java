@@ -113,23 +113,67 @@ public class PersonalController {
         //获取session中users对象得到id
         User user=(User) session.getAttribute("users");
         //查询个人信息
-        User user1 = userLoginService.selectById(12);
+        User user1 = userLoginService.selectById(user.getId());
         model.addAttribute("user",user1);
         //查询出该用户观影场次
-        List<MovieTicket> movieTicketSize = personalCenterService.selectAllTicket("sunkuo");
+        List<MovieTicket> movieTicketSize = personalCenterService.selectAllTicket(user.getUname());
         model.addAttribute("movieTicketSize",movieTicketSize.size());
         //查询出所发表的评论次数
-        List<MovieComment> movieCommentSize = personalCenterService.selectAllComment("sunkuo");
+        List<MovieComment> movieCommentSize = personalCenterService.selectAllComment(user.getUname());
         model.addAttribute("movieCommentSize",movieCommentSize.size());
         //查询总消费金额   (电影票价格+食品价格+商城价格+会员充值价格)
+        List<MovieTicket> TicketMoneys = personalCenterService.selectTicketMoneyByUserName(user.getUname());  //电影票价格
+        List<CommodityFront> FrontMoneys = personalCenterService.selectCommodityFrontMoneyByUserName(user.getUname()); //食品价格
+        //商城价格  待完成
+        //将四张表的消费金额相加
+        double allMoneys=0;
+        int count = 0;
+        int index = 0;
+        String key=",";
+        for (int i = 0; i <TicketMoneys.size() ; i++) {
+            String movieSeats = TicketMoneys.get(i).getMovieSeat();
+            while ((index = movieSeats.indexOf(key, index)) != -1) {
+                index = index + key.length();
+                count++;
+            }
+            System.out.println(count+"张电影票");
+            allMoneys+=TicketMoneys.get(i).getMoviePrice();
+        }
+        System.out.println("加上电影票价格后总消费为:"+allMoneys);
         //查询会员等级  没有就是普通会员
-        //如果是会员查询该会员的到期时间
-
+        List<UserMember> userMembers = personalCenterService.selectMemberByUserName(user.getUname());  //会员充值价格
+        if(userMembers!=null&&userMembers.size()!=0){
+            model.addAttribute("memberType",userMembers.get(userMembers.size()-1).getType());
+            //如果是会员查询该会员的到期时间
+            Date endTime = personalCenterService.selectByUserMemberEndTime(user.getUname());
+            model.addAttribute("endTime",endTime);
+            //计算总金额--会员充值价格
+            for (int i = 0; i <userMembers.size(); i++) {
+                allMoneys+=userMembers.get(i).getMemberMoney();
+            }
+            System.out.println("再加上会员充值价格后总消费为:"+allMoneys);
+        }else{
+            model.addAttribute("memberType","普通会员");
+        }
+        model.addAttribute("allMoneys",allMoneys);
         return "Personal_center_layui";
     }
 
+    //跳转充值会员页面   如果是会员那么就要改为续费
     @RequestMapping("/toUserMember")
     public String toUserMember(Model model,HttpSession session){
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        //查询会员等级  没有就是普通会员
+        List<UserMember> userMembers = personalCenterService.selectMemberByUserName(user.getUname());
+        if(userMembers!=null&&userMembers.size()!=0){
+            model.addAttribute("memberType",userMembers.get(userMembers.size()-1).getType());
+            //如果是会员查询该会员的到期时间
+            Date endTime = personalCenterService.selectByUserMemberEndTime(user.getUname());
+            model.addAttribute("endTime",endTime);
+        }else{
+            model.addAttribute("memberType","普通会员");
+        }
         return "user_member_layui";
     }
 

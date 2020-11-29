@@ -18,10 +18,9 @@ public class JuheDemo {
     public static String userAgent =  "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
 
     //配置您申请的KEY
-    //f2226a1c1862fe2e8cffb01a432db7fd bb
-//    c964746ac0dce51f349a21815b021a46 shuai
-    //65fc3f042b8bd7e4e78df3cac9d0207c
-    public static final String APPKEY ="c964746ac0dce51f349a21815b021a46";
+    //9d20ea2ceae55b992cf4e5ad32cb6601
+    //e6a1137fb5ab17e9493e31e26ec520d8
+    public static final String APPKEY ="086ad1a7857d69cc57f516356d7338e0";
 
     //1.按关键字检索影片信息
     public static Object getRequest1(String title){

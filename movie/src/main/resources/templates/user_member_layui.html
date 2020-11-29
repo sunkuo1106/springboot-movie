@@ -90,7 +90,7 @@
 
 <div th:replace="daohanglan :: daohang"></div>
 
-<div class="container bingpai">
+<div class="container bingpai" th:if="${memberType=='普通会员'}">
     <h2 class="title"><a href="" style="color:#007BC4;">星空影城充值会员</a></h2>
     <div class="lc">
         <div class="items">
@@ -107,14 +107,14 @@
                         <ul class="picList">
                             <li>
                                 <h3> <a href="#">星空影城铂金会员(30天)</a> </h3>
-                                <p class="p1">每月仅需25.0元</p>
+                                <p class="p1">全场消费均打折扣</p>
                                 <p class="p2"> <span class="amount">90</span> <span>%</span> </p>
                                 <p class="p3">将持续提供各式优质权益</p>
                                 <p class="p4">每月仅需25.0元</p>
                                 <a class="btn" th:href="@{/toPayMember(type='铂金会员')}"> 立即开通 </a> </li>
                             <li>
                                 <h3> <a href="#">星空影城黄金会员(30天)</a> </h3>
-                                <p class="p1">每月仅需15.0元</p>
+                                <p class="p1">全场消费均打折扣</p>
                                 <p class="p2"> <span class="amount">95</span> <span>%</span> </p>
                                 <p class="p3">将持续提供各式优质权益</p>
                                 <p class="p4">每月仅需15.0元</p>
@@ -122,6 +122,38 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container bingpai" th:if="${memberType!='普通会员'}">
+    <h2 class="title"><a href="" style="color:#007BC4;">星空影城会员续费</a></h2>
+    <div class="lc">
+        <div class="items">
+            <div class="left" th:if="${memberType=='钻石会员'}">
+                <h3> <a href="#">星空影城钻石会员(30天)</a> </h3>
+                <p class="p1">全场消费均打折扣</p>
+                <p class="p2"> <span class="amount">85</span> <span>%</span> </p>
+                <p class="p3">将持续提供各式优质权益</p>
+                <p class="p4">每月仅需45.0元</p>
+                <a class="btn" th:href="@{/toPayMember(type='钻石会员')}"> 立即续费 </a>
+            </div>
+            <div class="left" th:if="${memberType=='铂金会员'}">
+                <h3> <a href="#">星空影城铂金会员(30天)</a> </h3>
+                <p class="p1">全场消费均打折扣</p>
+                <p class="p2"> <span class="amount">90</span> <span>%</span> </p>
+                <p class="p3">将持续提供各式优质权益</p>
+                <p class="p4">每月仅需25.0元</p>
+                <a class="btn" th:href="@{/toPayMember(type='铂金会员')}"> 立即续费 </a>
+            </div>
+            <div class="left" th:if="${memberType=='黄金会员'}">
+                <h3> <a href="#">星空影城黄金会员(30天)</a> </h3>
+                <p class="p1">全场消费均打折扣</p>
+                <p class="p2"> <span class="amount">95</span> <span>%</span> </p>
+                <p class="p3">将持续提供各式优质权益</p>
+                <p class="p4">每月仅需15.0元</p>
+                <a class="btn" th:href="@{/toPayMember(type='黄金会员')}"> 立即续费 </a>
             </div>
         </div>
     </div>
