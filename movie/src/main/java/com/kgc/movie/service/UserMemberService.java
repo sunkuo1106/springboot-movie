@@ -8,4 +8,5 @@ public interface UserMemberService {
     List<UserMember>selectAllMember();
     void addMember(UserMember userMember);
     void updateMember(UserMember userMember);
+    List<UserMember> userMemberName(String userName);
 }

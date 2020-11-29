@@ -6,6 +6,7 @@
     <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
     <result column="commodity_date" property="commodityDate" jdbcType="DATE" />
     <result column="commodity_totalPrice" property="commodityTotalprice" jdbcType="REAL" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    enter_Id, commodity_name, commodity_date, commodity_totalPrice
+    enter_Id, commodity_name, commodity_date, commodity_totalPrice, user_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kgc.movie.pojo.CommodityFrontExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.kgc.movie.pojo.CommodityFront" >
     insert into commodity_front (enter_Id, commodity_name, commodity_date, 
-      commodity_totalPrice)
+      commodity_totalPrice, user_name)
     values (#{enterId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{commodityDate,jdbcType=DATE}, 
-      #{commodityTotalprice,jdbcType=REAL})
+      #{commodityTotalprice,jdbcType=REAL}, #{userName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kgc.movie.pojo.CommodityFront" >
     insert into commodity_front
@@ -119,6 +120,9 @@
       <if test="commodityTotalprice != null" >
         commodity_totalPrice,
       </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="enterId != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="commodityTotalprice != null" >
         #{commodityTotalprice,jdbcType=REAL},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.commodityTotalprice != null" >
         commodity_totalPrice = #{record.commodityTotalprice,jdbcType=REAL},
       </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set enter_Id = #{record.enterId,jdbcType=INTEGER},
       commodity_name = #{record.commodityName,jdbcType=VARCHAR},
       commodity_date = #{record.commodityDate,jdbcType=DATE},
-      commodity_totalPrice = #{record.commodityTotalprice,jdbcType=REAL}
+      commodity_totalPrice = #{record.commodityTotalprice,jdbcType=REAL},
+      user_name = #{record.userName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="commodityTotalprice != null" >
         commodity_totalPrice = #{commodityTotalprice,jdbcType=REAL},
       </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
     </set>
     where enter_Id = #{enterId,jdbcType=INTEGER}
   </update>
@@ -190,7 +204,8 @@
     update commodity_front
     set commodity_name = #{commodityName,jdbcType=VARCHAR},
       commodity_date = #{commodityDate,jdbcType=DATE},
-      commodity_totalPrice = #{commodityTotalprice,jdbcType=REAL}
+      commodity_totalPrice = #{commodityTotalprice,jdbcType=REAL},
+      user_name = #{userName,jdbcType=VARCHAR}
     where enter_Id = #{enterId,jdbcType=INTEGER}
   </update>
 </mapper>

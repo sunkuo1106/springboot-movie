@@ -62,4 +62,16 @@ public class UserMember {
     public void setMemberMoney(Float memberMoney) {
         this.memberMoney = memberMoney;
     }
+
+    @Override
+    public String toString() {
+        return "UserMember{" +
+                "memberId=" + memberId +
+                ", userName='" + userName + '\'' +
+                ", type='" + type + '\'' +
+                ", startingTime=" + startingTime +
+                ", endTime=" + endTime +
+                ", memberMoney=" + memberMoney +
+                '}';
+    }
 }

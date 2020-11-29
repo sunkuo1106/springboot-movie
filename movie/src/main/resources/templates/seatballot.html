@@ -212,6 +212,7 @@
     </div>
 
 </div>
+<span hidden th:text="${session.memberType}" class="memberType"></span>
 <div class="footer">
     <div class="wrap">
         <div class="section group">
@@ -741,11 +742,20 @@
                 var total_price=parseFloat(total_price2)
                 var totalMoney2=$("#totalMoney").text();
                 var totalMoney=parseFloat(totalMoney2);
+                var memberType=$(".memberType").text();
                 var moviePrice=total_price+totalMoney;
+                var moviePrice2=total_price+totalMoney;
+                if(memberType=="钻石会员"){
+                    moviePrice=moviePrice*0.85;
+                }else if(memberType=="铂金会员"){
+                    moviePrice=moviePrice*0.90;
+                }else if(memberType=="黄金会员"){
+                    moviePrice=moviePrice*0.95;
+                }
                 var seat=$(".li").text();
                 console.log($(".li").text());
                 if(total_price!=0) {
-                    var bo = confirm("您本次购买共计" + moviePrice + "元，确定支付吗？");
+                    var bo = confirm("您本次购买共计" + moviePrice2 + "元,因为您是"+memberType+",优惠后价格为"+moviePrice+",确定支付吗？");
                     if (bo == true) {
                         //location.href="/buyMovie?seat="+seat+"&movieName="+movieName+"&movieDate="+movieDate+"&movieRoom="+movieRoom+"&moviePrice="+moviePrice+"&yingchengid="+movieYingchengid+"";
                         location.href = "/zhifuyemian?seat=" + seat + "&movieName=" + movieName + "&movieDate=" + movieDate + "&movieRoom=" + movieRoom + "&moviePrice=" + moviePrice + "&yingchengid=" + movieYingchengid + "&totalMoney=" + totalMoney + "&commodityName=" + commodityName + "";

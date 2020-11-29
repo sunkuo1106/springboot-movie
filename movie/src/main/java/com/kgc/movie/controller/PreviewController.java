@@ -7,7 +7,9 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.CommodityFront;
 import com.kgc.movie.pojo.MovieTicket;
 import com.kgc.movie.pojo.User;
+import com.kgc.movie.pojo.UserMember;
 import com.kgc.movie.service.MovieTicketService;
+import com.kgc.movie.service.UserMemberService;
 import com.kgc.movie.tools.AliPayConfig;
 import com.kgc.movie.tools.JuheDemo;
 import com.sun.jersey.api.client.Client;
@@ -39,6 +41,8 @@ public class PreviewController {
 
     @Resource
     MovieTicketService movieTicketService;
+    @Resource
+    UserMemberService userMemberService;
 
     String movieId;
     String cityId;
@@ -84,6 +88,10 @@ public class PreviewController {
     //选座购票
     @RequestMapping("/buyTicket")
     public String buyTicket(Model model, HttpSession session, String movieName, String movieDate, String movieRoom, String moviePrice, Integer yingchengid, String yingchengName){
+        User user=(User) session.getAttribute("users");
+        List<UserMember> userMembers = userMemberService.userMemberName(user.getUname());
+        String type = userMembers.get(userMembers.size() - 1).getType();
+        session.setAttribute("memberType",type);
         //第一步把电影信息存入数据库
         session.setAttribute("yingchengName",yingchengName);
         session.setAttribute("movieRoom",movieRoom);
@@ -282,6 +290,7 @@ public class PreviewController {
             commodityFront.setCommodityName(commodityName);
             commodityFront.setCommodityDate(new Date());
             commodityFront.setCommodityTotalprice(totalMoney);
+            commodityFront.setUserName(user.getUname());
         }else{
             movieTicket.setMovieWhether("无");
         }

@@ -11,6 +11,8 @@ public class CommodityFront {
 
     private Float commodityTotalprice;
 
+    private String userName;
+
     public Integer getEnterId() {
         return enterId;
     }
@@ -41,5 +43,13 @@ public class CommodityFront {
 
     public void setCommodityTotalprice(Float commodityTotalprice) {
         this.commodityTotalprice = commodityTotalprice;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 }
