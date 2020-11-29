@@ -48,13 +48,13 @@ public class TestWeather {
                 //气温
                 String temp = element.getElementsByClass("op_weather4_twoicon_temp").text();
 
-                System.out.println(quality);
-                System.out.println(current);
-                System.out.println(today);
-                System.out.println(wind);
-                System.out.println(weath);
-                System.out.println(temp);
-                System.out.println("=============================");
+//                System.out.println(quality);
+//                System.out.println(current);
+//                System.out.println(today);
+//                System.out.println(wind);
+//                System.out.println(weath);
+//                System.out.println(temp);
+//                System.out.println("=============================");
                 return new SkWeather(today,current,weath,wind,temp);
             }
 

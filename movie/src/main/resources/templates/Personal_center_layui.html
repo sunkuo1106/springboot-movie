@@ -102,7 +102,7 @@
         <dd><span style="font-size:16px;color:#999999;">发表评论:</span><span style="font-size:16px;" th:text="|${movieCommentSize}次|">2次</span></dd>
         <dd><span style="font-size:16px;color:#999999;">总消费金额:</span><span style="font-size:16px;" th:text="|${allMoneys}元|">200元</span></dd>
         <dd><span style="font-size:16px;color:#999999;">会员等级:</span><a style="font-size:16px;" th:text="${memberType}" title="充值会员请点击超链接" th:href="@{/toUserMember}">普通会员</a></dd>
-        <dd th:if="${endTime!=null}"><span style="font-size:16px;color:#999999;">会员到期时间:</span><span style="font-size:16px;" th:text="${#dates.format(endTime,'yyyy-MM-dd HH:ss:mm')}">2020-11-27 22:21:15</span></dd>
+        <dd th:if="${endTime!=null}"><span style="font-size:16px;color:#999999;">会员到期时间:</span><span style="font-size:16px;" th:text="${#dates.format(endTime,'yyyy-MM-dd HH:mm:ss')}">2020-11-27 22:21:15</span></dd>
     </dl>
     <!--天气-->
     <div class="background">

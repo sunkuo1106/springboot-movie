@@ -7,6 +7,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.*;
 import com.kgc.movie.service.*;
 import com.kgc.movie.tools.AliPayConfig_member;
+import com.kgc.movie.tools.AliPayConfig_renew_member;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -136,7 +137,7 @@ public class PersonalController {
                 index = index + key.length();
                 count++;
             }
-            System.out.println(count+"张电影票");
+            //System.out.println(count+"张电影票");
             allMoneys+=TicketMoneys.get(i).getMoviePrice();
         }
         System.out.println("加上电影票价格后总消费为:"+allMoneys);
@@ -252,6 +253,91 @@ public class PersonalController {
         userMember.setEndTime(endTime);
         userMember.setMemberMoney(Float.valueOf(amount));
         userMemberService.addMember(userMember);
+        return "redirect:/toPersonalCenter";
+    }
+
+    @GetMapping("/pay/aliPay/member/renew/{orderId}/{amount}/{product}/{body}")
+    @ResponseBody
+    public String aliPay_member_renew(@PathVariable String orderId,
+                         @PathVariable String amount,
+                         @PathVariable String product,
+                         @PathVariable String body) throws AlipayApiException {
+
+        //获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig_renew_member.gatewayUrl,
+                AliPayConfig_renew_member.app_id,
+                AliPayConfig_renew_member.merchant_private_key,
+                "json",
+                AliPayConfig_renew_member.charset,
+                AliPayConfig_renew_member.alipay_public_key,
+                AliPayConfig_renew_member.sign_type);
+//        page
+        AlipayTradePagePayRequest alipayPageRequest = new AlipayTradePagePayRequest();
+        alipayPageRequest.setReturnUrl(AliPayConfig_renew_member.return_url);
+        alipayPageRequest.setNotifyUrl(AliPayConfig_renew_member.notify_url);
+
+
+        //拼接参数
+        alipayPageRequest.setBizContent("{\"out_trade_no\":\"" + orderId + "\","
+                + "\"total_amount\":\"" + amount + "\","
+                + "\"subject\":\"" + product + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        //请求
+        return alipayClient.pageExecute(alipayPageRequest).getBody();
+    }
+
+    @RequestMapping("/toPayMemberRenew")
+    public String toPayMemberRenew(String type,HttpSession session) throws UnsupportedEncodingException {
+        System.out.println(type);
+        if(type.equals("钻石会员")){
+            session.setAttribute("typeMember","钻石会员");
+            session.setAttribute("memberMoney",45);
+        }else if(type.equals("铂金会员")){
+            session.setAttribute("typeMember","铂金会员");
+            session.setAttribute("memberMoney",25);
+        }else if(type.equals("黄金会员")){
+            session.setAttribute("typeMember","黄金会员");
+            session.setAttribute("memberMoney",15);
+        }
+        //查询id
+        List<UserMember> userMembers = userMemberService.selectAllMember();
+        int id=userMembers.get(userMembers.size()-1).getMemberId()+1;
+        Integer amount=(Integer) session.getAttribute("memberMoney");
+        String body=(String)session.getAttribute("typeMember");
+        String product="星空影城会员续费";
+        return "redirect:/pay/aliPay/member/renew/"+id+"/"+amount+"/"+URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(body,"UTF-8")+"";
+    }
+
+    //会员续费
+    @RequestMapping("/doUserMemberRenew")
+    public String doUserMemberRenew(Model model,HttpSession session){
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        //修改会员到期时间+消费金额
+        List<UserMember> userMembers = personalCenterService.selectMemberByUserName(user.getUname());
+        if(userMembers!=null&&userMembers.size()!=0){
+            //得到会员到期的时间
+            Date oldendTime = personalCenterService.selectByUserMemberEndTime(user.getUname());
+            //得到消费金额
+            float money=userMembers.get(userMembers.size()-1).getMemberMoney();
+            //修改月份
+            Calendar rightNow = Calendar.getInstance();
+            rightNow.setTime(oldendTime);
+            rightNow.add(Calendar.MONTH, 1);
+            Date endTime = rightNow.getTime();
+            System.out.println(endTime);
+            //修改金额
+            Integer amount=(Integer)session.getAttribute("memberMoney");
+            UserMember userMember=userMembers.get(userMembers.size()-1);
+//            System.out.println("==================");
+//            System.out.println(userMember.toString());
+            userMember.setEndTime(endTime);
+            userMember.setMemberMoney(money+amount);
+            userMemberService.updateMember(userMember);
+        }else{
+            System.out.println("会员续费操作失败");
+        }
         return "redirect:/toPersonalCenter";
     }
 

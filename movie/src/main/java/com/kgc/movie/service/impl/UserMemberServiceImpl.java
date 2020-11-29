@@ -23,4 +23,9 @@ public class UserMemberServiceImpl implements UserMemberService {
     public void addMember(UserMember userMember) {
         userMemberMapper.insertSelective(userMember);
     }
+
+    @Override
+    public void updateMember(UserMember userMember) {
+        userMemberMapper.updateByPrimaryKeySelective(userMember);
+    }
 }

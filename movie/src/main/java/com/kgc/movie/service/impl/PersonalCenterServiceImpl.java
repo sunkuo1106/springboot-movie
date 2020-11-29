@@ -75,7 +75,7 @@ public class PersonalCenterServiceImpl implements PersonalCenterService {
         UserMemberExample example=new UserMemberExample();
         UserMemberExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(userName);
-        List<UserMember> userMembers = userMemberMapper.selectByExample(null);
+        List<UserMember> userMembers = userMemberMapper.selectByExample(example);
         if(userMembers.size()!=0 && userMembers!=null){
             return userMembers.get(userMembers.size()-1).getEndTime();
         }
