@@ -56,7 +56,7 @@ public class PersonalCenterServiceImpl implements PersonalCenterService {
     public List<CommodityFront> selectCommodityFrontMoneyByUserName(String userName) {
         CommodityFrontExample example=new CommodityFrontExample();
         CommodityFrontExample.Criteria criteria = example.createCriteria();
-        criteria.andCommodityNameEqualTo(userName);
+        criteria.andUserNameEqualTo(userName);
         List<CommodityFront> commodityFronts = commodityFrontMapper.selectByExample(example);
         return commodityFronts;
     }
