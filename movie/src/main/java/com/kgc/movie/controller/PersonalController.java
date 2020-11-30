@@ -141,6 +141,11 @@ public class PersonalController {
             allMoneys+=TicketMoneys.get(i).getMoviePrice();
         }
         System.out.println("加上电影票价格后总消费为:"+allMoneys);
+        //计算总金额--食品价格
+        for (int i = 0; i <FrontMoneys.size(); i++) {
+            allMoneys+=FrontMoneys.get(i).getCommodityTotalprice();
+        }
+        System.out.println("再加上食品价格后总消费为:"+allMoneys);
         //查询会员等级  没有就是普通会员
         List<UserMember> userMembers = personalCenterService.selectMemberByUserName(user.getUname());  //会员充值价格
         if(userMembers!=null&&userMembers.size()!=0){
@@ -302,7 +307,7 @@ public class PersonalController {
         }
         //查询id
         List<UserMember> userMembers = userMemberService.selectAllMember();
-        int id=userMembers.get(userMembers.size()-1).getMemberId()+1;
+        int id=100+userMembers.get(userMembers.size()-1).getMemberId()+1;
         Integer amount=(Integer) session.getAttribute("memberMoney");
         String body=(String)session.getAttribute("typeMember");
         String product="星空影城会员续费";
