@@ -36,11 +36,5 @@ public class MovieTicketServiceImpl implements MovieTicketService {
         return movieTicketMapper.selectByExample(ceShiExample);
     }
 
-    @Override
-    public int movieById() {
-        List<MovieTicket> movieTickets = movieTicketMapper.selectByExample(null);
-        int i=movieTickets.get(movieTickets.size()-1).getMovieId()+1;
-        return i;
-    }
 
 }

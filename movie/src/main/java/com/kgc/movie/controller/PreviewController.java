@@ -4,11 +4,9 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.kgc.movie.pojo.CommodityFront;
-import com.kgc.movie.pojo.MovieTicket;
-import com.kgc.movie.pojo.User;
-import com.kgc.movie.pojo.UserMember;
+import com.kgc.movie.pojo.*;
 import com.kgc.movie.service.MovieTicketService;
+import com.kgc.movie.service.OrderIdService;
 import com.kgc.movie.service.UserMemberService;
 import com.kgc.movie.tools.AliPayConfig;
 import com.kgc.movie.tools.JuheDemo;
@@ -43,7 +41,8 @@ public class PreviewController {
     MovieTicketService movieTicketService;
     @Resource
     UserMemberService userMemberService;
-
+    @Resource
+    OrderIdService orderIdService;
     String movieId;
     String cityId;
 
@@ -52,9 +51,9 @@ public class PreviewController {
     public String selectByMovieId(@PathVariable("movieId") String movieId, @PathVariable("city") String cityId,HttpSession session){
         this.movieId=movieId;
         this.cityId=cityId;
-        System.out.println("影片id为:"+movieId);
+      //  System.out.println("影片id为:"+movieId);
         Object request8 = JuheDemo.getRequest8(Integer.parseInt(movieId));
-        System.out.println(request8);
+       // System.out.println(request8);
         request8 =request8.toString().replaceAll("\\null","");
         net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(request8);
         session.setAttribute("info",object);
@@ -77,10 +76,10 @@ public class PreviewController {
     @ResponseBody
     public Map<String,Object> selectCC(String cinemaId){
         Map<String,Object>map=new HashMap<>();
-        System.out.println(cinemaId);
-        System.out.println(movieId);
+//        System.out.println(cinemaId);
+//        System.out.println(movieId);
         Object request4 = JuheDemo.getRequest4(Integer.parseInt(cinemaId), Integer.parseInt(movieId));
-        System.out.println(request4);
+      //  System.out.println(request4);
         map.put("cc",request4);
         return map;
     }
@@ -96,18 +95,19 @@ public class PreviewController {
         session.setAttribute("yingchengName",yingchengName);
         session.setAttribute("movieRoom",movieRoom);
         session.setAttribute("movieDate",movieDate);
-        System.out.println(movieName);System.out.println(movieDate);System.out.println(movieRoom);System.out.println(moviePrice);System.out.println(yingchengid);
+     //   System.out.println(movieName);System.out.println(movieDate);System.out.println(movieRoom);System.out.println(moviePrice);System.out.println(yingchengid);
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd ");
         String time = formatter.format(new Date());//格式化数据bai
         movieDate+=":00";
         time+=movieDate;
-        System.out.println(time);
+       // System.out.println(time);
+        session.setAttribute("time",time);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateStr = time;
         Date date=new Date();
         try {
             date = simpleDateFormat.parse(dateStr);
-            System.out.println(date);
+//            System.out.println(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -275,8 +275,8 @@ public class PreviewController {
         session.setAttribute("suiJi2",suiJi);
         session.setAttribute("seat",seat);
         session.setAttribute("movieName",movieName);
-        int i = movieTicketService.movieById();
-        System.out.println("265==========================="+i);
+        List<OrderId> orderIds = orderIdService.orderList();
+        Integer id = orderIds.get(orderIds.size() - 1).getId();
         //截取座位
         String searStr = seat.replaceAll("\\排", "_").replaceAll("\\座", ",");
         MovieTicket movieTicket=new MovieTicket();
@@ -307,14 +307,24 @@ public class PreviewController {
         String product="电影票";
 
 
-        return "redirect:/pay/aliPay/"+i+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
+        return "redirect:/pay/aliPay/"+id+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
     }
 
     @RequestMapping("/selectSeat")
     @ResponseBody
-    public Map<String,Object> index(String yingpianname,Integer yingyuanid,Date datetime){
+    public Map<String,Object> index(String yingpianname,Integer yingyuanid,HttpSession session){
         Map<String,Object> map=new HashMap<>();
-        List<MovieTicket> ceShis = movieTicketService.ceshiList(yingpianname,yingyuanid,datetime);
+        String time=(String)session.getAttribute("time");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = time;
+        Date date=new Date();
+        try {
+            date = simpleDateFormat.parse(dateStr);
+//            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<MovieTicket> ceShis = movieTicketService.ceshiList(yingpianname,yingyuanid,date);
         System.out.println(ceShis.size());
         String[] list={};
         List<String> sList=new ArrayList<String>();

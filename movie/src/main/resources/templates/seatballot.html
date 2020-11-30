@@ -336,7 +336,9 @@
     var jie="";
     $(document).ready(function() {
         addHtml();
-
+        var movieName=$(".movieName").val();
+        var movieYingchengid=$(".movieYingchengid").val();
+        var movieDate=$(".movieDate").val();
         var $cart = $('#seats_chose'), //座位区
             $tickects_num = $('#tickects_num'), //票数
             $total_price = $('#total_price'); //票价总额
@@ -698,9 +700,8 @@
         //     zw:['1_3', '1_4', '4_4', '4_5', '4_6', '4_7', '4_8','6_1',]
         // }
         var json={
-            yingpianname:$(".movieName").val(),
-            yingyuanid:$(".movieYingchengid").val(),
-            datetime:$(".movieDate").val(),
+            yingpianname:movieName,
+            yingyuanid:movieYingchengid
         }
         $.ajax({
             url:"/selectSeat",
@@ -709,9 +710,11 @@
             dataType:"json",
             async:false,
             success:function (result) {
+                alert(1)
                 if(result.status=="true"){
                     $.each(result.jie,function (i,v) {
                         list1.push(v);
+                        console.log(v)
                     })
                 }
                 //list=['5_1','5_2','5_4','5_5','4_6','4_7','4_8','6_1'];
