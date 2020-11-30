@@ -61,10 +61,25 @@
         #div2 ul li{float: left;width:150px;height:120px;border:1px solid #ddd;margin-right: 10px;}
         #div2 ul li img{width: 100%;height: 100%;}
         .div_panel{min-height: 200px;}
-        .span1{margin-left: 35px}
-        .span2{margin-left: 60px}
-        .span3{margin-left: 90px}
-        .span4{margin-left: 50px}
+        /*.span1{margin-left: 35px}*/
+        /*.span2{margin-left: 60px}*/
+        /*.span3{margin-left: 90px}*/
+        /*.span4{margin-left: 50px}*/
+        .shiPin{
+            display: inline-block;
+        }
+        .shiPin:nth-of-type(1){
+            margin-left: 35px;
+        }
+        .shiPin:nth-of-type(2){
+            margin-left: 60px;
+        }
+        .shiPin:nth-of-type(3){
+            margin-left: 90px;
+        }
+        .shiPin:nth-of-type(4){
+            margin-left: 55px;
+        }
     </style>
 </head>
 <body>
@@ -156,32 +171,32 @@
     <span>如需订购食品请将你需要订购的食品图片拖到下面表格中</span>
     <div id="div2" style="margin-top: 10px">
         <ul>
-            <li>
-                <img id="img1" src="/asserts/img/爆米花（大）.jpg" draggable="true" ondragstart="drag(this)" /><br>
-                <input type="hidden" id="inp_money" value="29.9"/>
-                <input type="hidden" id="inp_name" value="爆米花（大）" />
+            <li th:each="item:${session.commodities}">
+                <img id="img1" th:src="${item.getPicture()}" draggable="true" ondragstart="drag(this)" /><br>
+                <input type="hidden" id="inp_money" th:value="${item.getMarketValue()}"/>
+                <input type="hidden" id="inp_name" th:value="${item.getName()}" />
             </li>
-            <li>
-                <img id="img1" src="/asserts/img/爆米花（小）.jpg" draggable="true" ondragstart="drag(this)" class="bmhx"/>
-                <input type="hidden" id="inp_money" value="16.5"/>
-                <input type="hidden" id="inp_name" value="爆米花（小）" />
-            </li>
-            <li>
-                <img id="img1" src="/asserts/img/可乐.jpg" draggable="true" ondragstart="drag(this)" />
-                <input type="hidden" id="inp_money" value="10"/>
-                <input type="hidden" id="inp_name" value="可乐" />
-            </li>
-            <li>
-                <img id="img1" src="/asserts/img/套餐.jpg" draggable="true" ondragstart="drag(this)" />
-                <input type="hidden" id="inp_money" value="44.9"/>
-                <input type="hidden" id="inp_name" value="爆米花（大）+两杯可乐" />
-            </li>
+            <!--<li>-->
+                <!--<img id="img1" src="/asserts/img/爆米花（小）.jpg" draggable="true" ondragstart="drag(this)" class="bmhx"/>-->
+                <!--<input type="hidden" id="inp_money" value="16.5"/>-->
+                <!--<input type="hidden" id="inp_name" value="爆米花（小）" />-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<img id="img1" src="/asserts/img/可乐.jpg" draggable="true" ondragstart="drag(this)" />-->
+                <!--<input type="hidden" id="inp_money" value="10"/>-->
+                <!--<input type="hidden" id="inp_name" value="可乐" />-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<img id="img1" src="/asserts/img/套餐.jpg" draggable="true" ondragstart="drag(this)" />-->
+                <!--<input type="hidden" id="inp_money" value="44.9"/>-->
+                <!--<input type="hidden" id="inp_name" value="爆米花（大）+两杯可乐" />-->
+            <!--</li>-->
         </ul>
-        <div>
-            <span class="span1">爆米花（大）</span>
-            <span class="span2">爆米花（小）</span>
-            <span class="span3">可乐</span>
-            <span class="span4">爆米花（大）+两杯可乐</span>
+        <div th:each="item:${session.commodities}" class="shiPin">
+            <span class="span1" th:text="${item.getName()}">爆米花（大）</span>
+            <!--<span class="span2">爆米花（小）</span>-->
+            <!--<span class="span3">可乐</span>-->
+            <!--<span class="span4">爆米花（大）+两杯可乐</span>-->
         </div>
         <div id="div1" ondrop="drop()" ondragover="allowDrop(event)">
             <div class="div_panel">
@@ -746,17 +761,19 @@
                 var totalMoney2=$("#totalMoney").text();
                 var totalMoney=parseFloat(totalMoney2);
                 var memberType=$(".memberType").text();
-                var moviePrice=total_price+totalMoney;
+                var moviePrice3=total_price+totalMoney;
                 var moviePrice2=total_price+totalMoney;
                 if(memberType=="钻石会员"){
-                    moviePrice=moviePrice*0.85;
+                    moviePrice3=moviePrice3*0.85;
                 }else if(memberType=="铂金会员"){
-                    moviePrice=moviePrice*0.90;
+                    moviePrice3=moviePrice3*0.90;
                 }else if(memberType=="黄金会员"){
-                    moviePrice=moviePrice*0.95;
+                    moviePrice3=moviePrice3*0.95;
                 }
+                var b=String(moviePrice3)
+                var a=b.indexOf(".");
+                var moviePrice=b.substring(0,a+2);
                 var seat=$(".li").text();
-                console.log($(".li").text());
                 if(total_price!=0) {
                     var bo = confirm("您本次购买共计" + moviePrice2 + "元,因为您是"+memberType+",优惠后价格为"+moviePrice+",确定支付吗？");
                     if (bo == true) {

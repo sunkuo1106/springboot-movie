@@ -5,6 +5,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.*;
+import com.kgc.movie.service.CommodityService;
 import com.kgc.movie.service.MovieTicketService;
 import com.kgc.movie.service.OrderIdService;
 import com.kgc.movie.service.UserMemberService;
@@ -43,6 +44,8 @@ public class PreviewController {
     UserMemberService userMemberService;
     @Resource
     OrderIdService orderIdService;
+    @Resource
+    CommodityService commodityService;
     String movieId;
     String cityId;
 
@@ -88,6 +91,10 @@ public class PreviewController {
     @RequestMapping("/buyTicket")
     public String buyTicket(Model model, HttpSession session, String movieName, String movieDate, String movieRoom, String moviePrice, Integer yingchengid, String yingchengName){
         User user=(User) session.getAttribute("users");
+        //页面加载查询食品
+        List<Commodity> commodities = commodityService.selectAll();
+        session.setAttribute("commodities",commodities);
+        //根据用户名查询该用户的会员等级
         List<UserMember> userMembers = userMemberService.userMemberName(user.getUname());
         String type = userMembers.get(userMembers.size() - 1).getType();
         session.setAttribute("memberType",type);
@@ -291,6 +298,22 @@ public class PreviewController {
             commodityFront.setCommodityDate(new Date());
             commodityFront.setCommodityTotalprice(totalMoney);
             commodityFront.setUserName(user.getUname());
+            //根据食品名称查询食品库存
+            String[] split = commodityName.split(",");
+            for (int i = 0; i < split.length; i++) {
+                int index = split[i].indexOf("*");
+                String name= split[i].substring(0,index);
+                String count2= split[i].substring(index+2,index+3);
+                Integer count=Integer.valueOf(count2);
+                List<Commodity> commodities = commodityService.selectByNameList(name);
+                if(commodities.size()>0){
+                    Commodity commodity = commodities.get(0);
+                    Integer num = commodities.get(0).getNum();
+                    commodity.setName(name);
+                    commodity.setNum(num-count);
+                    commodityService.updCom(commodity);
+                }
+            }
         }else{
             movieTicket.setMovieWhether("无");
         }
@@ -305,7 +328,6 @@ public class PreviewController {
         session.setAttribute("money",moviePrice);
         session.setAttribute("movieName",movieName);
         String product="电影票";
-
 
         return "redirect:/pay/aliPay/"+id+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
     }
@@ -325,7 +347,7 @@ public class PreviewController {
             e.printStackTrace();
         }
         List<MovieTicket> ceShis = movieTicketService.ceshiList(yingpianname,yingyuanid,date);
-        System.out.println(ceShis.size());
+        //System.out.println(ceShis.size());
         String[] list={};
         List<String> sList=new ArrayList<String>();
         if(ceShis.size()>0){
@@ -343,9 +365,9 @@ public class PreviewController {
                     sList.add(ceShi.getMovieSeat());
                 }
             }
-            for (String s : sList) {
-                System.out.println(s);
-            }
+//            for (String s : sList) {
+//                System.out.println(s);
+//            }
             map.put("jie",sList);
             return map;
         }else{
