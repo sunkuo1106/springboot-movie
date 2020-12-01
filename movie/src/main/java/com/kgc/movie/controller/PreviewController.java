@@ -311,7 +311,7 @@ public class PreviewController {
                     Integer num = commodities.get(0).getNum();
                     commodity.setName(name);
                     commodity.setNum(num-count);
-                    commodityService.updCom(commodity);
+                    session.setAttribute("commodity",commodity);
                 }
             }
         }else{
@@ -332,6 +332,15 @@ public class PreviewController {
         return "redirect:/pay/aliPay/"+id+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
     }
 
+    //支付完成后进行库存的修改
+    @RequestMapping("/updCom")
+    @ResponseBody
+    public Map<String,Object> updCom(HttpSession session){
+        Map<String,Object> map=new HashMap<>();
+        Commodity commodity =(Commodity) session.getAttribute("commodity");
+        commodityService.updCom(commodity);
+        return map;
+    }
     @RequestMapping("/selectSeat")
     @ResponseBody
     public Map<String,Object> index(String yingpianname,Integer yingyuanid,HttpSession session){
