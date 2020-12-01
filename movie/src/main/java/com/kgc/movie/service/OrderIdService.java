@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface OrderIdService {
     List<OrderId> orderList();
+    void addOrderId(OrderId orderId);
 }

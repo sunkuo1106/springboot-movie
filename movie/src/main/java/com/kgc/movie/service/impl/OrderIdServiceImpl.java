@@ -20,4 +20,9 @@ public class OrderIdServiceImpl implements OrderIdService {
     public List<OrderId> orderList() {
         return orderIdMapper.selectByExample(null);
     }
+
+    @Override
+    public void addOrderId(OrderId orderId) {
+        orderIdMapper.insertSelective(orderId);
+    }
 }

@@ -327,6 +327,9 @@ public class PreviewController {
         //跳转支付宝
         session.setAttribute("money",moviePrice);
         session.setAttribute("movieName",movieName);
+        OrderId orderId=new OrderId();
+        orderId.setId(id+1);
+        orderIdService.addOrderId(orderId);
         String product="电影票";
 
         return "redirect:/pay/aliPay/"+id+"/"+Float.parseFloat(moviePrice)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(movieName,"UTF-8");
