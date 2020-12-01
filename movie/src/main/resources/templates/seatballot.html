@@ -710,7 +710,6 @@
             dataType:"json",
             async:false,
             success:function (result) {
-                alert(1)
                 if(result.status=="true"){
                     $.each(result.jie,function (i,v) {
                         list1.push(v);
@@ -746,15 +745,18 @@
                 var totalMoney2=$("#totalMoney").text();
                 var totalMoney=parseFloat(totalMoney2);
                 var memberType=$(".memberType").text();
-                var moviePrice=total_price+totalMoney;
+                var moviePrice3=total_price+totalMoney;
                 var moviePrice2=total_price+totalMoney;
                 if(memberType=="钻石会员"){
-                    moviePrice=moviePrice*0.85;
+                    moviePrice3=moviePrice3*0.85;
                 }else if(memberType=="铂金会员"){
-                    moviePrice=moviePrice*0.90;
+                    moviePrice3=moviePrice3*0.90;
                 }else if(memberType=="黄金会员"){
-                    moviePrice=moviePrice*0.95;
+                    moviePrice3=moviePrice3*0.95;
                 }
+                var b=String(moviePrice3)
+                var a=b.indexOf(".");
+                var moviePrice=b.substring(0,a+2);
                 var seat=$(".li").text();
                 console.log($(".li").text());
                 if(total_price!=0) {

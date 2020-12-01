@@ -5,6 +5,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.*;
+import com.kgc.movie.service.CommodityService;
 import com.kgc.movie.service.MovieTicketService;
 import com.kgc.movie.service.OrderIdService;
 import com.kgc.movie.service.UserMemberService;
@@ -43,6 +44,8 @@ public class PreviewController {
     UserMemberService userMemberService;
     @Resource
     OrderIdService orderIdService;
+    @Resource
+    CommodityService commodityService;
     String movieId;
     String cityId;
 
@@ -291,6 +294,22 @@ public class PreviewController {
             commodityFront.setCommodityDate(new Date());
             commodityFront.setCommodityTotalprice(totalMoney);
             commodityFront.setUserName(user.getUname());
+            //根据食品名称查询食品库存
+            String[] split = commodityName.split(",");
+            for (int i = 0; i < split.length; i++) {
+                int index = split[i].indexOf("*");
+                String name= split[i].substring(0,index);
+                String count2= split[i].substring(index+2,index+3);
+                Integer count=Integer.valueOf(count2);
+                List<Commodity> commodities = commodityService.selectByNameList(name);
+                if(commodities.size()>0){
+                    Commodity commodity = commodities.get(0);
+                    Integer num = commodities.get(0).getNum();
+                    commodity.setName(name);
+                    commodity.setNum(num-count);
+                    commodityService.updCom(commodity);
+                }
+            }
         }else{
             movieTicket.setMovieWhether("无");
         }
