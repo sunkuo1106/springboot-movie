@@ -308,7 +308,7 @@
                 console.log(result.cc.lists);
                 $.each(result.cc.lists,function (i,v) {
                     $.each(v.broadcast,function (a,b) {
-                        if(b.time<timet){
+                        if(b.time>timet){
                         }else{
                             var yuyan="";
                             if(b.language==null||b.language==""){
@@ -365,7 +365,7 @@
                     console.log(result.cc.lists);
                     $.each(result.cc.lists,function (i,v) {
                         $.each(v.broadcast,function (a,b) {
-                            if(b.time<timet){
+                            if(b.time>timet){
                             }else{
                                 var yuyan="";
                                 if(b.language==null||b.language==""){

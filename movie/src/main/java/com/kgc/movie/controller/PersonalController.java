@@ -73,7 +73,7 @@ public class PersonalController {
         //根据id查询用户收货地址
         List<HarvestAddress> harvestAddresses = harvestAddressService.selectAllAddress(user.getId());
         model.addAttribute("harvestAddresses",harvestAddresses);
-        return "Shipping_address_layui";
+        return "Shopping_address_layui";
     }
     //添加收获地址
     @RequestMapping("/doShippingAddress")
@@ -92,7 +92,7 @@ public class PersonalController {
         //并且返回页面再次查询
         List<HarvestAddress> harvestAddresses = harvestAddressService.selectAllAddress(user.getId());
         model.addAttribute("harvestAddresses",harvestAddresses);
-        return "Shipping_address_layui";
+        return "Shopping_address_layui";
     }
     //删除收获地址
     @RequestMapping("/delShippingAddress")
@@ -105,7 +105,7 @@ public class PersonalController {
         //并且返回页面再次查询
         List<HarvestAddress> harvestAddresses = harvestAddressService.selectAllAddress(user.getId());
         model.addAttribute("harvestAddresses",harvestAddresses);
-        return "Shipping_address_layui";
+        return "Shopping_address_layui";
     }
 
     //跳转个人中心页面

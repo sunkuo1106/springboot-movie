@@ -1,0 +1,186 @@
+@charset "utf-8";
+/* CSS Document */
+
+.buy_position{ height:29px; line-height:29px; border-bottom:1px solid #cb3f3e; width:100%; color:#656565;}
+.buy_position a:link,.buy_position a:visited{color:#656565;}
+.buy_position a:hover,.buy_position a:active{color:#cb3f3e;}
+
+
+/*--------------------------------------我的购物车-----------------------*/
+.mygwc{color:#c80100; height:35px; line-height:35px; margin-top:10px;border-bottom:2px solid #a20000;}
+.mygwc strong{font-size:14px;}
+.mygwc span{color:#656565;}
+.gwc_list{width:958px; border:1px solid #d8d8d8;}
+.gwc_table_tit{border-bottom:1px solid #d8d8d8; color:#666666;}
+.gwc_splist table td{border-bottom:1px dashed #d3d3d3;}
+.button_jian{background: url(../images/buy.png) no-repeat 0 -211px;width:11px; height:11px; border:0 none;}
+.button_add{ background:url(../images/buy.png) no-repeat 0 -198px; width:11px; height:11px; border:0 none;}
+.yhj{height:42px; background-color:#f6f6f6; border-top:1px solid #eaeaea; border-bottom:1px solid #eaeaea; margin-top:5px;}
+.yhj_text{border:1px solid #d8d8d8; width:155px; height:11px; padding-top:5px; padding-left:5px; padding-bottom:5px; }
+.sy_button{background:url(../images/shiyong.gif) no-repeat; width:45px; height:23px; border:0 none; cursor:pointer;}
+.spzs{height:44px; line-height:44px; color:#343434;}
+.spzs span{color:#a30000;}
+.gwc_qk{margin-top:17px;}
+.qkgwc{ background:url(../images/buy.png) no-repeat 0 -148px; width:100px; height:35px; border:0 none; cursor:pointer; float:left;}
+.jxgw{display:block; float:right; margin-right:50px;}
+.gotojiesuan{background:url(../images/buy.png) no-repeat -145px -114px; width:124px; height:35px; float:right; border:0 none; cursor:pointer;}
+
+.recommend_sp{border:1px solid #eaeaea; margin-top:25px; width:1198px; overflow:hidden;}
+.recommend_title{background-color:#f8f8f8; height:38px; line-height:38px; border-bottom:1px solid #eaeaea; text-indent:17px; font-size:14px; font-weight:bold; color:#cc0001;}
+.tj_spul{margin:auto; width:1212px; overflow:hidden;}
+.tj_spul li{ width:176px; padding:15px 13px; float:left;}
+.tj_spul li a{ border-right:1px solid #eaeaea; display:block;}
+.tj_spul li img{ margin:auto; text-align:center; display:block;}
+.tj_spul .last{border:0 none;}
+.tj_spul li p{ line-height:30px;}
+
+
+/*------------------------------------------确认送货地址--------------------------------------*/
+
+.shdz_box{ width:928px; border:1px solid #dcdfe6; margin-top:20px; padding:20px 15px;}
+.shdz_box h2{color:#c60301; font-size:15px; line-height:20px;}
+.shxx_tianxie{ border-top:1px solid #dcdfe6; border-bottom:1px solid #dcdfe6; background-color:#fafafa; min-height:250px; height:auto; margin-top:15px; padding-left:30px; padding-top:20px;}
+.shxx_tianxie h4{color:#000; font-size:13px;}
+dl.dl_class{ height:25px; margin-top:5px;}
+dl.dl_class dt{float:left; width:70px; color:#656565; text-align:right;}
+dl.dl_class dt span{color:#a00004;}
+dl.dl_class dd{float:left; margin-left:10px;}
+dl.dl_class dd select{padding:1px; border:1px solid #7e9db9;}
+.sh_input{border:1px solid #a4afc3; padding:2px; height:15px;}
+.gw_button{background:url(../images/buy.png) no-repeat -349px -121px; text-align:center; font-weight:bold; width:134px; height:27px; color:#fff; cursor:pointer; border:0 none; margin-left:80px; margin-top:20px;}
+
+
+/*------------------------------------------选择送货方式--------------------------------------*/
+
+.kuaidi{ margin-top:20px;}
+.kuaidi li{float:left; margin-right:30px; height:20px; line-height:20px; color:#646464;}
+
+/*------------------------------------------确认订单--------------------------------------*/
+.ddqr{width:758px; border:1px solid #efdfd0; border-bottom:0 none; margin-top:20px; margin-bottom:20px; }
+.ddqr ul li{height:30px; line-height:30px; border-bottom:1px solid #efdfd0; float:left;}
+.ddqr_left{width:80px; background-color:#f9f4f1; border-right:1px solid #efdfd0; color:#656563; text-align:right; padding-right:14px;}
+.ddqr_right{ width:649px; padding-left:14px; background-color:#ffffff;}
+.ddqr_right select{padding:1px; border:1px solid #7e9db9;}
+.ddqr_input{border:1px solid #ccccce; padding:2px; height:15px;color:#666666;}
+.ddqr_button{background:url(../images/buy.png) no-repeat -349px -121px; text-align:center; font-weight:bold; width:134px; margin-left:37%; height:27px; color:#fff; cursor:pointer; border:0 none; margin-bottom:30px;}
+
+
+.shrxx{border:1px solid #ffe2a6; height:252px; width:958px; margin-top:12px; background-color:#fffceb;}
+.shxx_txt{ border-left:1px solid #a0a0a0; border-top:1px solid #a0a0a0; border-bottom:1px solid #cbcbcb; border-right:1px solid #cbcbcb; height:18px; padding-top:2px; width:125px;}
+dl.shrxx_dl{ margin-bottom:5px; height:20px; color:#333333; margin-left:40px;}
+dl.shrxx_dl dt{float:left; text-align:right; width:90px; height:20px; line-height:20px;}
+dl.shrxx_dl dt span{color:#ff0101;}
+dl.shrxx_dl dd{float:left;}
+.shrxx h3{color:#010000; font-size:14px; height:35px; text-indent:20px; line-height:35px;}
+.sure_shrxx{background:url(../images/buy.png) no-repeat -145px -211px; width:134px; height:32px; cursor:pointer; border:0 none; margin-left:60px; margin-top:20px; _margin-top:10px;}
+.psfs{ width:960px; border-bottom:1px dashed #b3b3b3; margin-top:10px;}
+.psfs span{font-size:14px; color:#000000; padding-left:20px; font-weight:bold;}
+.psfs ul{margin-top:10px; margin-bottom:10px;} 
+.psfs ul li{color:#404040; padding-left:60px; line-height:25px;}
+.spqd{padding-bottom:20px; border-bottom:1px dashed #b3b3b3;}
+.spqd h1{height:45px; line-height:45px; font-size:14px; font-weight:bold; color:#010101; padding-left:20px;}
+.spqd img{border:1px solid #cdcdcd;}
+a.bianhao{ color:#a30000; border-bottom:1px solid #a30000;}
+.jsxx{ width:958px; height:122px; border:1px solid #eaeaea; border-top:2px solid #ca0809; margin-top:15px; background-color:#f8f8f8;}
+.jsxx h1{height:30px; line-height:30px; font-size:14px; font-weight:bold; color:#010101; padding-left:20px;}
+.spje{font-size:14px; border-bottom:1px dashed #b2b2b2; line-height:35px; padding-left:60px; color:#000;}
+.zje{font-size:14px; color:#000; font-weight:bold; height:49px; line-height:49px; text-align:right; padding-right:20px;}
+.tjdd{ background:url(../images/buy.png) no-repeat -145px  -164px; width:123px; height:34px; border:0 none; cursor:pointer; float:right; padding-right:20px; margin-top:15px;}
+
+.spqd td{border-bottom:1px solid #d8d8d8;}
+/*------------------------------------------成功提交订单--------------------------------------*/
+table {
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+div.order .result {
+	padding: 20px;
+	margin-bottom: 10px;
+	border: 1px solid #E4E4E4;
+	background-color: #FFFFFF;
+}
+
+div.order .result .title {
+	height: 52px;
+	line-height: 52px;
+	color: #cc0000;
+	text-align: center;
+	font-size: 24px;
+	font-family: "Microsoft YaHei";
+}
+
+div.order .result table {
+	width: 100%;
+	line-height: 30px;
+	margin-bottom: 10px;
+}
+
+div.order .result th {
+	text-align: left;
+}
+
+div.order .result td {
+	padding: 0px 4px;
+	border: 1px solid #dbdbdb;
+	background-color: #ffffff;
+}
+
+div.order .result strong {
+	color: #ff6600;
+	font-weight: bold;
+}
+
+div.order .result .paymentPlugin td {
+	padding: 4px;
+	border: none;
+	background-color: #fef7e4;
+}
+
+div.order .result .paymentPlugin input {
+	width: 15px;
+	height: 15px;
+	float: left;
+	margin-right: 6px;
+	margin-top: 9px;
+}
+
+div.order .result .paymentPlugin em {
+	width: 100px;
+	height: 30px;
+	display: block;
+	float: left;
+	padding: 2px 8px;
+	font-style: normal;
+	overflow: hidden;
+	cursor: pointer;
+	border: solid 1px #dddddd;
+	background-color: #ffffff;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+div.order .result .paymentPlugin em:hover {
+	border: solid 1px #ffaa33;
+}
+
+div.order .result .paymentButton {
+	width: 150px;
+	height: 37px;
+	line-height: 37px;
+	display: inline-block;
+	display: -moz-inline-stack;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	color: #ffffff;
+	cursor: pointer;
+	overflow: visible;
+	outline: none;
+	blr: expression(this.hideFocus = true);
+	border: none;
+	background: url(../images/order.gif) 0px -30px no-repeat;
+}
+
+div.order .result .paymentButton:hover {
+	color: #ffead0;
+}
