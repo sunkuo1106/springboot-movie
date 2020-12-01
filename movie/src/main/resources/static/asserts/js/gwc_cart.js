@@ -60,7 +60,7 @@ var datas1=ini();
 function ini() {
     var da;
     $.ajax({
-        url:"/toTest1",
+        url:"/toShopping_cart_userName",
         type:"POST",
         dataType:"json",
         async:false,
@@ -128,20 +128,20 @@ $.each(datas1, function (i, e) {
                                 </i>\
                             </a>\
                             <a href="javascript:;" class="goods-img">\
-                                <img src="'+ e.img + '"\
+                                <img src="'+ e.goodsPicture + '"\
                                     alt="">\
                             </a>\
                             <a href="javascript:;" class="goods-info">\
-                                <h4 class="goods-info-title">'+ e.name + '</h4>\
+                                <h4 class="goods-info-title">'+ e.goodsName + '</h4>\
                             </a>\
                         </td>\
                         <td class="goods-col-price">\
-                            <span>'+ e.singalPrice + '</span>\
+                            <span>￥'+ e.goodsPrice + '</span>\
                         </td>\
                         <td class="goods-col-volumes">\
                             <div class="num-ctrl-area clearfix">\
                                 <button class="minus">-</button>\
-                                <input type="text" value="1" class="input">\
+                                <input type="text" value="'+e.goodsNums+'" class="input nums">\
                                 <button class="plus">+</button>\
                                 <em class="hint">限购10件</em>\
                             </div>\
@@ -282,8 +282,9 @@ $.each(datas1, function (i, e) {
                     unitPrice = parseInt($e.find(shopCart.singalPrice).text().slice(1)),//单价
                     $smalltotalTxt = $e.find(shopCart.smallTotal);//小计
                 sum += numVal;//计算总件数
-                $smalltotalTxt.text("￥" + (numVal * unitPrice).toFixed(2));//计算小计价格
+                $smalltotalTxt.text("￥" + (numVal * unitPrice).toFixed());//计算小计价格
             });
+
             this.checkProductEd.closest(shopCart.goodsTr).each(function (i, e) {
                 var $e = $(e),
                     numVal = parseInt($e.find(shopCart.input).val()),
