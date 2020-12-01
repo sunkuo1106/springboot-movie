@@ -51,4 +51,14 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return 1;
     }
+
+    @Override
+    public List<Goods> selectAllGoods(String userName) {
+        GoodsExample example=new GoodsExample();
+        GoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(userName);
+        criteria.andGoodsTypeEqualTo(0);
+        List<Goods> goods = goodsMapper.selectByExample(example);
+        return goods;
+    }
 }

@@ -40,12 +40,14 @@ public class ShoppingController {
         return "shopping_cart";
     }
 
-    @RequestMapping("/toTest1")
+    @RequestMapping("/toShopping_cart_userName")
     @ResponseBody
-    public Map<String,List<CommodityTable>> toTest1(Model model, HttpServletRequest request){
-        Map<String,List<CommodityTable>> map=new HashMap<>();
-        List<CommodityTable> commodityTables = commodityTableService.selectAllCommodity();
-        map.put("data",commodityTables);
+    public Map<String,List<Goods>> toTest1(Model model, HttpServletRequest request,HttpSession session){
+        Map<String,List<Goods>> map=new HashMap<>();
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        List<Goods> goods = goodsService.selectAllGoods(user.getUname());
+        map.put("data",goods);
         return map;
     }
 
