@@ -1,9 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>我的购物车</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery仿魅族购物车结算</title>
+    <link rel="stylesheet" href="/asserts/css/gwc_cart.css">
+    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/asserts/css/teststyle.css" />
+    <style>
+        /*修改头部底部字体大小*/
+        .nav_list li a {font-size: 1.1em;}
+        .account_desc li a {font-size: 1em;}
+        .span_1_of_4 li a{font-size: 1em;}
+    </style>
 </head>
+
 <body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="javascript:void(0)">影城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/touserOderSelect" class="name" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="header_top">
+            <div class="logo">
+                <a href="index.html"><img src="/asserts/images/logo.png" alt=""/></a>
+            </div>
+            <div class="header_top_right">
+                <div class="cart">
+                    <p><span>购物车</span>
+                    <div id="dd" class="wrapper-dropdown-2">
+                        <ul class="dropdown">
+                            <li>您的购物车中没有商品</li>
+                        </ul>
+                    </div>
+                    </p>
+                </div>
+                <div class="search_box">
+                    <form>
+                        <input type="text" value="搜索" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = '搜索';}"><input type="submit" value="">
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+    <div class="float-box">
+
+        <div class="confirm-box">
+
+            <h4 class="confirm-title">
+                <span></span>
+                <i class="close-btn">
+
+                    <span class="line-left"></span>
+                    <span class="line-right"></span>
+
+                </i>
+            </h4>
+
+            <div class="confirm-content">
+
+                请选择您要删除的商品？
+
+            </div>
+
+            <div class="confirm-btn">
+
+                <a href="javascript:;" class="delete">删除</a>
+                <a href="javascript:;" class="cancel">取消</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div th:replace="footer :: footer"></div>
+
+    <script src="/asserts/js/jquery-1.11.0.min.js"></script>
+    <script src="/asserts/js/gwc_cart.js"></script>
 
 </body>
+
 </html>

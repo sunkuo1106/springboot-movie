@@ -42,6 +42,8 @@
     <link rel="stylesheet" href="/asserts/css/zzsc.css" type="text/css"/>
     <script type="text/javascript" src="/asserts/js/jquery.easing.js"></script>
     <script type="text/javascript" src="/asserts/js/zzsc.js"></script>
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
+    <script src="/asserts/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 <!--    <script type="text/javascript">-->
 <!--        $(function(){-->
 <!--            var $window = $(window),-->
@@ -90,9 +92,9 @@
     .louceng>.title>span{margin-left: 5px;font-weight: normal}
     .louceng>.con{width:100%;height:735px;background: #F1F1F1;font-size: 64px;line-height: 735px;color:#333333}
     /*修改头部底部字体大小*/
-    .nav_list li a {font-size: 0.8em;}
-    .account_desc li a {font-size: 0.8em;}
-    .span_1_of_4 li a{font-size: 0.8em;}
+    .nav_list li a {font-size: 0.9em;}
+    .account_desc li a {font-size: 0.9em;}
+    .span_1_of_4 li a{font-size: 0.9em;}
     /*商品边距*/
     .item{
         margin-left: 110px;
@@ -340,16 +342,18 @@
             id:id
         }
         /*添加购物车*/
-        $.post("",json,function (result) {
-
+        $.post("/doAddShoppingCart",json,function (result) {
+            if(result.flag){
+                layer.open({
+                    title: '温馨提示'
+                    ,content: '一件商品购物车最多添加10件!'
+                });
+            }
         })
     })
 
     $(".shopping-cart").click(function () {
-
-      $.post("/","",function (result) {
-
-      })
+        location.href="/toShopping_cart";
     })
 
 </script>
