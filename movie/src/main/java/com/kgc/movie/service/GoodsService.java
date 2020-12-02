@@ -14,4 +14,16 @@ public interface GoodsService {
 
     //查询用户购物车
     List<Goods>selectAllGoods(String userName);
+
+    //购物车减商品
+    void jianGoodsNums(String userName,Integer GoodsId);
+
+    //购物车加商品
+    void jiaGoodsNums(String userName,Integer GoodsId);
+
+    //购物车手动输入商品数量
+    void ShuRuGoodsNums(String userName, Integer GoodsId,Integer GoodsNums);
+
+    //单删购物车
+    void deleteDanShan(Integer id);
 }
