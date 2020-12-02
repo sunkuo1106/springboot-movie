@@ -395,7 +395,17 @@ $.each(datas1, function (i, e) {
                             ids.push($(".goods-body").find("tr").eq(i).find("td:first").find("input").val());
                         }
                     }
-                    location.href="/shopping_order?price="+price+"&ids="+ids+"";
+                    var count=$(".table").find("tr").length;
+                    if(count>1){
+                        var addId=$('input:radio[name="addId"]:checked').val();
+                        location.href="/shopping_order?price="+price+"&ids="+ids+"&addId="+addId+"";
+                    }else{
+                        layer.open({
+                            title: '温馨提示'
+                            ,content: '请添加收货地址'
+                        });
+                    }
+                    //
                 })
             } else {
                 this.orderBtn.addClass(this.banOrder);

@@ -176,7 +176,7 @@ public class ShoppingController {
 
     //跳转支付宝
     @RequestMapping("/shopping_order")
-    public String shopping_order(HttpSession session,String price,String ids) throws UnsupportedEncodingException {
+    public String shopping_order(HttpSession session,String price,String ids,Integer addId) throws UnsupportedEncodingException {
         List<OrderId> orderIds = orderIdService.orderList();
         Integer id = orderIds.get(orderIds.size() - 1).getId();
         OrderId orderId=new OrderId();
@@ -186,6 +186,7 @@ public class ShoppingController {
         String name="玩具";
         String[] split = ids.split(",");
         session.setAttribute("GoodsIds",split);
+        session.setAttribute("addId",addId);
         return "redirect:/pay/aliPay/Goods/"+id+"/"+Float.parseFloat(price)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(name,"UTF-8");
     }
 
