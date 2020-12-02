@@ -38,6 +38,9 @@ public class PersonalController {
     @Resource
     UserMemberService userMemberService;
 
+    @Resource
+    MallOrderService mallOrderService;
+
     //跳转个人电影订单页面
     @RequestMapping("/touserOderSelect")
     public String touserOderSelect(){
@@ -344,6 +347,41 @@ public class PersonalController {
             System.out.println("会员续费操作失败");
         }
         return "redirect:/toPersonalCenter";
+    }
+
+    //跳转个人商城订单页面
+    @RequestMapping("/toMallOrder")
+    public String toMallOrder(){
+        return "goods_order_layui";
+    }
+
+    //查询商城订单
+    @RequestMapping("/goodsOderSelect")
+    @ResponseBody
+    public Map<String,Object> goodsOderSelect(HttpSession session){
+        Map<String,Object> map=new HashMap<>();
+        //当前页
+        Integer page = 1;
+        //每页的数量
+        Integer size = 10;
+        User user=(User)session.getAttribute("users");
+        List<MallOrder>mallOrders=mallOrderService.selectAllMallOrderByUserName(user.getUname());
+        map.put("start", (page - 1) * size);  //当前页的数量
+        map.put("data",mallOrders);
+        map.put("code",0);
+        map.put("count",mallOrders.size());
+        return map;
+    }
+
+    //查询单个商品的收获地址
+    @RequestMapping("/addressById")
+    @ResponseBody
+    public Map<String,Object> addressById(Integer addId){
+        Map<String,Object> map=new HashMap<>();
+        HarvestAddress harvestAddress=harvestAddressService.selectById(addId);
+
+        map.put("harvestAddress",harvestAddress);
+        return map;
     }
 
 

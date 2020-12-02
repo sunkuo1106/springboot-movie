@@ -5,10 +5,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.kgc.movie.pojo.*;
-import com.kgc.movie.service.CommodityTableService;
-import com.kgc.movie.service.GoodsService;
-import com.kgc.movie.service.HarvestAddressService;
-import com.kgc.movie.service.OrderIdService;
+import com.kgc.movie.service.*;
 import com.kgc.movie.tools.AliPayConfig;
 import com.kgc.movie.tools.AliPayConfig_shopping_order;
 import org.springframework.stereotype.Controller;
@@ -43,8 +40,13 @@ public class ShoppingController {
 
     @Resource
     HarvestAddressService harvestAddressService;
+
     @Resource
     OrderIdService orderIdService;
+
+    @Resource
+    MallOrderService mallOrderService;
+
     @RequestMapping("/toShopping")
     public String toShopping(Model model, HttpServletRequest request){
         return "shopping";
@@ -195,8 +197,14 @@ public class ShoppingController {
     public String doGoodsOrder(HttpSession session){
         //获取ids数组
         String[] goodsIds = (String[]) session.getAttribute("GoodsIds");
+        //得到收获地址id
+        Integer addId = (Integer) session.getAttribute("addId");
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
         //修改购物车表GoodsType值为1
         goodsService.XunHuanUpdateGoodsType(goodsIds);
+        //将信息存入商品订单表
+        mallOrderService.addMallOrder(goodsIds,addId,user.getUname());
         return "redirect:/toShopping_cart";
     }
 }
