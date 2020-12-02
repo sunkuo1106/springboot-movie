@@ -49,7 +49,7 @@ var $cartContainer = $('<div class="mzContainer">\
                                             合计(不含运费)：\
                                         <span class="bill-price"></span>\
                                         </em>\
-                                        <a href="javascript:;" class="order-btn ban-order">去结算</a>\
+                                        <a href="javascript:;" class="order-btn ban-order jiesuan">去结算</a>\
                                     </div>\
                                 </div>\
                             </div>\
@@ -122,6 +122,7 @@ $.each(datas1, function (i, e) {
     $(e).each(function (i, e) {
         newTr += '<tr>\
                         <td class="goods-col-select">\
+                        <input type="hidden" value="'+e.goodsId+'">\
                             <a href="javascript:;" class="check-label check-product">\
                                 <i class="checkbox">\
                                     <span class="check-mark"></span>\
@@ -384,6 +385,18 @@ $.each(datas1, function (i, e) {
         orderBtnCss: function () {
             if (parseInt(this.sumed.text()) != 0) {
                 this.orderBtn.removeClass(this.banOrder);
+                $(".jiesuan").click(function () {
+                    var price2=$(".bill-price").text();
+                    var price=price2.substring(1);
+                    var length=$(".goods-body").find("tr").length;
+                    var ids=new Array();
+                    for (var i=0;i<length;i++){
+                        if($(".goods-body").find("tr").eq(i).find("td:first").find("a:first").attr("class").indexOf("checked")!=-1){
+                            ids.push($(".goods-body").find("tr").eq(i).find("td:first").find("input").val());
+                        }
+                    }
+                    location.href="/shopping_order?price="+price+"&ids="+ids+"";
+                })
             } else {
                 this.orderBtn.addClass(this.banOrder);
             };

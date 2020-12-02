@@ -26,4 +26,7 @@ public interface GoodsService {
 
     //单删购物车
     void deleteDanShan(Integer id);
+
+    //循环修改goods表选购买的type
+    void XunHuanUpdateGoodsType(String[] goodsIds);
 }
