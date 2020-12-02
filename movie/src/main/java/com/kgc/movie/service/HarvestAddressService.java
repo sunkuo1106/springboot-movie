@@ -11,4 +11,6 @@ public interface HarvestAddressService {
     void addAddress(HarvestAddress harvestAddress);
 
     void delShippingAddress(Integer addId);
+
+    HarvestAddress selectById(Integer addId);
 }

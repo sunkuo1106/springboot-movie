@@ -33,4 +33,9 @@ public class HarvestAddressServiceImpl implements HarvestAddressService {
     public void delShippingAddress(Integer addId) {
         harvestAddressMapper.deleteByPrimaryKey(addId);
     }
+
+    @Override
+    public HarvestAddress selectById(Integer addId) {
+        return harvestAddressMapper.selectByPrimaryKey(addId);
+    }
 }

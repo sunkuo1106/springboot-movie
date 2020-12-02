@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>星空影城商城订单</title>
+    <link rel="shortcut icon" href="/asserts/images/logo.png" />
+    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
+    <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
+</head>
+<style>
+    *{ margin:0; padding:0; list-style:none;}
+    body{ font-size:12px; text-align:left; background:#F8F8F8;}
+    .lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
+    .lanrenzhijia li{ z-index:2; position:relative;}
+    .lanrenzhijia li a{ color:#666;height:40px; line-height:40px; border-bottom:1px solid #F8F8F8; display:block; margin:0px 15px; text-align:center; text-decoration:none;}
+    .lanrenzhijia li:hover a{ color:#FF5F3E; text-decoration:none;}
+    .lanrenzhijia li.on a{color:#FF5F3E;}
+    .lanrenzhijia .hover{ width:220px; height:40px; position:absolute; left:-5px; top:50px; background:#F8F8F8; border-left:5px solid #FF5F3E; z-index:1;}
+    .bingpai{display: inline-block}
+    .container{margin-left: 390px;}
+    .lanrenzhijia{margin-left: 140px;position: absolute;top: 200px;}
+    /**/
+    .nav_list li a {font-size: 1.1em;}
+    .account_desc li a {font-size: 1em;}
+    .span_1_of_4 li a{font-size: 1em;}
+</style>
+<body>
+<div class="header">
+    <div class="headertop_desc">
+        <div class="wrap">
+            <div class="nav_list">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="javascript:void(0)">影城</a></li>
+                </ul>
+            </div>
+            <div class="account_desc">
+                <ul>
+                    <li>
+                        <span th:if="${session.users==null}">
+                            <a th:href="@{/login}">登录</a>
+                        </span>
+                        <span th:if="${session.users!=null}">
+                            <a href="/touserOderSelect" class="name" th:text="${session.users.uname}"></a>
+                            <a href="/zhuxiao">注销</a>
+                        </span>
+                    </li>
+                    <li><a href="javascript:void(0)">交付记录</a></li>
+                    <li><a href="#">我的账户</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="header_top">
+            <div class="logo">
+                <a href="index.html"><img src="/asserts/images/logo.png" alt=""/></a>
+            </div>
+            <div class="header_top_right">
+                <div class="cart">
+                    <p><span>购物车</span>
+                    <div id="dd" class="wrapper-dropdown-2"> (空)
+                        <ul class="dropdown">
+                            <li>您的购物车中没有商品</li>
+                        </ul>
+                    </div>
+                    </p>
+                </div>
+                <div class="search_box">
+                    <form>
+                        <input type="text" value="搜索" onfocus="this.value = '';"
+                               onblur="if (this.value == '') {this.value = '搜索';}"><input type="submit" value="">
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="daohanglan :: daohang"></div>
+
+<div class="container bingpai">
+    <h2 class="title"><a href="" style="color:#007BC4;">星空影城查看个人订单</a></h2>
+    <div class="demo clearfix">
+        <table id="demo" style="margin-left: 100px;margin-top: -40px;" lay-filter="test"></table>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+</div>
+
+<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+<script src="/asserts/layui/layui.js"></script>
+<script>
+    $(function(){
+        var Height = 40; //li的高度
+        var pTop = 50; // .lanrenzhijia 的paddding-top的值
+        $('.lanrenzhijia li').mouseover(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var index = $(this).index();
+            var distance = index*(Height+1)+pTop+'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
+            $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
+        });
+    });
+
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,width: 980
+            ,url: '/goodsOderSelect' //数据接口
+            ,id: 'listReload'
+            ,page: true //开启分页
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
+                var result;
+                console.log(this);
+                console.log(JSON.stringify(res));
+                if (this.page.curr) {
+                    result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                }
+                else {
+                    result = res.data.slice(0, this.limit);
+                }
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            ,cols: [
+                [ //表头
+                {field: 'mallOrderId', title: 'ID',  sort: true, fixed: 'left'}
+                ,{field: 'mallOrderName', title: '商品名称'}
+                ,{field: 'mallOrderPrice', title: '商品价格'}
+                ,{field: 'mallOrderNums', title: '商品数量',  sort: true}
+                ,{field: 'mallOrderPicture', title: '商品图片',render: (h, params) => {
+                        return h('mallOrderPicture', {
+                            style: {//设置样式
+                                width:'100px',
+                                'height': '80px',
+                                'border-radius': '5%'
+                            },
+                            attrs: {//设置属性
+                                src: 'http://localhost:8080/' + params.row.mallOrderPicture
+                                    }
+                        });
+                    }
+                }
+                ,{field: 'addId', title: '查询收获地址', toolbar: '.barDemo'}
+                ]
+            ]
+            });
+            table.on('tool(test)',function (obj) {
+                var data=obj.data;
+                var addId=data.addId;
+                var json = {
+                    addId: addId
+                }
+                $.post("/addressById", json, function (result) {
+                    layer.tab({
+                        area: ['600px', '300px'],
+                        tab: [{
+                            title: '收获地址',
+                            content: "  收货人："+result.harvestAddress.addName+" <br> 性别："+result.harvestAddress.addGender+" <br> 地址："+result.harvestAddress.addAddress+" <br> 邮编："+result.harvestAddress.addPostcode+" <br> 手机号："+result.harvestAddress.addPhone
+                        }]
+                    });
+                }, "json")
+            })
+    });
+</script>
+<script type="text/html" class="barDemo">
+    <a class="layui-btn layui-btn-xs mydate" lay-event="bor">查询</a>
+
+</script>
+
+</body>
+</html>
