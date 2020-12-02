@@ -1,18 +1,29 @@
 package com.kgc.movie.controller;
 
-import com.kgc.movie.pojo.CommodityTable;
-import com.kgc.movie.pojo.Goods;
-import com.kgc.movie.pojo.User;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.kgc.movie.pojo.*;
 import com.kgc.movie.service.CommodityTableService;
 import com.kgc.movie.service.GoodsService;
+import com.kgc.movie.service.HarvestAddressService;
+import com.kgc.movie.service.OrderIdService;
+import com.kgc.movie.tools.AliPayConfig;
+import com.kgc.movie.tools.AliPayConfig_shopping_order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,13 +41,24 @@ public class ShoppingController {
     @Resource
     GoodsService goodsService;
 
+    @Resource
+    HarvestAddressService harvestAddressService;
+    @Resource
+    OrderIdService orderIdService;
     @RequestMapping("/toShopping")
     public String toShopping(Model model, HttpServletRequest request){
         return "shopping";
     }
 
     @RequestMapping("/toShopping_cart")
-    public String toShopping_cart(Model model, HttpServletRequest request){
+    public String toShopping_cart(Model model, HttpServletRequest request,HttpSession session){
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        if(user!=null){
+            //根据id查询用户收货地址
+            List<HarvestAddress> harvestAddresses = harvestAddressService.selectAllAddress(user.getId());
+            model.addAttribute("harvestAddresses",harvestAddresses);
+        }
         return "shopping_cart";
     }
 
@@ -120,5 +142,60 @@ public class ShoppingController {
         Map<String,Object>map=new HashMap<>();
         goodsService.deleteDanShan(id);
         return map;
+    }
+    @GetMapping("/pay/aliPay/Goods/{orderId}/{amount}/{product}/{body}")
+    @ResponseBody
+    public String aliPayGoods(@PathVariable String orderId,
+                         @PathVariable String amount,
+                         @PathVariable String product,
+                         @PathVariable String body) throws AlipayApiException {
+
+//获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AliPayConfig_shopping_order.gatewayUrl,
+                AliPayConfig_shopping_order.app_id,
+                AliPayConfig_shopping_order.merchant_private_key,
+                "json",
+                AliPayConfig_shopping_order.charset,
+                AliPayConfig_shopping_order.alipay_public_key,
+                AliPayConfig_shopping_order.sign_type);
+//        page
+        AlipayTradePagePayRequest alipayPageRequest = new AlipayTradePagePayRequest();
+        alipayPageRequest.setReturnUrl(AliPayConfig_shopping_order.return_url);
+        alipayPageRequest.setNotifyUrl(AliPayConfig_shopping_order.notify_url);
+
+
+        //拼接参数
+        alipayPageRequest.setBizContent("{\"out_trade_no\":\"" + orderId + "\","
+                + "\"total_amount\":\"" + amount + "\","
+                + "\"subject\":\"" + product + "\","
+                + "\"body\":\"" + body + "\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        //请求
+        return alipayClient.pageExecute(alipayPageRequest).getBody();
+    }
+
+    //跳转支付宝
+    @RequestMapping("/shopping_order")
+    public String shopping_order(HttpSession session,String price,String ids) throws UnsupportedEncodingException {
+        List<OrderId> orderIds = orderIdService.orderList();
+        Integer id = orderIds.get(orderIds.size() - 1).getId();
+        OrderId orderId=new OrderId();
+        orderId.setId(id+1);
+        orderIdService.addOrderId(orderId);
+        String product="周边商城";
+        String name="玩具";
+        String[] split = ids.split(",");
+        session.setAttribute("GoodsIds",split);
+        return "redirect:/pay/aliPay/Goods/"+id+"/"+Float.parseFloat(price)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(name,"UTF-8");
+    }
+
+    //支付完成进行添加商城订单操作
+    @RequestMapping("/doGoodsOrder")
+    public String doGoodsOrder(HttpSession session){
+        //获取ids数组
+        String[] goodsIds = (String[]) session.getAttribute("GoodsIds");
+        //修改购物车表GoodsType值为1
+        goodsService.XunHuanUpdateGoodsType(goodsIds);
+        return "redirect:/toShopping_cart";
     }
 }

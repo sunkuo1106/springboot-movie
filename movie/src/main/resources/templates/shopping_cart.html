@@ -15,6 +15,17 @@
         .nav_list li a {font-size: 1.1em;}
         .account_desc li a {font-size: 1em;}
         .span_1_of_4 li a{font-size: 1em;}
+        /*table表格*/
+        .table{font-family:Arial; font-size:14px;line-height:180%;padding-top: 20px;} /*总控制，可忽略此行*/
+        .table table tr:first-child{background:gray; color:#fff;font-weight:bold;} /*第一行标题蓝色背景*/
+        .table table{border-top:1pt solid #C1DAD7;border-left:1pt solid #C1DAD7;margin: 0 auto;}
+        .table td{ padding:5px 10px; text-align:center;border-right:1pt solid #C1DAD7;border-bottom:1pt solid #C1DAD7;}
+        .table tr:nth-of-type(odd){ background:gainsboro} /* odd 标识奇数行，even标识偶数行 */
+        .table tr:hover{ background: lightgrey} /*鼠标悬停后表格背景颜色*/
+        /*跳转address*/
+        .tzaddress{
+            margin-left: 200px;
+        }
     </style>
 </head>
 
@@ -74,6 +85,35 @@
         </div>
     </div>
 </div>
+<div class="tzaddress">
+    <span style="font-size: 24px;font-weight: bolder">请选择收货地址:</span>
+</div>
+<div class="receiving_address">
+    <dl>
+        <div class="table" style=" overflow:hidden; ">
+            <table width='900' border='0' cellspacing='0' cellpadding='0' align='center'>
+                <tr>
+                    <td>请选择</td>
+                    <td>收货人</td>
+                    <td>性别</td>
+                    <td>详细地址</td>
+                    <td>邮政编码</td>
+                    <td>手机号</td>
+                </tr>
+                <tr th:each="item : ${harvestAddresses}">
+                    <td><input type="radio" th:value="${item.getAddId()}" checked name="addId"></td>
+                    <td th:text="${item.getAddName()}">孙阔</td>
+                    <td th:text="${item.getAddGender()}">男</td>
+                    <td th:text="${item.getAddAddress()}">北京市北京市大兴区课工场产教融合创新基地</td>
+                    <td th:text="${item.getAddPostcode()}">000000</td>
+                    <td th:text="${item.getAddPhone()}">17600135867</td>
+                </tr>
+            </table>
+            <button style="margin-left: 1120px;margin-top:15px;" type="button" class="layui-btn layui-btn-primary layui-btn-radius xzdz">新增地址</button>
+        </div>
+    </dl>
+</div>
+
 
     <div class="float-box">
 
@@ -110,10 +150,16 @@
 
     <div th:replace="footer :: footer"></div>
 
+
     <script src="/asserts/js/jquery-2.1.1.min.js"></script>
     <script src="/asserts/js/gwc_cart.js"></script>
 
+    <script type="text/javascript">
+        $(".xzdz").click(function () {
+            location.href="/toShippingAddress";
+        })
 
+    </script>
 
 </body>
 

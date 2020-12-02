@@ -118,4 +118,13 @@ public class GoodsServiceImpl implements GoodsService {
     public void deleteDanShan(Integer id) {
         goodsMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public void XunHuanUpdateGoodsType(String[] goodsIds) {
+        for (int i = 0; i < goodsIds.length; i++) {
+            Goods goods = goodsMapper.selectByPrimaryKey(Integer.parseInt(goodsIds[i]));
+            goods.setGoodsType(1);
+            goodsMapper.updateByPrimaryKeySelective(goods);
+        }
+    }
 }
