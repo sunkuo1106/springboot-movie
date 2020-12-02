@@ -79,4 +79,46 @@ public class ShoppingController {
         }
         return map;
     }
+
+    //购物车减商品
+    @RequestMapping("/doGoodsNumsJian")
+    @ResponseBody
+    public Map<String,Object> doGoodsNumsJian(HttpSession session,Integer GoodsId){
+        Map<String,Object>map=new HashMap<>();
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        goodsService.jianGoodsNums(user.getUname(),GoodsId);
+        return map;
+    }
+
+    //购物车加商品
+    @RequestMapping("/doGoodsNumsJia")
+    @ResponseBody
+    public Map<String,Object> doGoodsNumsJia(HttpSession session,Integer GoodsId){
+        Map<String,Object>map=new HashMap<>();
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        goodsService.jiaGoodsNums(user.getUname(),GoodsId);
+        return map;
+    }
+
+    //购物车手动输入商品数量
+    @RequestMapping("/doGoodsNumsShuRu")
+    @ResponseBody
+    public Map<String,Object> doGoodsNumsShuRu(HttpSession session,Integer GoodsId,Integer GoodsNums){
+        Map<String,Object>map=new HashMap<>();
+        //获取session中users对象得到id
+        User user=(User) session.getAttribute("users");
+        goodsService.ShuRuGoodsNums(user.getUname(),GoodsId,GoodsNums);
+        return map;
+    }
+
+    //单删购物车
+    @RequestMapping("/doDanShanGoods")
+    @ResponseBody
+    public Map<String,Object> doDanShanGoods(Integer id,HttpSession session){
+        Map<String,Object>map=new HashMap<>();
+        goodsService.deleteDanShan(id);
+        return map;
+    }
 }

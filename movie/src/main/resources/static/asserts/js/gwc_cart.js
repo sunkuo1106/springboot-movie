@@ -140,6 +140,7 @@ $.each(datas1, function (i, e) {
                         </td>\
                         <td class="goods-col-volumes">\
                             <div class="num-ctrl-area clearfix">\
+                                <input type="hidden" value="'+e.goodsId+'">\
                                 <button class="minus">-</button>\
                                 <input type="text" value="'+e.goodsNums+'" class="input nums">\
                                 <button class="plus">+</button>\
@@ -151,7 +152,8 @@ $.each(datas1, function (i, e) {
                         </td>\
                         <td class="goods-col-ctrl">\
                             <span>- -</span>\
-                            <i class="del-product">\
+                            <input type="hidden" value="'+e.goodsId+'">\
+                            <i class="del-product danshan">\
                                 <span class="line-left"></span>\
                                 <span class="line-right"></span>\
                             </i>\
@@ -159,12 +161,14 @@ $.each(datas1, function (i, e) {
                     </tr>';
     });
 
+
     $newLi.children("table.goods-body").append(newTr);
     $newLi.appendTo($("ul.goods-ul"));
 
 });
 
 (function (win, undefined) {
+    var $thisId="";
     var ShopCart = function () {
         this.judge = '';
         this.curUnitBtn = null;
@@ -173,7 +177,6 @@ $.each(datas1, function (i, e) {
         this.calcInfo();
         this.singalDel();
         this.globalDel();
-        console.log(this)
         this.orderBtnCss();
         this.twoBtn();
         this.floatDelBtn();
@@ -315,6 +318,13 @@ $.each(datas1, function (i, e) {
             shopCart.plus.on("click", function () {
                 var $this = $(this);
                 var value = parseInt($this.prev().val());
+                var GoodsId = parseInt($this.prev().prev().prev().val());
+                var json={
+                    GoodsId:GoodsId
+                }
+                $.post("/doGoodsNumsJia",json,function (result) {
+
+                },"json")
                 value++;
                 if (value > 10) {
                     return;
@@ -328,6 +338,13 @@ $.each(datas1, function (i, e) {
             shopCart.minus.on("click", function () {
                 var $this = $(this);
                 var value = parseInt($this.next().val());
+                var GoodsId = parseInt($this.prev().val());
+                var json={
+                    GoodsId:GoodsId
+                }
+                $.post("/doGoodsNumsJian",json,function (result) {
+
+                },"json")
                 value--;
                 if (value < 1) {
                     return;
@@ -343,6 +360,14 @@ $.each(datas1, function (i, e) {
             this.input.on("change", function () {
                 var $this = $(this),
                     $thisVal = parseInt($this.val());
+                var GoodsId=$this.prev().prev().val();
+                var json={
+                    GoodsId:GoodsId,
+                    GoodsNums:$thisVal
+                }
+                $.post("/doGoodsNumsShuRu",json,function (result) {
+
+                },"json")
                 if ($thisVal > 10) {
                     $this.val(10);
                 } else if ($thisVal < 1 || isNaN($thisVal)) {
@@ -386,6 +411,8 @@ $.each(datas1, function (i, e) {
         singalDel: function () {
             var shopCart = this;
             this.delProduct.on("click", function () {
+                $thisId=$(this);
+
                 shopCart.judge = "singal";
                 shopCart.curUnitBtn = $(this);
                 shopCart.floatBox.fadeIn(200);
@@ -411,9 +438,15 @@ $.each(datas1, function (i, e) {
                 } else if (shopCart.judge == "singal") {
                     var curLiIndex = shopCart.curUnitBtn.closest(shopCart.goodsList).index();
                     shopCart.curUnitBtn.closest(shopCart.goodsTr).remove();
+                    var id=$thisId.parent().prev().prev().children("div").children("input").val();
+                    var json={
+                        id:id
+                    }
+                    $.post("/doDanShanGoods",json,function () {
 
+                    },"json")
                     if (shopCart.goodsList.eq(curLiIndex).find(shopCart.goodsTr).length == 0) {
-                        console.log(1)
+                        // console.log(1)
                         shopCart.goodsList.eq(curLiIndex).remove();
                     };
                 };
