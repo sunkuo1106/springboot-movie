@@ -93,7 +93,20 @@
 
 <div th:replace="footer :: footer"></div>
 </div>
+<style type="text/css">
+    /*.layui-table-fixed-r td{!important;}*/
+/*.layui-table-fixed-r th{height:40px!important;}*/
+.layui-table img {
+    width: 29px;min-height: 10px;
+}
 
+
+/*.laytable-cell-3-mallOrderPicture ,.laytable-cell-1-mallOrderPicture,.laytable-cell-2-wx_headimg,.laytable-cell-3-wx_headimg,.laytable-cell-4-wx_headimg,.laytable-cell-5-wx_headimg,.laytable-cell-6-wx_headimg,.laytable-cell-7-wx_headimg,.laytable-cell-8-wx_headimg,.laytable-cell-9-wx_headimg,.laytable-cell-10-wx_headimg,.laytable-cell-11-wx_headimg,.laytable-cell-12-wx_headimg,.laytable-cell-13-wx_headimg,.laytable-cell-14-wx_headimg{*/
+    /*width: 48px!important;;padding:0px!important;height: 48px!important;;*/
+    /*line-height: 48px!important;;*/
+/*}
+
+</style>
 <script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
 <script src="/asserts/layui/layui.js"></script>
 <script>
@@ -141,19 +154,7 @@
                 ,{field: 'mallOrderName', title: '商品名称'}
                 ,{field: 'mallOrderPrice', title: '商品价格'}
                 ,{field: 'mallOrderNums', title: '商品数量',  sort: true}
-                ,{field: 'mallOrderPicture', title: '商品图片',render: (h, params) => {
-                        return h('mallOrderPicture', {
-                            style: {//设置样式
-                                width:'100px',
-                                'height': '80px',
-                                'border-radius': '5%'
-                            },
-                            attrs: {//设置属性
-                                src: 'http://localhost:8080/' + params.row.mallOrderPicture
-                                    }
-                        });
-                    }
-                }
+                ,{field: 'mallOrderPicture', title: '商品图片',templet:'<div><img src="{{ d.mallOrderPicture}}"></div>'}
                 ,{field: 'addId', title: '查询收获地址', toolbar: '.barDemo'}
                 ]
             ]
