@@ -5,6 +5,7 @@ import com.kgc.movie.dao.MallOrderMapper;
 import com.kgc.movie.pojo.Goods;
 import com.kgc.movie.pojo.MallOrder;
 import com.kgc.movie.pojo.MallOrderExample;
+import com.kgc.movie.service.CommodityStockService;
 import com.kgc.movie.service.MallOrderService;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class MallOrderServiceImpl implements MallOrderService {
 
     @Resource
     GoodsMapper goodsMapper;
+
+    @Resource
+    CommodityStockService commodityStockService;
 
     @Override
     public void addMallOrder(String[] goodsIds, Integer addId, String userName) {

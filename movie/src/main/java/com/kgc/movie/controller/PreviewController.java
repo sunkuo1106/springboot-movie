@@ -96,8 +96,10 @@ public class PreviewController {
         session.setAttribute("commodities",commodities);
         //根据用户名查询该用户的会员等级
         List<UserMember> userMembers = userMemberService.userMemberName(user.getUname());
-        String type = userMembers.get(userMembers.size() - 1).getType();
-        session.setAttribute("memberType",type);
+        if(userMembers!=null&&userMembers.size()>0){
+            String type = userMembers.get(userMembers.size() - 1).getType();
+            session.setAttribute("memberType",type);
+        }
         //第一步把电影信息存入数据库
         session.setAttribute("yingchengName",yingchengName);
         session.setAttribute("movieRoom",movieRoom);

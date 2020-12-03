@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kgc.movie.dao.CommodityStockMapper" >
+  <resultMap id="BaseResultMap" type="com.kgc.movie.pojo.CommodityStock" >
+    <id column="stock_id" property="stockId" jdbcType="INTEGER" />
+    <result column="stock_nums" property="stockNums" jdbcType="INTEGER" />
+    <result column="commodityId" property="commodityid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    stock_id, stock_nums, commodityId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kgc.movie.pojo.CommodityStockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commodity_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_stock
+    where stock_id = #{stockId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commodity_stock
+    where stock_id = #{stockId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kgc.movie.pojo.CommodityStockExample" >
+    delete from commodity_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kgc.movie.pojo.CommodityStock" >
+    insert into commodity_stock (stock_id, stock_nums, commodityId
+      )
+    values (#{stockId,jdbcType=INTEGER}, #{stockNums,jdbcType=INTEGER}, #{commodityid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kgc.movie.pojo.CommodityStock" >
+    insert into commodity_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        stock_id,
+      </if>
+      <if test="stockNums != null" >
+        stock_nums,
+      </if>
+      <if test="commodityid != null" >
+        commodityId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        #{stockId,jdbcType=INTEGER},
+      </if>
+      <if test="stockNums != null" >
+        #{stockNums,jdbcType=INTEGER},
+      </if>
+      <if test="commodityid != null" >
+        #{commodityid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kgc.movie.pojo.CommodityStockExample" resultType="java.lang.Integer" >
+    select count(*) from commodity_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update commodity_stock
+    <set >
+      <if test="record.stockId != null" >
+        stock_id = #{record.stockId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockNums != null" >
+        stock_nums = #{record.stockNums,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityid != null" >
+        commodityId = #{record.commodityid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update commodity_stock
+    set stock_id = #{record.stockId,jdbcType=INTEGER},
+      stock_nums = #{record.stockNums,jdbcType=INTEGER},
+      commodityId = #{record.commodityid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kgc.movie.pojo.CommodityStock" >
+    update commodity_stock
+    <set >
+      <if test="stockNums != null" >
+        stock_nums = #{stockNums,jdbcType=INTEGER},
+      </if>
+      <if test="commodityid != null" >
+        commodityId = #{commodityid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_id = #{stockId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kgc.movie.pojo.CommodityStock" >
+    update commodity_stock
+    set stock_nums = #{stockNums,jdbcType=INTEGER},
+      commodityId = #{commodityid,jdbcType=INTEGER}
+    where stock_id = #{stockId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -390,15 +390,17 @@ $.each(datas1, function (i, e) {
                     var price=price2.substring(1);
                     var length=$(".goods-body").find("tr").length;
                     var ids=new Array();
+                    var nums=new Array();
                     for (var i=0;i<length;i++){
                         if($(".goods-body").find("tr").eq(i).find("td:first").find("a:first").attr("class").indexOf("checked")!=-1){
                             ids.push($(".goods-body").find("tr").eq(i).find("td:first").find("input").val());
+                            nums.push($(".goods-body").find("tr").eq(i).find("td").eq(2).find("div:first").find("input").eq(1).val());
                         }
                     }
                     var count=$(".table").find("tr").length;
                     if(count>1){
                         var addId=$('input:radio[name="addId"]:checked').val();
-                        location.href="/shopping_order?price="+price+"&ids="+ids+"&addId="+addId+"";
+                        location.href="/shopping_order?price="+price+"&ids="+ids+"&addId="+addId+"&nums="+nums+"";
                     }else{
                         layer.open({
                             title: '温馨提示'

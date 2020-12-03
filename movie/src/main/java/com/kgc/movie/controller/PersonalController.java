@@ -41,6 +41,9 @@ public class PersonalController {
     @Resource
     MallOrderService mallOrderService;
 
+    @Resource
+    OrderIdService orderIdService;
+
     //跳转个人电影订单页面
     @RequestMapping("/touserOderSelect")
     public String touserOderSelect(){
@@ -231,8 +234,11 @@ public class PersonalController {
             session.setAttribute("memberMoney",15);
         }
         //查询id
-        List<UserMember> userMembers = userMemberService.selectAllMember();
-        int id=userMembers.get(userMembers.size()-1).getMemberId()+1;
+        List<OrderId> orderIds = orderIdService.orderList();
+        Integer id = orderIds.get(orderIds.size() - 1).getId();
+        OrderId orderId=new OrderId();
+        orderId.setId(id+1);
+        orderIdService.addOrderId(orderId);
         Integer amount=(Integer) session.getAttribute("memberMoney");
         String body=(String)session.getAttribute("typeMember");
         String product="星空影城会员";
@@ -309,8 +315,11 @@ public class PersonalController {
             session.setAttribute("memberMoney",15);
         }
         //查询id
-        List<UserMember> userMembers = userMemberService.selectAllMember();
-        int id=100+userMembers.get(userMembers.size()-1).getMemberId()+1;
+        List<OrderId> orderIds = orderIdService.orderList();
+        Integer id = orderIds.get(orderIds.size() - 1).getId();
+        OrderId orderId=new OrderId();
+        orderId.setId(id+1);
+        orderIdService.addOrderId(orderId);
         Integer amount=(Integer) session.getAttribute("memberMoney");
         String body=(String)session.getAttribute("typeMember");
         String product="星空影城会员续费";
