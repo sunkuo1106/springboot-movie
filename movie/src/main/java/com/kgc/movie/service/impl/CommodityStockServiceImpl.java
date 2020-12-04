@@ -8,6 +8,7 @@ import com.kgc.movie.service.CommodityStockService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -30,5 +31,14 @@ public class CommodityStockServiceImpl implements CommodityStockService {
         CommodityStock commodityStock=new CommodityStock();
         commodityStock.setStockNums(nums-stockNums);
         commodityStockMapper.updateByExampleSelective(commodityStock,example);
+    }
+
+    @Override
+    public List<CommodityStock> stockNums(Integer commodityid) {
+        CommodityStockExample example1=new CommodityStockExample();
+        CommodityStockExample.Criteria criteria1 = example1.createCriteria();
+        criteria1.andCommodityidEqualTo(commodityid);
+        List<CommodityStock> commodityStocks = commodityStockMapper.selectByExample(example1);
+        return commodityStocks;
     }
 }

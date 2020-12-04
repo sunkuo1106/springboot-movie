@@ -167,7 +167,10 @@ public class PersonalController {
         }else{
             model.addAttribute("memberType","普通会员");
         }
-        model.addAttribute("allMoneys",allMoneys);
+        String allMoneys2=String.valueOf(allMoneys);
+        int a=allMoneys2.indexOf(".");
+        String substring = allMoneys2.substring(0, a + 2);
+        model.addAttribute("allMoneys",substring);
         return "Personal_center_layui";
     }
 

@@ -73,8 +73,10 @@ public class ShoppingController {
         Map<String,List<Goods>> map=new HashMap<>();
         //获取session中users对象得到id
         User user=(User) session.getAttribute("users");
-        List<Goods> goods = goodsService.selectAllGoods(user.getUname());
-        map.put("data",goods);
+        if(user!=null) {
+            List<Goods> goods = goodsService.selectAllGoods(user.getUname());
+            map.put("data", goods);
+        }
         return map;
     }
 
@@ -214,5 +216,14 @@ public class ShoppingController {
         String[] stockNum = (String[]) session.getAttribute("stockNum");
         commodityTableService.selectIdByPictureAndJianStockNums(goodsIds,stockNum);
         return "redirect:/toShopping_cart";
+    }
+    @RequestMapping("/stockNum")
+    @ResponseBody
+    public  Map<String,Object> stockNum(Integer commodityid,HttpSession session){
+        Map<String,Object> map=new HashMap<>();
+        List<CommodityStock> commodityStocks = commodityStockService.stockNums(commodityid);
+        Integer nums=commodityStocks.get(commodityStocks.size()-1).getStockNums();//当前库存
+        map.put("nums",nums);
+        return map;
     }
 }
