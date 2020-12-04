@@ -70,7 +70,7 @@ public class UserController {
     private String testStatus(){
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(
-                "api","0cfb22ec87d415ef7f082c7b027ccec9"));
+                "api","7e83349ca870622b917598f3de7efc23"));
         WebResource webResource = client.resource( "http://voice-api.luosimao.com/v1/status.json" );
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
         ClientResponse response =  webResource.get( ClientResponse.class );
@@ -91,7 +91,7 @@ public class UserController {
         String suiJi2=String.valueOf(suiJi);
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(
-                "api", "0cfb22ec87d415ef7f082c7b027ccec9"));
+                "api", "7e83349ca870622b917598f3de7efc23"));
         WebResource webResource = client.resource(
                 "http://voice-api.luosimao.com/v1/verify.json");
         MultivaluedMapImpl formData = new MultivaluedMapImpl();

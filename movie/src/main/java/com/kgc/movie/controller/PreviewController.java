@@ -96,8 +96,10 @@ public class PreviewController {
         session.setAttribute("commodities",commodities);
         //根据用户名查询该用户的会员等级
         List<UserMember> userMembers = userMemberService.userMemberName(user.getUname());
-        String type = userMembers.get(userMembers.size() - 1).getType();
-        session.setAttribute("memberType",type);
+        if(userMembers!=null&&userMembers.size()>0){
+            String type = userMembers.get(userMembers.size() - 1).getType();
+            session.setAttribute("memberType",type);
+        }
         //第一步把电影信息存入数据库
         session.setAttribute("yingchengName",yingchengName);
         session.setAttribute("movieRoom",movieRoom);
@@ -167,7 +169,7 @@ public class PreviewController {
     private String testStatus(){
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(
-                "api","e6a1137fb5ab17e9493e31e26ec520d8"));
+                "api","7d2ec7984b36056cb1fb598759d8cc61"));
         WebResource webResource = client.resource( "http://sms-api.luosimao.com/v1/status.json" );
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
         ClientResponse response =  webResource.get( ClientResponse.class );
@@ -200,7 +202,7 @@ public class PreviewController {
         String time = formatter.format(new Date());
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(
-                "api","e6a1137fb5ab17e9493e31e26ec520d8"));
+                "api","7d2ec7984b36056cb1fb598759d8cc61"));
         WebResource webResource = client.resource(
                 "http://sms-api.luosimao.com/v1/send.json");
         MultivaluedMapImpl formData = new MultivaluedMapImpl();

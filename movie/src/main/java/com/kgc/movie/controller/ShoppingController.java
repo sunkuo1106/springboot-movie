@@ -47,6 +47,9 @@ public class ShoppingController {
     @Resource
     MallOrderService mallOrderService;
 
+    @Resource
+    CommodityStockService commodityStockService;
+
     @RequestMapping("/toShopping")
     public String toShopping(Model model, HttpServletRequest request){
         return "shopping";
@@ -70,8 +73,10 @@ public class ShoppingController {
         Map<String,List<Goods>> map=new HashMap<>();
         //获取session中users对象得到id
         User user=(User) session.getAttribute("users");
-        List<Goods> goods = goodsService.selectAllGoods(user.getUname());
-        map.put("data",goods);
+        if(user!=null) {
+            List<Goods> goods = goodsService.selectAllGoods(user.getUname());
+            map.put("data", goods);
+        }
         return map;
     }
 
@@ -178,7 +183,7 @@ public class ShoppingController {
 
     //跳转支付宝
     @RequestMapping("/shopping_order")
-    public String shopping_order(HttpSession session,String price,String ids,Integer addId) throws UnsupportedEncodingException {
+    public String shopping_order(HttpSession session,String price,String ids,Integer addId,String nums) throws UnsupportedEncodingException {
         List<OrderId> orderIds = orderIdService.orderList();
         Integer id = orderIds.get(orderIds.size() - 1).getId();
         OrderId orderId=new OrderId();
@@ -187,12 +192,14 @@ public class ShoppingController {
         String product="周边商城";
         String name="玩具";
         String[] split = ids.split(",");
+        String[] split1 = nums.split(",");
         session.setAttribute("GoodsIds",split);
         session.setAttribute("addId",addId);
+        session.setAttribute("stockNum",split1);
         return "redirect:/pay/aliPay/Goods/"+id+"/"+Float.parseFloat(price)+"/"+ URLEncoder.encode(product,"UTF-8")+"/"+URLEncoder.encode(name,"UTF-8");
     }
 
-    //支付完成进行添加商城订单操作
+    //支付完成进行添加商城订单操作并且减少相应的库存
     @RequestMapping("/doGoodsOrder")
     public String doGoodsOrder(HttpSession session){
         //获取ids数组
@@ -205,6 +212,18 @@ public class ShoppingController {
         goodsService.XunHuanUpdateGoodsType(goodsIds);
         //将信息存入商品订单表
         mallOrderService.addMallOrder(goodsIds,addId,user.getUname());
+        //减少相应的库存
+        String[] stockNum = (String[]) session.getAttribute("stockNum");
+        commodityTableService.selectIdByPictureAndJianStockNums(goodsIds,stockNum);
         return "redirect:/toShopping_cart";
+    }
+    @RequestMapping("/stockNum")
+    @ResponseBody
+    public  Map<String,Object> stockNum(Integer commodityid,HttpSession session){
+        Map<String,Object> map=new HashMap<>();
+        List<CommodityStock> commodityStocks = commodityStockService.stockNums(commodityid);
+        Integer nums=commodityStocks.get(commodityStocks.size()-1).getStockNums();//当前库存
+        map.put("nums",nums);
+        return map;
     }
 }
