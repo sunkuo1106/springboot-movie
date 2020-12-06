@@ -126,7 +126,7 @@
                         </select>
                     </li>
                     <li><a href="javascript:void(0)" onclick="selectCityCinema()">选择城市</a></li>
-                    <li><a href="javascript:void(0)">影片</a></li>
+                    <li><a href="/">影片</a></li>
                     <li><a href="/baidu">附近影城</a></li>
                 </ul>
             </div>
@@ -137,12 +137,12 @@
                             <a th:href="@{/login}">登录</a>
                         </span>
                         <span th:if="${session.users!=null}">
-                            <a href="/touserOderSelect" th:text="${session.users.uname}"></a>
+                            <a href="/toPersonalCenter" th:text="${session.users.uname}"></a>
                             <a href="/zhuxiao">注销</a>
                         </span>
                     </li>
-                    <li><a href="javascript:void(0)">交付记录</a></li>
-                    <li><a href="#">我的账户</a></li>
+                    <li><a href="/touserOderSelect">交付记录</a></li>
+                    <li><a href="/toPersonalCenter">我的账户</a></li>
                 </ul>
             </div>
             <div class="clear"></div>
