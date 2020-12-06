@@ -1,29 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>星空影城个人订单</title>
-    <link rel="shortcut icon" href="/asserts/images/logo.png" />
-    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css" />
+    <link rel="shortcut icon" href="/asserts/images/logo.png"/>
+    <link rel="stylesheet" type="text/css" href="/asserts/css/jq22.css"/>
     <link href="/asserts/css/style.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/asserts/layui/css/layui.css" media="all">
 </head>
 <style>
-    *{ margin:0; padding:0; list-style:none;}
-    body{ font-size:12px; text-align:left; background:#F8F8F8;}
-    .lanrenzhijia{ width:220px; height:auto;background:#fff; position:relative; padding:50px 0; border-radius:5px;}
-    .lanrenzhijia li{ z-index:2; position:relative;}
-    .lanrenzhijia li a{ color:#666;height:40px; line-height:40px; border-bottom:1px solid #F8F8F8; display:block; margin:0px 15px; text-align:center; text-decoration:none;}
-    .lanrenzhijia li:hover a{ color:#FF5F3E; text-decoration:none;}
-    .lanrenzhijia li.on a{color:#FF5F3E;}
-    .lanrenzhijia .hover{ width:220px; height:40px; position:absolute; left:-5px; top:50px; background:#F8F8F8; border-left:5px solid #FF5F3E; z-index:1;}
-    .bingpai{display: inline-block}
-    .container{margin-left: 390px;}
-    .lanrenzhijia{margin-left: 140px;position: absolute;top: 200px;}
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    body {
+        font-size: 12px;
+        text-align: left;
+        background: #F8F8F8;
+    }
+
+    .lanrenzhijia {
+        width: 220px;
+        height: auto;
+        background: #fff;
+        position: relative;
+        padding: 50px 0;
+        border-radius: 5px;
+    }
+
+    .lanrenzhijia li {
+        z-index: 2;
+        position: relative;
+    }
+
+    .lanrenzhijia li a {
+        color: #666;
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #F8F8F8;
+        display: block;
+        margin: 0px 15px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .lanrenzhijia li:hover a {
+        color: #FF5F3E;
+        text-decoration: none;
+    }
+
+    .lanrenzhijia li.on a {
+        color: #FF5F3E;
+    }
+
+    .lanrenzhijia .hover {
+        width: 220px;
+        height: 40px;
+        position: absolute;
+        left: -5px;
+        top: 50px;
+        background: #F8F8F8;
+        border-left: 5px solid #FF5F3E;
+        z-index: 1;
+    }
+
+    .bingpai {
+        display: inline-block
+    }
+
+    .container {
+        margin-left: 390px;
+    }
+
+    .lanrenzhijia {
+        margin-left: 140px;
+        position: absolute;
+        top: 200px;
+    }
+
     /**/
-    .nav_list li a {font-size: 1.1em;}
-    .account_desc li a {font-size: 1em;}
-    .span_1_of_4 li a{font-size: 1em;}
+    .nav_list li a {
+        font-size: 1.1em;
+    }
+
+    .account_desc li a {
+        font-size: 1em;
+    }
+
+    .span_1_of_4 li a {
+        font-size: 1em;
+    }
 </style>
 <body>
 <div class="header">
@@ -97,27 +165,27 @@
 <script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
 <script src="/asserts/layui/layui.js"></script>
 <script>
-    $(function(){
+    $(function () {
         var Height = 40; //li的高度
         var pTop = 50; // .lanrenzhijia 的paddding-top的值
-        $('.lanrenzhijia li').mouseover(function(){
+        $('.lanrenzhijia li').mouseover(function () {
             $(this).addClass('on').siblings().removeClass('on');
             var index = $(this).index();
-            var distance = index*(Height+1)+pTop+'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
-            $('.lanrenzhijia .hover').stop().animate({top:distance},150); //默认动画时间为150毫秒，懒人们可根据需要修改
+            var distance = index * (Height + 1) + pTop + 'px'; //如果你的li有个border-bottom为1px高度的话，这里需要加1
+            $('.lanrenzhijia .hover').stop().animate({top: distance}, 150); //默认动画时间为150毫秒，懒人们可根据需要修改
         });
     });
 
-    layui.use('table', function(){
+    layui.use('table', function () {
         var table = layui.table;
 
         //第一个实例
         table.render({
             elem: '#demo'
-            ,width: 980
-            ,url: '/userOderSelect' //数据接口
-            ,id: 'listReload'
-            ,page: true //开启分页
+            , width: 980
+            , url: '/userOderSelect' //数据接口
+            , id: 'listReload'
+            , page: true //开启分页
             , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                 var result;
                 console.log(this);
@@ -135,45 +203,48 @@
                     "data": result //解析数据列表
                 };
             }
-            ,cols: [
+            , cols: [
                 [ //表头
-                {field: 'movieId', title: 'ID',  sort: true, fixed: 'left'}
-                ,{field: 'movieName', title: '电影名称'}
-                ,{field: 'movieRoom', title: '放映厅'}
-                ,{field: 'movieDate', title: '电影放映日期',  sort: true}
-                ,{field: 'moviePrice', title: '价格', sort: true}
-                ,{field: 'movieWhether', title: '是否购买商品'}
-                ,{field: 'movieSeat', title: '座位'}
-                ,{field: 'enterId', title: '订单号',hide:true}
-                ,{field: 'enterId', title: '查询食品', toolbar: '.barDemo'}
+                    {field: 'movieId', title: 'ID', sort: true, fixed: 'left'}
+                    , {field: 'movieName', title: '电影名称'}
+                    , {field: 'movieRoom', title: '放映厅'}
+                    , {field: 'movieDate', title: '电影放映日期', sort: true}
+                    , {field: 'moviePrice', title: '价格', sort: true}
+                    , {field: 'movieWhether', title: '是否购买商品'}
+                    , {field: 'movieSeat', title: '座位'}
+                    , {field: 'enterId', title: '订单号', hide: true}
+                    , {field: 'enterId', title: '查询食品', toolbar: '.barDemo'}
                 ]
             ]
-            });
-            table.on('tool(test)',function (obj) {
-                var data=obj.data;
-                var enterId=data.enterId;
-                var movieWhether=data.movieWhether;
-                if(movieWhether=="有") {
-                    var json = {
-                        enterId: enterId
-                    }
-                    $.post("/frontById", json, function (result) {
-                        layer.tab({
-                            area: ['600px', '300px'],
-                            tab: [{
-                                title: '食品',
-                                content: result.CommodityName
-                            }]
-                        });
-                    }, "json")
-                }else{
-                    layer.open({
-                        title: '温馨提示'
-                        ,content: '该订单没订购食品'
-                    });
+        });
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var enterId = data.enterId;
+            var movieWhether = data.movieWhether;
+            if (movieWhether == "有") {
+                var json = {
+                    enterId: enterId
                 }
 
-            })
+                $.post("/frontById", json, function (result) {
+                    layer.prompt({
+                        formType: 2,
+                        value: result.CommodityName,
+                        title: '食品',
+                        area: ['600px', '250px'] //自定义文本域宽高
+                    }, function (value, index, elem) {
+                        layer.close(index);
+                    });
+
+                }, "json")
+            } else {
+                layer.open({
+                    title: '温馨提示'
+                    , content: '该订单没订购食品'
+                });
+            }
+
+        })
     });
 </script>
 <script type="text/html" class="barDemo">

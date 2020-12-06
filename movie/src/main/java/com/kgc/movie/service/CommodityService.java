@@ -12,4 +12,5 @@ public interface CommodityService {
     List<Commodity> selectAll();
     List<Commodity> selectByNameList(String name);
     void updCom(Commodity commodity);
+    List<Commodity> selectByImg(String name);
 }

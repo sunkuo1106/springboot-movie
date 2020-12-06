@@ -39,4 +39,12 @@ public class CommodityServiceImpl implements CommodityService {
         criteria.andNameEqualTo(commodity.getName());
         commodityMapper.updateByExampleSelective(commodity,commodityExample);
     }
+
+    @Override
+    public List<Commodity> selectByImg(String name) {
+        CommodityExample commodityExample=new CommodityExample();
+        CommodityExample.Criteria criteria = commodityExample.createCriteria();
+        criteria.andNameEqualTo(name);
+        return commodityMapper.selectByExample(commodityExample);
+    }
 }
